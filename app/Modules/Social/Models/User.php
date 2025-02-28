@@ -16,9 +16,26 @@ class User extends Model
     public function getAllUsers(): array
     {
         $sql = "SELECT `id`, `email`, `name`, `surname` 
-                FROM `users` 
-                WHERE `email` = :email";
-        $result = $this->model->query($sql, ['email' => 'serge@mail.com']);
+                FROM `users`";
+        $result = $this->model->query($sql);
         return $result;
+    }
+
+    public function getByEmail(string $email): ?array
+    {
+        $sql = "SELECT * FROM `users` WHERE `email` = :email LIMIT 1";
+        $result = $this->model->query($sql, ['email' => $email]);
+        return $result ? $result[0] : null;
+    }
+
+    public function createUser(string $name, string $surname, string $email, string $password): void
+    {
+        $sql = "INSERT INTO `users` (`name`, `surname`, `email`, `password`) VALUES (:name, :surname, :email, :password)";
+        $this->model->execute($sql, [
+            'name' => $name,
+            'surname' => $surname,
+            'email' => $email,
+            'password' => $password // Позже заменим на хеширование!
+        ]);
     }
 }
