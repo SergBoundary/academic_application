@@ -1,4 +1,6 @@
 <?php
+session_start();
+
 define("WWW", __DIR__);
 define("ROOT", dirname(__DIR__));
 define("APP", dirname(__DIR__) . '/app');

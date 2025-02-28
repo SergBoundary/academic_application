@@ -21,7 +21,7 @@ class View
     {        
         $viewFile = !empty($this->module) 
             ? MODULES . "/{$this->module}/Views/Layouts/{$this->view}.php"
-            : CORE . "/Views/Layouts/{$this->view}.php"; 
+            : CORE . "/Views/Components/{$this->view}.php"; 
         
         if (file_exists($viewFile)) {
             extract($this->data); // Делаем переменные доступными в шаблоне
