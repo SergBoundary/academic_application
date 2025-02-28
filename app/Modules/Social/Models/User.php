@@ -6,9 +6,19 @@ use App\Core\Models\Model;
 
 class User extends Model
 {
+    protected $model;
+
+    public function __construct()
+    {
+        $this->model = new Model();
+    }
+
     public function getAllUsers(): array
     {
-        $stmt = $this->db->query("SELECT * FROM users");
-        return $stmt->fetchAll();
+        $sql = "SELECT `id`, `email`, `name`, `surname` 
+                FROM `users` 
+                WHERE `email` = :email";
+        $result = $this->model->query($sql, ['email' => 'serge@mail.com']);
+        return $result;
     }
 }
