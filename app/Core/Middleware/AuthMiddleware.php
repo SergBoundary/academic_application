@@ -12,4 +12,9 @@ class AuthMiddleware
             die("Доступ запрещен. Авторизуйтесь!");
         }
     }
+
+    public static function checkRole(string $role): bool
+    {
+        return isset($_SESSION['user']) && $_SESSION['user']['role'] === $role;
+    }
 }

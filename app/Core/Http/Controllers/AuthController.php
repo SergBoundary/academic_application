@@ -3,7 +3,7 @@
 namespace App\Core\Http\Controllers;
 
 use App\Core\Views\View;
-use App\Modules\Social\Models\User;
+use App\Core\Models\User;
 
 class AuthController extends Controller
 {
@@ -46,11 +46,20 @@ class AuthController extends Controller
             $password = $_POST['password'] ?? '';
 
             $userModel = new User();
-            $existingUser = $userModel->getByEmail($email);
+            $user = $userModel->getByEmail($email);
 
             // Простая проверка (в реальном проекте используй хеширование!)
-            if ($email === $existingUser['email'] && $password === $existingUser['password']) {
-                $_SESSION['user'] = ['email' => $email];
+            if (isset($user) && $email === $user['email'] && $password === $user['password']) {
+                $_SESSION['user'] = [
+                    'id' => $user['id'],
+                    'email' => $user['email'],
+                    'role' => $user['role']
+                ];
+                // Если админ — отправляем на /admin
+                if ($user['role'] === 'admin') {
+                    header("Location: /admin");
+                    exit;
+                }
                 header("Location: /");
                 exit;
             } else {

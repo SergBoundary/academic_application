@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Modules\Social\Models;
+namespace App\Core\Models;
 
 use App\Core\Models\Model;
 
@@ -37,5 +37,11 @@ class User extends Model
             'email' => $email,
             'password' => $password // Позже заменим на хеширование!
         ]);
+    }
+
+    public function setRole(int $userId, string $role): void
+    {
+        $sql = "UPDATE `users` SET `role` = :role WHERE `id` = :id";
+        $this->model->execute($sql, ['role' => $role, 'id' => $userId]);
     }
 }

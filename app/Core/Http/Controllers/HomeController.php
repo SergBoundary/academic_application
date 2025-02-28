@@ -4,7 +4,7 @@ namespace App\Core\Http\Controllers;
 
 use App\Core\Middleware\MiddlewareService;
 use App\Core\Views\View;
-use App\Modules\Social\Models\User;
+use App\Core\Models\User;
 
 class HomeController extends Controller
 {
