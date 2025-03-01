@@ -15,28 +15,48 @@ class Router
 
     public static function dispatch(string $url)
     {
+        // $url = self::removeQueryString($url);
+        // echo "Запрашиваемый URL: $url <br>";
+        // echo "Метод запроса: " . $_SERVER['REQUEST_METHOD'] . "<br>";
+    
+        // if (self::matchRoute($url)) {
+        //     echo "Найден маршрут: ";
+        //     print_r(self::$route);
+        //     exit;
+        // }
         $url = self::removeQueryString($url);
         // echo '<pre>';
-        // var_dump(self::$routes);die;
         if (self::matchRoute($url)) {
-          // var_dump(self::$route['module']);die;
-            $module = isset(self::$route['module']) && self::$route['module'] 
-              ? "Modules\\" . self::$route['module'] 
-              : 'Core';      
-            $controller = self::$route['controller'] ?? 'Index';
-            $action = self::$route['action'] ?? 'index';
+        // var_dump(self::$route['method']);
+            // Проверяем метод запроса (GET, POST и т. д.)
+            if (!isset(self::$route['method']) || $_SERVER['REQUEST_METHOD'] === strtoupper(self::$route['method'])) {
+                $module = isset(self::$route['module']) && self::$route['module']
+                    ? "Modules\\" . self::$route['module']
+                    : 'Core';
+                $controller = self::$route['controller'] ?? 'Home';
+                $action = self::$route['action'] ?? 'index';
+                // var_dump(self::$route);
+                $role = self::$route['role'] ?? '';
+                $params = self::$route['params'] ?? [];
+                // var_dump($params);die;
 
-            $controllerClass = "App\\$module\\Http\\Controllers\\$controller" . "Controller";
-
-            if (class_exists($controllerClass)) {
-                $controllerObj = new $controllerClass();
-                if (method_exists($controllerObj, $action)) {
-                    $controllerObj->$action();
+                if ($role == 'Admin') {
+                    $controllerClass = "App\\$module\\Http\\Controllers\\Admin\\$controller" . "Controller";
                 } else {
-                    echo "Метод $action не найден в $controllerClass";
+                    $controllerClass = "App\\$module\\Http\\Controllers\\$controller" . "Controller";
                 }
-            } else {
-                echo "Контроллер $controllerClass не найден";
+
+                if (class_exists($controllerClass)) {
+                    $controllerObj = new $controllerClass();
+                    if (method_exists($controllerObj, $action)) {
+                        // $controllerObj->$action();
+                        call_user_func_array([$controllerObj, $action], $params);
+                    } else {
+                        echo "Метод $action не найден в $controllerClass";
+                    }
+                } else {
+                    echo "Контроллер $controllerClass не найден";
+                }
             }
         } else {
             http_response_code(404);
@@ -47,17 +67,18 @@ class Router
     protected static function matchRoute(string $url): bool
     {
         foreach (self::$routes as $pattern => $route) {
-          // echo '<pre>';
-          // var_dump($pattern);
-          // var_dump($route);
             if (preg_match("#$pattern#i", $url, $matches)) {
-                foreach ($matches as $key => $value) {
-                    if (is_string($key)) {
-                        $route[$key] = $value;
+                if (!isset($route['method']) || $_SERVER['REQUEST_METHOD'] === strtoupper($route['method'])) {
+                    foreach ($matches as $key => $value) {
+                        if (is_string($key)) {
+                            $route[$key] = $value;
+                        }
                     }
+                    array_shift($matches); // Удаляем первый элемент (полный URL)
+                    $route['params'] = $matches; // Добавляем параметры
+                    self::$route = $route;
+                    return true;
                 }
-                self::$route = $route;
-                return true;
             }
         }
         return false;

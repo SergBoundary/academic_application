@@ -10,15 +10,8 @@ class User extends Model
 
     public function __construct()
     {
+        parent::__construct();
         $this->model = new Model();
-    }
-
-    public function getAllUsers(): array
-    {
-        $sql = "SELECT `id`, `email`, `name`, `surname` 
-                FROM `users`";
-        $result = $this->model->query($sql);
-        return $result;
     }
 
     public function getByEmail(string $email): ?array
@@ -43,5 +36,32 @@ class User extends Model
     {
         $sql = "UPDATE `users` SET `role` = :role WHERE `id` = :id";
         $this->model->execute($sql, ['role' => $role, 'id' => $userId]);
+    }
+
+    public function getAllUsers(): array
+    {
+        $sql = "SELECT `id`, `email`, `name`, `surname`, `role` FROM `users`";
+        $result = $this->model->query($sql);
+        return $result;
+    }
+
+    public function getById($id)
+    {
+        // var_dump($id);die;
+        $sql = "SELECT * FROM `users` WHERE `id` = :id";
+        $result = $this->query($sql, ['id' => $id]);
+        return $result[0] ?? null;
+    }
+    
+    public function updateUser($id, $email, $role)
+    {
+        $sql = "UPDATE `users` SET `email` = :email, `role` = :role WHERE `id` = :id";
+        return $this->execute($sql, ['id' => $id, 'email' => $email, 'role' => $role]);
+    }
+    
+    public function deleteUser($id)
+    {
+        $sql = "DELETE FROM `users` WHERE `id` = :id";
+        return $this->execute($sql, ['id' => $id]);
     }
 }

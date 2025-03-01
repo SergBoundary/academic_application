@@ -4,6 +4,7 @@ namespace App\Core\Models;
 
 use App\Core\Services\DatabaseService;
 use PDO;
+use PDOException;
 
 class Model
 {

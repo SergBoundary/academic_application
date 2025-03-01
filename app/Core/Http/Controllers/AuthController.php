@@ -26,7 +26,10 @@ class AuthController extends Controller
                 if ($existingUser) {
                     $error = "Этот email уже зарегистрирован!";
                 } else {
-                    $userModel->createUser($name, $surname, $email, $password);
+                    // Хешируем пароль перед сохранением
+                    $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
+                    $userModel->createUser($name, $surname, $email, $hashedPassword);
+
                     header("Location: /login");
                     exit;
                 }
@@ -48,8 +51,8 @@ class AuthController extends Controller
             $userModel = new User();
             $user = $userModel->getByEmail($email);
 
-            // Простая проверка (в реальном проекте используй хеширование!)
-            if (isset($user) && $email === $user['email'] && $password === $user['password']) {
+            // Проверка email с хешированым паролем
+            if (isset($user) && $email === $user['email'] && password_verify($password, $user['password'])) {
                 $_SESSION['user'] = [
                     'id' => $user['id'],
                     'email' => $user['email'],

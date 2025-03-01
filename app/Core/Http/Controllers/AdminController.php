@@ -14,7 +14,7 @@ class AdminController extends Controller
             exit;
         }
 
-        $view = new View('', '', 'admin');
+        $view = new View('', '', 'admin\\admin');
         $view->render();
     }
 }
