@@ -19,7 +19,6 @@ class UserController extends Controller
 
     public function edit($id)
     {
-        // var_dump($id);die;
         $userModel = new User();
         $user = $userModel->getById($id);
 

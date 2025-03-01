@@ -15,19 +15,8 @@ class Router
 
     public static function dispatch(string $url)
     {
-        // $url = self::removeQueryString($url);
-        // echo "Запрашиваемый URL: $url <br>";
-        // echo "Метод запроса: " . $_SERVER['REQUEST_METHOD'] . "<br>";
-    
-        // if (self::matchRoute($url)) {
-        //     echo "Найден маршрут: ";
-        //     print_r(self::$route);
-        //     exit;
-        // }
         $url = self::removeQueryString($url);
-        // echo '<pre>';
         if (self::matchRoute($url)) {
-        // var_dump(self::$route['method']);
             // Проверяем метод запроса (GET, POST и т. д.)
             if (!isset(self::$route['method']) || $_SERVER['REQUEST_METHOD'] === strtoupper(self::$route['method'])) {
                 $module = isset(self::$route['module']) && self::$route['module']
@@ -35,10 +24,8 @@ class Router
                     : 'Core';
                 $controller = self::$route['controller'] ?? 'Home';
                 $action = self::$route['action'] ?? 'index';
-                // var_dump(self::$route);
                 $role = self::$route['role'] ?? '';
                 $params = self::$route['params'] ?? [];
-                // var_dump($params);die;
 
                 if ($role == 'Admin') {
                     $controllerClass = "App\\$module\\Http\\Controllers\\Admin\\$controller" . "Controller";
@@ -49,7 +36,6 @@ class Router
                 if (class_exists($controllerClass)) {
                     $controllerObj = new $controllerClass();
                     if (method_exists($controllerObj, $action)) {
-                        // $controllerObj->$action();
                         call_user_func_array([$controllerObj, $action], $params);
                     } else {
                         echo "Метод $action не найден в $controllerClass";

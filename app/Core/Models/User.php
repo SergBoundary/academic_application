@@ -47,7 +47,6 @@ class User extends Model
 
     public function getById($id)
     {
-        // var_dump($id);die;
         $sql = "SELECT * FROM `users` WHERE `id` = :id";
         $result = $this->query($sql, ['id' => $id]);
         return $result[0] ?? null;
