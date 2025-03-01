@@ -10,7 +10,6 @@ class Router
     public static function add(string $pattern, array $route = [])
     {
         self::$routes[$pattern] = $route;
-        // var_dump(self::$routes);die;
     }
 
     public static function dispatch(string $url)
