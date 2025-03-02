@@ -26,8 +26,9 @@ class UserController extends Controller
             echo "Пользователь не найден!";
             exit;
         }
+        $permissions = $userModel->getPermissions($id);
 
-        $view = new View('', '', 'admin/users/edit', compact('user'));
+        $view = new View('', '', 'admin/users/edit', compact('user', 'permissions'));
         $view->render();
     }
 
@@ -37,9 +38,14 @@ class UserController extends Controller
             $id = $_POST['id'];
             $email = $_POST['email'];
             $role = $_POST['role'];
+            $permissions = [
+                'research' => isset($_POST['research']),
+                'social' => isset($_POST['social']),
+                'private' => isset($_POST['private'])
+            ];
 
             $userModel = new User();
-            $userModel->updateUser($id, $email, $role);
+            $userModel->updateUser($id, $email, $role, $permissions);
 
             header("Location: /admin/users");
             exit;

@@ -51,13 +51,13 @@ class User extends Model
         $result = $this->query($sql, ['id' => $id]);
         return $result[0] ?? null;
     }
-    
-    public function updateUser($id, $email, $role)
+
+    public function updateUser($id, $email, $role, array $permissions)
     {
-        $sql = "UPDATE `users` SET `email` = :email, `role` = :role WHERE `id` = :id";
-        return $this->execute($sql, ['id' => $id, 'email' => $email, 'role' => $role]);
+        $sql = "UPDATE `users` SET `email` = :email, `role` = :role, permissions = :permissions WHERE `id` = :id";
+        return $this->execute($sql, ['id' => $id, 'email' => $email, 'role' => $role, 'permissions' => json_encode($permissions)]);
     }
-    
+
     public function deleteUser($id)
     {
         $sql = "DELETE FROM `users` WHERE `id` = :id";
@@ -67,8 +67,16 @@ class User extends Model
     public function updatePasswordByEmail(string $email, string $hashedPassword): bool
     {
         return $this->execute(
-            "UPDATE users SET password = ? WHERE email = ?", 
+            "UPDATE users SET password = ? WHERE email = ?",
             [$hashedPassword, $email]
         );
+    }
+
+    public function getPermissions(int $userId): array
+    {
+        $sql = "SELECT permissions FROM users WHERE id = :id";
+        $result = $this->query($sql, ['id' => $userId]);
+
+        return !empty($result) ? json_decode($result[0]['permissions'], true) : [];
     }
 }

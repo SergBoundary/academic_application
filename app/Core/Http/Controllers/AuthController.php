@@ -5,6 +5,7 @@ namespace App\Core\Http\Controllers;
 use App\Core\Views\View;
 use App\Core\Models\User;
 use App\Core\Models\PasswordReset;
+use App\Core\Services\Mailer;
 
 class AuthController extends Controller
 {
@@ -77,6 +78,7 @@ class AuthController extends Controller
 
     public function logout()
     {
+        $_SESSION = [];
         session_destroy();
         header("Location: /login");
         exit;
@@ -105,8 +107,14 @@ class AuthController extends Controller
         $resetModel = new PasswordReset();
         $resetModel->createResetToken($email, $token);
 
-        // Отправляем ссылку на email (пока просто выводим на экран)
-        echo "Ссылка для сброса пароля:<a href='/password/new?token=$token'>$token</a>";
+        // Отправляем ссылку на email
+        $subject = 'Восстановление пароля'; 
+        $body = "<p>Для сброса пароля перейдите по ссылке:</p> <p><a href='https://acapp.loc/password/new?token=$token'>Сбросить пароль</a></p>";
+        
+        Mailer::send($email, $subject, $body);
+        echo "<p>Проверьте свою почту и перейдите по ссылке для сброса пароля.</p>";
+        echo "<p>Если письмо со ссылкой не пришло, то проверьте папку со спамом. Возможно, оно там.</p>";
+        echo '<p><a href="/logout">Вернуться к форме входа</a></p>';
     }
 
     public function showNewPasswordForm()

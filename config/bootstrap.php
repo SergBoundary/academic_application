@@ -3,6 +3,7 @@
 use App\Core\Services\DatabaseService;
 use App\Core\Middleware\MiddlewareService;
 use App\Core\Middleware\AuthMiddleware;
+use App\Core\Middleware\PermissionMiddleware;
 use App\Core\Middleware\CsrfMiddleware;
 // use Core\Services\LoggerService;
 
@@ -19,12 +20,11 @@ DatabaseService::init();
 // LoggerService::init();
 
 // Подключаем маршруты
-require_once __DIR__ . '/../routes/web.php';
-
-session_start();
+require_once ROOT . '/routes/web.php';
 
 // Регистрируем middleware
 MiddlewareService::add('auth', [AuthMiddleware::class, 'handle']);
+MiddlewareService::add('permission', [PermissionMiddleware::class, 'handle']);
 MiddlewareService::add('csrf', function () {
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         CsrfMiddleware::validateToken($_POST['_csrf'] ?? '');
