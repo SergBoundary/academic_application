@@ -63,4 +63,12 @@ class User extends Model
         $sql = "DELETE FROM `users` WHERE `id` = :id";
         return $this->execute($sql, ['id' => $id]);
     }
+
+    public function updatePasswordByEmail(string $email, string $hashedPassword): bool
+    {
+        return $this->execute(
+            "UPDATE users SET password = ? WHERE email = ?", 
+            [$hashedPassword, $email]
+        );
+    }
 }

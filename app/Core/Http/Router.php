@@ -51,8 +51,13 @@ class Router
 
     protected static function matchRoute(string $url): bool
     {
+        // echo '<pre>';
+        // var_dump($url);die;
         foreach (self::$routes as $pattern => $route) {
+            // var_dump($pattern);
+            // var_dump($route);
             if (preg_match("#$pattern#i", $url, $matches)) {
+                // var_dump($matches);
                 if (!isset($route['method']) || $_SERVER['REQUEST_METHOD'] === strtoupper($route['method'])) {
                     foreach ($matches as $key => $value) {
                         if (is_string($key)) {
@@ -62,6 +67,7 @@ class Router
                     array_shift($matches); // Удаляем первый элемент (полный URL)
                     $route['params'] = $matches; // Добавляем параметры
                     self::$route = $route;
+                    // var_dump(self::$route);
                     return true;
                 }
             }
@@ -71,6 +77,10 @@ class Router
 
     protected static function removeQueryString(string $url): string
     {
-        return explode('?', $url)[0];
+        if ($url !== '') {
+            $url = explode('?', $url)[0]; // Убираем GET-параметры
+            $url = explode('&', $url)[0]; // Убираем параметры, если они переданы через '&'
+        }
+        return rtrim($url, '/');
     }
 }

@@ -4,6 +4,7 @@ namespace App\Core\Http\Controllers;
 
 use App\Core\Views\View;
 use App\Core\Models\User;
+use App\Core\Models\PasswordReset;
 
 class AuthController extends Controller
 {
@@ -79,5 +80,62 @@ class AuthController extends Controller
         session_destroy();
         header("Location: /login");
         exit;
+    }
+
+    public function showResetForm()
+    {
+        $view = new View('', '', 'password/reset');
+        $view->render();
+    }
+
+    public function sendResetLink()
+    {
+        $email = $_POST['email'] ?? '';
+        if (!$email) {
+            die("Email обязателен!");
+        }
+
+        $userModel = new User();
+        $user = $userModel->getByEmail($email);
+        if (!$user) {
+            die("Пользователь не найден!");
+        }
+
+        $token = bin2hex(random_bytes(32));
+        $resetModel = new PasswordReset();
+        $resetModel->createResetToken($email, $token);
+
+        // Отправляем ссылку на email (пока просто выводим на экран)
+        echo "Ссылка для сброса пароля:<a href='/password/new?token=$token'>$token</a>";
+    }
+
+    public function showNewPasswordForm()
+    {
+        $view = new View('', '', 'password/new');
+        $view->render();
+    }
+
+    public function updatePassword()
+    {
+        $token = $_POST['token'] ?? '';
+        $password = $_POST['password'] ?? '';
+
+        if (!$token || !$password) {
+            die("Ошибка: не хватает данных.");
+        }
+
+        $resetModel = new PasswordReset();
+        $reset = $resetModel->getByToken($token);
+        if (!$reset) {
+            die("Токен недействителен!");
+        }
+
+        $userModel = new User();
+        $userModel->updatePasswordByEmail($reset['email'], password_hash($password, PASSWORD_DEFAULT));
+
+        $resetModel->deleteByEmail($reset['email']);
+
+        echo "<p>Пароль успешно обновлен!<p>";
+        echo "<a href='/login'>Вернуться к форме логирования.</a>";
     }
 }

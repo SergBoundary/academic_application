@@ -7,3 +7,4 @@
     <input type="password" name="password" placeholder="Пароль" required>
     <button type="submit">Войти</button>
 </form>
+<p><a href="/password/reset">Забыли пароль?</a></p>

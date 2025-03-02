@@ -15,3 +15,8 @@ Router::add('^admin/users$', ['controller' => 'User', 'action' => 'index', 'role
 Router::add('^admin/users/edit/(\d+)$', ['controller' => 'User', 'action' => 'edit', 'role' => 'Admin', 'method' => 'GET']);
 Router::add('^admin/users/update$', ['controller' => 'User', 'action' => 'update', 'role' => 'Admin', 'method' => 'POST']);
 Router::add('^admin/users/delete$', ['controller' => 'User', 'action' => 'delete', 'role' => 'Admin', 'method' => 'POST']);
+
+Router::add('^password/reset$', ['controller' => 'Auth', 'action' => 'showResetForm', 'method' => 'GET']);
+Router::add('^password/reset-request$', ['controller' => 'Auth', 'action' => 'sendResetLink', 'method' => 'POST']);
+Router::add('^password/new$', ['controller' => 'Auth', 'action' => 'showNewPasswordForm', 'method' => 'GET']);
+Router::add('^password/update$', ['controller' => 'Auth', 'action' => 'updatePassword', 'method' => 'POST']);
