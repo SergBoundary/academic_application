@@ -11,6 +11,7 @@ class AuthController extends Controller
 {
     public function register()
     {
+        $title = 'Регистрация пользователя';
         $error = '';
 
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -38,12 +39,13 @@ class AuthController extends Controller
             }
         }
 
-        $view = new View('', '', 'register', compact('error'));
+        $view = new View('', '', 'register', compact('title', 'error'));
         $view->render();
     }
 
     public function login()
     {
+        $title = 'Логирование';
         $error = '';
 
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -55,10 +57,14 @@ class AuthController extends Controller
 
             // Проверка email с хешированым паролем
             if (isset($user) && $email === $user['email'] && password_verify($password, $user['password'])) {
+                // Загружаем права доступа
+                $permissions = $userModel->getPermissions($user['id']);
+                // Создаем сессию для пользователя и записываем в нее его свойства
                 $_SESSION['user'] = [
                     'id' => $user['id'],
                     'email' => $user['email'],
-                    'role' => $user['role']
+                    'role' => $user['role'],
+                    'permissions' => $permissions
                 ];
                 // Если админ — отправляем на /admin
                 if ($user['role'] === 'admin') {
@@ -72,7 +78,7 @@ class AuthController extends Controller
             }
         }
 
-        $view = new View('', '', 'login', compact('error'));
+        $view = new View('', '', 'login', compact('title', 'error'));
         $view->render();
     }
 

@@ -1,4 +1,4 @@
-<h2>Регистрация</h2>
+<h2><?= htmlspecialchars($title) ?></h2>
 <?php if (!empty($error)): ?>
     <p style="color: red;"><?= $error ?></p>
 <?php endif; ?>

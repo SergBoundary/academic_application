@@ -2,10 +2,8 @@
 
 use App\Core\Http\Router;
 
-// Modules
+// Module Core
 Router::add('^$', ['controller' => 'Home', 'action' => 'index']);
-Router::add('^research$', ['module' => 'Research', 'controller' => 'Research', 'action' => 'index', 'method' => 'GET']);
-Router::add('^social$', ['module' => 'Social', 'controller' => 'Social', 'action' => 'index', 'method' => 'GET']);
 // Authentification
 Router::add('^register$', ['controller' => 'Auth', 'action' => 'register']);
 Router::add('^login$', ['controller' => 'Auth', 'action' => 'login']);
@@ -22,6 +20,15 @@ Router::add('^password/reset$', ['controller' => 'Auth', 'action' => 'showResetF
 Router::add('^password/reset-request$', ['controller' => 'Auth', 'action' => 'sendResetLink', 'method' => 'POST']);
 Router::add('^password/new$', ['controller' => 'Auth', 'action' => 'showNewPasswordForm', 'method' => 'GET']);
 Router::add('^password/update$', ['controller' => 'Auth', 'action' => 'updatePassword', 'method' => 'POST']);
+
+// Module Research
+Router::add('^research$', ['module' => 'Research', 'controller' => 'Research', 'action' => 'index']);
+Router::add('^research/(.+)$', ['module' => 'Research', 'controller' => 'Research', 'action' => 'view']);
+
+// Module Social
+Router::add('^social$', ['module' => 'Social', 'controller' => 'Social', 'action' => 'index']);
+Router::add('^social/(.+)$', ['module' => 'Social', 'controller' => 'Social', 'action' => 'view']);
+
 
 
 // Router::add('^$', ['lang' => 'pl', 'action' => 'index', 'content' => 'index']);

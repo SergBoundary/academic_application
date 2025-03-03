@@ -1,4 +1,4 @@
-<h1>Список пользователей</h1>
+<h2><?= htmlspecialchars($title) ?></h2>
 <table>
     <tr>
         <th>ID</th>

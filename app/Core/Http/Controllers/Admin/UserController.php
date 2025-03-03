@@ -3,6 +3,7 @@
 namespace App\Core\Http\Controllers\Admin;
 
 use App\Core\Http\Controllers\Controller;
+use App\Core\Middleware\MiddlewareService;
 use App\Core\Models\User;
 use App\Core\Views\View;
 
@@ -10,15 +11,23 @@ class UserController extends Controller
 {
     public function index()
     {
+        MiddlewareService::run('auth'); // Checking authorization
+
+        $title = 'Пользователи';
+
         $userModel = new User();
         $users = $userModel->getAllUsers();
 
-        $view = new View('', '', 'admin/users/index', compact('users'));
+        $view = new View('', '', 'admin/users/index', compact('title', 'users'));
         $view->render();
     }
 
     public function edit($id)
     {
+        MiddlewareService::run('auth'); // Checking authorization
+
+        $title = 'Свойства пользователя';
+
         $userModel = new User();
         $user = $userModel->getById($id);
 
@@ -28,7 +37,7 @@ class UserController extends Controller
         }
         $permissions = $userModel->getPermissions($id);
 
-        $view = new View('', '', 'admin/users/edit', compact('user', 'permissions'));
+        $view = new View('', '', 'admin/users/edit', compact('title', 'user', 'permissions'));
         $view->render();
     }
 
@@ -46,6 +55,12 @@ class UserController extends Controller
 
             $userModel = new User();
             $userModel->updateUser($id, $email, $role, $permissions);
+
+            // Если админ редактирует сам себя — обновляем сессию
+            if ($_SESSION['user']['id'] == $id) {
+                $_SESSION['user']['permissions'] = $permissions;
+            }
+
 
             header("Location: /admin/users");
             exit;

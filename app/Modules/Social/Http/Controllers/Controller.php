@@ -4,9 +4,9 @@ namespace App\Modules\Social\Http\Controllers;
 
 class Controller
 {
-  public $nameController;
+  public $title;
 
   public function __construct() {
-    $this->nameController = 'Social';
+    $this->title = 'Social';
   }
 }

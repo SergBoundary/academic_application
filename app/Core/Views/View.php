@@ -18,18 +18,20 @@ class View
     }
 
     public function render(): void
-    {        
-        $viewFile = !empty($this->module) 
-            ? MODULES . "/{$this->module}/Views/Layouts/{$this->view}.php"
-            : CORE . "/Views/Components/{$this->view}.php"; 
+    {
+        $modulePath = $this->module ? MODULES . "/{$this->module}/Views" : CORE . "/Views";
+        $componentPath = $modulePath . "/Components/{$this->view}.php";
+        $layoutPath = $modulePath . "/Layouts/{$this->layout}.php";
+
+        // var_dump($componentPath);die;
         
-        if (file_exists($viewFile)) {
+        if (file_exists($componentPath)) {
             extract($this->data); // Делаем переменные доступными в шаблоне
             ob_start();
-            require $viewFile;
+            require $componentPath;
             $content = ob_get_clean();
 
-            require CORE . "/Views/Layouts/{$this->layout}.php"; // Загружаем общий шаблон
+            require $layoutPath; // Загружаем шаблон
         } else {
             echo "Контент '<b>{$viewFile}</b>' не найден!";
         }

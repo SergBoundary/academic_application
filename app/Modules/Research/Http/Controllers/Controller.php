@@ -4,9 +4,9 @@ namespace App\Modules\Research\Http\Controllers;
 
 class Controller
 {
-  public $nameController;
+  public $title;
 
   public function __construct() {
-    $this->nameController = 'Research';
+    $this->title = 'Research';
   }
 }
