@@ -6,16 +6,19 @@ class AuthMiddleware
 {
     public static function handle(): void
     {
-        MiddlewareService::run('auth'); // Checking authorization
-
-        if ($_SESSION['user']['role'] === 'admin') {
-            return; // Админам всегда можно!
+        // Checking authorization
+        if (!isset($_SESSION['user'])) { 
+            header("Location: /login");
+            exit;
         }        
 
-        // Проверяем, запрашивается ли модуль и есть ли у пользователя права на него
+        if ($_SESSION['user']['role'] === 'admin') {
+            return; // AThe administrator has access to everything
+        }        
+
+        // We check whether the module is requested and whether the user has rights to it
         $url = $_SERVER['REQUEST_URI'];
         $userPermissions = $_SESSION['user']['permissions'] ?? [];
-        // var_dump($_SESSION['user']);die;
     
         if (preg_match('#^/(research|social|private)#', $url, $matches)) {
             $module = $matches[1];
