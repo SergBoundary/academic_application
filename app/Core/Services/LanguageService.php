@@ -3,6 +3,7 @@
 namespace App\Core\Services;
 
 use App\Core\Models\Language;
+use App\Core\Services\RedisService;
 
 class LanguageService
 {
@@ -51,22 +52,32 @@ class LanguageService
     {
         $lang = self::getCurrentLanguage();
         
-        // Попробуем сначала получить перевод из Redis (если настроено)
-        $cacheKey = "chash_{$lang}";
-        // Пример: $redis = new \Redis(); $redis->connect('127.0.0.1');
-        // $translation = $redis->hGet($cacheKey, $key);
-        // if ($translation) { return $translation; }
+        // Получаем подключение к Redis
+        $redis = RedisService::getConnection();
+        // Формируем ключ кэша для языка, например: "cache_ru"
+        $cacheKey = "cache_{$lang}";
+
+        // Инициализируем кэш для языка, если он ещё не создан
+        RedisService::initializeCacheForLanguage($lang);
+        
+        // Пытаемся получить перевод из Redis (хэш с ключами переводов)
+        $translation = $redis->hGet($cacheKey, $key);
+        if ($translation !== false && $translation !== null) {
+            return $translation;
+        }
         
         // Если Redis не используется или ключ не найден, обращаемся к MySQL
         $languageModel = new Language();
         $result = $languageModel->getTranslate($lang, $key);
-        // var_dump($lang);die;
-
-        $translation = $result ? $result['translation'] : $key;
         
-        // Можно сохранить $translation в Redis для ускорения
-        // $redis->hSet($cacheKey, $key, $translation);
+        if ($result && !empty($result['translation'])) {
+            $translation = $result['translation'];
+            // Сохраняем перевод в Redis для ускорения будущих запросов
+            $redis->hSet($cacheKey, $key, $translation);
+            return $translation;
+        }
         
-        return $translation;
+        // Если перевода нет, возвращаем ключ (или можно вернуть пустую строку)
+        return $key;
     }
 }

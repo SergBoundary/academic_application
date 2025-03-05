@@ -17,6 +17,7 @@
     }
   },
   "require": {
-    "phpmailer/phpmailer": "dev-master"
+    "phpmailer/phpmailer": "dev-master",
+    "predis/predis": "^3.0@alpha"
   }
 }
