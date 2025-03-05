@@ -12,14 +12,15 @@ class AdminController extends Controller
     {
         MiddlewareService::run('auth'); // Checking authorization
 
+        $language = $this->language;
         if (!AuthMiddleware::checkRole('admin')) {
             echo "Доступ запрещен!";
             exit;
         }
 
-        $title = 'Админ-панель';
+        $title = 'admin_panel';
 
-        $view = new View('', '', 'admin/admin', compact(['title']));
+        $view = new View('', '', 'admin/admin', compact(['language', 'title']));
         $view->render();
     }
 }

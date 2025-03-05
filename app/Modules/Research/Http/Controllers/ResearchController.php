@@ -11,9 +11,10 @@ class ResearchController extends Controller
     {
         MiddlewareService::run('auth'); // Checking authorization
 
+        $language = $this->language;
         $title = $this->title;
         
-        $view = new View('Research', '', 'index', compact('title'));
+        $view = new View('Research', '', 'index', compact('language', 'title'));
         $view->render();
     }
 }

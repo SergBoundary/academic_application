@@ -12,15 +12,17 @@ class HomeController extends Controller
     {
         MiddlewareService::run('auth'); // Checking authorization
 
+        $language = $this->language;
         $module = '';
         $layout = '';
         $view = '';
-        $title = 'Пользователи';
+        $title = 'users';
+        $header = __('users');
 
         $userModel = new User();
         $users = $userModel->getAllUsers();
 
-        $view = new View($module, $layout, $view, compact(['title', 'users']));
+        $view = new View($module, $layout, $view, compact(['language', 'header', 'title', 'users']));
         $view->render();
     }
 }

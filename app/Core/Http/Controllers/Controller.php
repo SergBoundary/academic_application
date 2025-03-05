@@ -3,10 +3,14 @@
 namespace App\Core\Http\Controllers;
 
 use App\Core\Models\Model;
+use App\Core\Services\LanguageService;
 
 class Controller
 {
-    public function __construct() {
-        //   
+    protected $language;
+
+    public function __construct()
+    {
+        $this->language = LanguageService::getCurrentLanguage();
     }
 }

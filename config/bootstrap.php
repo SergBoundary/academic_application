@@ -1,6 +1,7 @@
 <?php
 
 use App\Core\Services\DatabaseService;
+use App\Core\Services\LanguageService;
 use App\Core\Middleware\MiddlewareService;
 use App\Core\Middleware\AuthMiddleware;
 use App\Core\Middleware\PermissionMiddleware;
@@ -18,6 +19,8 @@ spl_autoload_register(function ($class) {
 // Запуск сервисов
 DatabaseService::init();
 // LoggerService::init();
+
+LanguageService::loadLanguages();
 
 // Подключаем маршруты
 require_once ROOT . '/routes/web.php';

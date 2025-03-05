@@ -13,12 +13,13 @@ class UserController extends Controller
     {
         MiddlewareService::run('auth'); // Checking authorization
 
-        $title = 'Пользователи';
+        $language = $this->language;
+        $title = 'users';
 
         $userModel = new User();
         $users = $userModel->getAllUsers();
 
-        $view = new View('', '', 'admin/users/index', compact('title', 'users'));
+        $view = new View('', '', 'admin/users/index', compact('language', 'title', 'users'));
         $view->render();
     }
 
@@ -26,7 +27,8 @@ class UserController extends Controller
     {
         MiddlewareService::run('auth'); // Checking authorization
 
-        $title = 'Свойства пользователя';
+        $language = $this->language;
+        $title = 'user_properties';
 
         $userModel = new User();
         $user = $userModel->getById($id);
@@ -37,12 +39,13 @@ class UserController extends Controller
         }
         $permissions = $userModel->getPermissions($id);
 
-        $view = new View('', '', 'admin/users/edit', compact('title', 'user', 'permissions'));
+        $view = new View('', '', 'admin/users/edit', compact('language', 'title', 'user', 'permissions'));
         $view->render();
     }
 
     public function update()
     {
+        $language = $this->language;
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $id = $_POST['id'];
             $email = $_POST['email'];
@@ -62,20 +65,21 @@ class UserController extends Controller
             }
 
 
-            header("Location: /admin/users");
+            header("Location: /{$language}/admin/users");
             exit;
         }
     }
 
     public function delete()
     {
+        $language = $this->language;
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $id = $_POST['id'];
 
             $userModel = new User();
             $userModel->deleteUser($id);
 
-            header("Location: /admin/users");
+            header("Location: /{$language}/admin/users");
             exit;
         }
     }

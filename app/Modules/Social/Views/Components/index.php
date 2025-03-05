@@ -1,4 +1,4 @@
-<h2>Модуль <?= htmlspecialchars($title) ?></h2>
-<p>Добро пожаловать в модуль Social!</p>
+<h2><?= __('module') ?> <?= __($title) ?></h2>
+<p><?= __('welcome_ module') ?> Social!</p>
 
-<a href="/logout">Выйти</a>
+<a href="/<?= $language ?>/logout"><?= __('logout') ?></a>

@@ -7,13 +7,13 @@
 </head>
 <body>
     <header>
-        <h4><a href="/">AcApp</a> / <?= htmlspecialchars($title) ?></h4>
+        <h4><a href="/<?= $language ?>/">AcApp</a> / <?= __($title) ?></h4>
     </header>
     <main>
         <?= $content ?? '' ?>
     </main>
     <footer>
-        <p>© 2024. Все права защищены.</p>
+        <p>© 2024. <?= __('all_rights_reserved') ?>.</p>
     </footer>
 </body>
 </html>

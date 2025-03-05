@@ -1,5 +1,5 @@
-<h2><?= htmlspecialchars($title) ?></h2>
-<p>Статистика о пользователях</p>
-<a href="/">На главную</a> | 
-<a href="/admin/users">Пользователи</a> | 
-<a href="/logout">Выйти</a>
+<h2><?= htmlspecialchars(__($title)) ?></h2>
+<p><?= __('user_statistics') ?></p>
+<a href="/<?= $language ?>/"><?= __('home') ?></a> | 
+<a href="/<?= $language ?>/admin/users"><?= __('users') ?></a> | 
+<a href="/<?= $language ?>/logout"><?= __('logout') ?></a>

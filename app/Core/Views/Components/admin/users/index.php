@@ -1,10 +1,10 @@
-<h2><?= htmlspecialchars($title) ?></h2>
+<h2><?= __($title) ?></h2>
 <table>
     <tr>
         <th>ID</th>
         <th>Email</th>
-        <th>Роль</th>
-        <th>Действия</th>
+        <th><?= __('role') ?></th>
+        <th><?= __('actions') ?></th>
     </tr>
     <?php foreach ($users as $user): ?>
         <tr>
@@ -12,10 +12,10 @@
             <td><?= $user['email']; ?></td>
             <td><?= $user['role']; ?></td>
             <td>
-                <a href="/admin/users/edit/<?= $user['id']; ?>">Редактировать</a>
+                <a href="/admin/users/edit/<?= $user['id']; ?>"><?= __('edit') ?></a>
                 <form method="POST" action="/admin/users/delete" style="display:inline;">
                     <input type="hidden" name="id" value="<?= $user['id']; ?>">
-                    <button type="submit">Удалить</button>
+                    <button type="submit"><?= __('delete') ?></button>
                 </form>
             </td>
         </tr>

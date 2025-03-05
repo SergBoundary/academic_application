@@ -11,9 +11,10 @@ class SocialController extends Controller
     {
         MiddlewareService::run('auth'); // Checking authorization
 
+        $language = $this->language;
         $title = $this->title;
         
-        $view = new View('Social', '', 'index', compact('title'));
+        $view = new View('Social', '', 'index', compact('language', 'title'));
         $view->render();
     }
 }

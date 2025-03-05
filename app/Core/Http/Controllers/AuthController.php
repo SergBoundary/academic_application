@@ -11,7 +11,9 @@ class AuthController extends Controller
 {
     public function register()
     {
-        $title = 'Регистрация пользователя';
+        $language = $this->language;
+        $title = 'register';
+        $header = __('register');
         $error = '';
 
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -33,19 +35,21 @@ class AuthController extends Controller
                     $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
                     $userModel->createUser($name, $surname, $email, $hashedPassword);
 
-                    header("Location: /login");
+                    header("Location: /{$language}/login");
                     exit;
                 }
             }
         }
 
-        $view = new View('', '', 'register', compact('title', 'error'));
+        $view = new View('', '', 'register', compact('language', 'header', 'title', 'error'));
         $view->render();
     }
 
     public function login()
     {
-        $title = 'Логирование';
+        $language = $this->language;
+        $title = 'authorization';
+        $header = __('authorization');
         $error = '';
 
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -68,36 +72,40 @@ class AuthController extends Controller
                 ];
                 // Если админ — отправляем на /admin
                 if ($user['role'] === 'admin') {
-                    header("Location: /admin");
+                    header("Location: /{$language}/admin");
                     exit;
                 }
-                header("Location: /");
+                header("Location: /{$language}");
                 exit;
             } else {
                 $error = "Неверный email или пароль!";
             }
         }
 
-        $view = new View('', '', 'login', compact('title', 'error'));
+        // var_dump($language);die;
+        $view = new View('', '', 'login', compact('language', 'header', 'title', 'error'));
         $view->render();
     }
 
     public function logout()
     {
+        $language = $this->language;
         $_SESSION = [];
         session_destroy();
-        header("Location: /login");
+        header("Location: /{$language}/login");
         exit;
     }
 
     public function showResetForm()
     {
-        $view = new View('', '', 'password/reset');
+        $language = $this->language;
+        $view = new View('', '', 'password/reset', compact('language'));
         $view->render();
     }
 
     public function sendResetLink()
     {
+        $language = $this->language;
         $email = $_POST['email'] ?? '';
         if (!$email) {
             die("Email обязателен!");
@@ -115,22 +123,24 @@ class AuthController extends Controller
 
         // Отправляем ссылку на email
         $subject = 'Восстановление пароля'; 
-        $body = "<p>Для сброса пароля перейдите по ссылке:</p> <p><a href='https://acapp.loc/password/new?token=$token'>Сбросить пароль</a></p>";
+        $body = "<p>Для сброса пароля перейдите по ссылке:</p> <p><a href='https://acapp.loc/{$language}/password/new?token=$token'>Сбросить пароль</a></p>";
         
         Mailer::send($email, $subject, $body);
         echo "<p>Проверьте свою почту и перейдите по ссылке для сброса пароля.</p>";
         echo "<p>Если письмо со ссылкой не пришло, то проверьте папку со спамом. Возможно, оно там.</p>";
-        echo '<p><a href="/logout">Вернуться к форме входа</a></p>';
+        echo '<p><a href="/{$language}/logout">Вернуться к форме входа</a></p>';
     }
 
     public function showNewPasswordForm()
     {
-        $view = new View('', '', 'password/new');
+        $language = $this->language;
+        $view = new View('', '', 'password/new', compact('language'));
         $view->render();
     }
 
     public function updatePassword()
     {
+        $language = $this->language;
         $token = $_POST['token'] ?? '';
         $password = $_POST['password'] ?? '';
 
@@ -150,6 +160,6 @@ class AuthController extends Controller
         $resetModel->deleteByEmail($reset['email']);
 
         echo "<p>Пароль успешно обновлен!<p>";
-        echo "<a href='/login'>Вернуться к форме логирования.</a>";
+        echo "<a href='/{$language}/login'>Вернуться к форме логирования.</a>";
     }
 }

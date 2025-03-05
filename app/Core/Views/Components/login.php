@@ -1,10 +1,10 @@
-<h2><?= htmlspecialchars($title) ?></h2>
+<h2><?= __($title) ?></h2>
 <?php if (!empty($error)): ?>
     <p style="color: red;"><?= $error ?></p>
 <?php endif; ?>
 <form method="POST">
     <input type="email" name="email" placeholder="Email" required>
-    <input type="password" name="password" placeholder="Пароль" required>
-    <button type="submit">Войти</button>
+    <input type="password" name="password" placeholder="<?= __('password') ?>" required>
+    <button type="submit"><?= __('log_in') ?></button>
 </form>
-<p><a href="/register">Регистрация</a> | <a href="/password/reset">Забыли пароль?</a></p>
+<p><a href="/<?= $language ?>/register"><?= __('sign_up') ?></a> | <a href="/<?= $language ?>/password/reset"><?= __('forgot_password') ?></a></p>

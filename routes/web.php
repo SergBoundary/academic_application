@@ -3,31 +3,31 @@
 use App\Core\Http\Router;
 
 // Module Core
-Router::add('^$', ['controller' => 'Home', 'action' => 'index']);
+Router::add('^(?P<language>[a-z-]+)$', ['controller' => 'Home', 'action' => 'index']);
 // Authentification
-Router::add('^register$', ['controller' => 'Auth', 'action' => 'register']);
-Router::add('^login$', ['controller' => 'Auth', 'action' => 'login']);
-Router::add('^logout$', ['controller' => 'Auth', 'action' => 'logout']);
+Router::add('^(?P<language>[a-z-]+)/register$', ['controller' => 'Auth', 'action' => 'register']);
+Router::add('^(?P<language>[a-z-]+)/login$', ['controller' => 'Auth', 'action' => 'login']);
+Router::add('^(?P<language>[a-z-]+)/logout$', ['controller' => 'Auth', 'action' => 'logout']);
 // Admin dashboard
-Router::add('^admin$', ['controller' => 'Admin', 'action' => 'index', 'method' => 'GET']);
+Router::add('^(?P<language>[a-z-]+)/admin$', ['controller' => 'Admin', 'action' => 'index', 'method' => 'GET']);
 // User list for edit and delete
-Router::add('^admin/users$', ['controller' => 'User', 'action' => 'index', 'role' => 'Admin', 'method' => 'GET']);
-Router::add('^admin/users/edit/(\d+)$', ['controller' => 'User', 'action' => 'edit', 'role' => 'Admin', 'method' => 'GET']);
-Router::add('^admin/users/update$', ['controller' => 'User', 'action' => 'update', 'role' => 'Admin', 'method' => 'POST']);
-Router::add('^admin/users/delete$', ['controller' => 'User', 'action' => 'delete', 'role' => 'Admin', 'method' => 'POST']);
+Router::add('^(?P<language>[a-z-]+)/admin/users$', ['controller' => 'User', 'action' => 'index', 'role' => 'Admin', 'method' => 'GET']);
+Router::add('^(?P<language>[a-z-]+)/admin/users/edit/(\d+)$', ['controller' => 'User', 'action' => 'edit', 'role' => 'Admin', 'method' => 'GET']);
+Router::add('^(?P<language>[a-z-]+)/admin/users/update$', ['controller' => 'User', 'action' => 'update', 'role' => 'Admin', 'method' => 'POST']);
+Router::add('^(?P<language>[a-z-]+)/admin/users/delete$', ['controller' => 'User', 'action' => 'delete', 'role' => 'Admin', 'method' => 'POST']);
 // Reset password
-Router::add('^password/reset$', ['controller' => 'Auth', 'action' => 'showResetForm', 'method' => 'GET']);
-Router::add('^password/reset-request$', ['controller' => 'Auth', 'action' => 'sendResetLink', 'method' => 'POST']);
-Router::add('^password/new$', ['controller' => 'Auth', 'action' => 'showNewPasswordForm', 'method' => 'GET']);
-Router::add('^password/update$', ['controller' => 'Auth', 'action' => 'updatePassword', 'method' => 'POST']);
+Router::add('^(?P<language>[a-z-]+)/password/reset$', ['controller' => 'Auth', 'action' => 'showResetForm', 'method' => 'GET']);
+Router::add('^(?P<language>[a-z-]+)/password/reset-request$', ['controller' => 'Auth', 'action' => 'sendResetLink', 'method' => 'POST']);
+Router::add('^(?P<language>[a-z-]+)/password/new$', ['controller' => 'Auth', 'action' => 'showNewPasswordForm', 'method' => 'GET']);
+Router::add('^(?P<language>[a-z-]+)/password/update$', ['controller' => 'Auth', 'action' => 'updatePassword', 'method' => 'POST']);
 
 // Module Research
-Router::add('^research$', ['module' => 'Research', 'controller' => 'Research', 'action' => 'index']);
-Router::add('^research/(.+)$', ['module' => 'Research', 'controller' => 'Research', 'action' => 'view']);
+Router::add('^(?P<lang>[a-z-]+)/research$', ['module' => 'Research', 'controller' => 'Research', 'action' => 'index']);
+Router::add('^(?P<lang>[a-z-]+)/research/(.+)$', ['module' => 'Research', 'controller' => 'Research', 'action' => 'view']);
 
 // Module Social
-Router::add('^social$', ['module' => 'Social', 'controller' => 'Social', 'action' => 'index']);
-Router::add('^social/(.+)$', ['module' => 'Social', 'controller' => 'Social', 'action' => 'view']);
+Router::add('^(?P<lang>[a-z-]+)/social$', ['module' => 'Social', 'controller' => 'Social', 'action' => 'index']);
+Router::add('^(?P<lang>[a-z-]+)/social/(.+)$', ['module' => 'Social', 'controller' => 'Social', 'action' => 'view']);
 
 
 

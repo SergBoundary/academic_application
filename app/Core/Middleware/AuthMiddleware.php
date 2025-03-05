@@ -2,13 +2,16 @@
 
 namespace App\Core\Middleware;
 
+use App\Core\Services\LanguageService;
+
 class AuthMiddleware
 {
     public static function handle(): void
     {
         // Checking authorization
         if (!isset($_SESSION['user'])) { 
-            header("Location: /login");
+            $language = LanguageService::getCurrentLanguage();
+            header("Location: /{$language}/login");
             exit;
         }        
 

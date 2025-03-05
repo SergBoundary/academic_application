@@ -4,19 +4,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><?= $title ?  'AcApp : ' . $title : 'AcApp' ?></title>
+    <title><?= $header ?  'AcApp : ' . $header : 'AcApp' ?></title>
 </head>
 
 <body>
     <header>
-        <h4><a href="/research">Исследования</a> | <a href="/social">Соцсеть</a> | <a href="/logout">Выйти</a></h4>
-        <h4><a href="/">AcApp</a> / <?= htmlspecialchars($title) ?></h4>
+        <h4><a href="/<?= $language ?>/research"><?= __('research') ?></a> | <a href="/<?= $language ?>/social"><?= __('social_network') ?></a> | <a href="/<?= $language ?>/logout"><?= __('logout') ?></a></h4>
+        <h4><a href="/<?= $language ?>">AcApp</a> / <?= __($title) ?></h4>
     </header>
     <main>
         <?= $content ?? '' ?>
     </main>
     <footer>
-        <p>© 2024. Все права защищены.</p>
+        <p>© 2024. <?= __('all_rights_reserved') ?>.</p>
     </footer>
 </body>
 

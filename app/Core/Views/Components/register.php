@@ -1,11 +1,11 @@
-<h2><?= htmlspecialchars($title) ?></h2>
+<h2><?= __($title) ?></h2>
 <?php if (!empty($error)): ?>
     <p style="color: red;"><?= $error ?></p>
 <?php endif; ?>
 <form method="POST">
-    <input type="text" name="name" placeholder="Имя" required>
-    <input type="text" name="surname" placeholder="Фамилия">
+    <input type="text" name="name" placeholder="<?= __('name') ?>" required>
+    <input type="text" name="surname" placeholder="<?= __('surname') ?>">
     <input type="email" name="email" placeholder="Email" required>
-    <input type="password" name="password" placeholder="Пароль" required>
-    <button type="submit">Зарегистрироваться</button>
+    <input type="password" name="password" placeholder="<?= __('password') ?>" required>
+    <button type="submit"><?= __('sign_up') ?></button>
 </form>

@@ -2,11 +2,17 @@
 
 namespace App\Modules\Research\Http\Controllers;
 
+use App\Core\Models\Model;
+use App\Core\Services\LanguageService;
+
 class Controller
 {
-  public $title;
+    protected $language;
+    public $title;
 
-  public function __construct() {
-    $this->title = 'Research';
-  }
+    public function __construct()
+    {
+        $this->language = LanguageService::getCurrentLanguage();
+        $this->title = 'research';
+    }
 }
