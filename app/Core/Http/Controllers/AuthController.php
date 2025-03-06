@@ -82,7 +82,6 @@ class AuthController extends Controller
             }
         }
 
-        // var_dump($language);die;
         $view = new View('', '', 'login', compact('language', 'header', 'title', 'error'));
         $view->render();
     }
@@ -99,13 +98,16 @@ class AuthController extends Controller
     public function showResetForm()
     {
         $language = $this->language;
-        $view = new View('', '', 'password/reset', compact('language'));
+        $title = 'reset_password';
+        $view = new View('', '', 'password/reset', compact('language', 'title'));
         $view->render();
     }
 
     public function sendResetLink()
     {
         $language = $this->language;
+        $title = 'reset_password';
+        
         $email = $_POST['email'] ?? '';
         if (!$email) {
             die("Email обязателен!");
@@ -126,9 +128,9 @@ class AuthController extends Controller
         $body = "<p>Для сброса пароля перейдите по ссылке:</p> <p><a href='https://acapp.loc/{$language}/password/new?token=$token'>Сбросить пароль</a></p>";
         
         Mailer::send($email, $subject, $body);
-        echo "<p>Проверьте свою почту и перейдите по ссылке для сброса пароля.</p>";
-        echo "<p>Если письмо со ссылкой не пришло, то проверьте папку со спамом. Возможно, оно там.</p>";
-        echo '<p><a href="/{$language}/logout">Вернуться к форме входа</a></p>';
+        
+        $view = new View('', '', 'password/send_link', compact('language', 'title'));
+        $view->render();
     }
 
     public function showNewPasswordForm()

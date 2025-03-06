@@ -67,14 +67,14 @@ class User extends Model
     public function updatePasswordByEmail(string $email, string $hashedPassword): bool
     {
         return $this->execute(
-            "UPDATE users SET password = ? WHERE email = ?",
+            "UPDATE `users` SET `password` = ? WHERE `email` = ?",
             [$hashedPassword, $email]
         );
     }
 
     public function getPermissions(int $userId): array
     {
-        $sql = "SELECT permissions FROM users WHERE id = :id";
+        $sql = "SELECT `permissions` FROM `users` WHERE `id` = :id";
         $result = $this->query($sql, ['id' => $userId]);
 
         return !empty($result) ? json_decode($result[0]['permissions'], true) : [];

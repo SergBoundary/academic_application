@@ -23,8 +23,8 @@ class AuthMiddleware
         $url = $_SERVER['REQUEST_URI'];
         $userPermissions = $_SESSION['user']['permissions'] ?? [];
     
-        if (preg_match('#^/(research|social|private)#', $url, $matches)) {
-            $module = $matches[1];
+        if (preg_match('#^/(?P<language>[a-z-]+)/(?P<module>research|social|private)(/|$)#', $url, $matches)) {
+            $module = $matches['module'];
     
             if (empty($userPermissions[$module]) || !$userPermissions[$module]) {
                 die("У вас нет доступа к модулю: " . ucfirst($module));

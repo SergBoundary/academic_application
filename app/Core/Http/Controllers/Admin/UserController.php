@@ -11,10 +11,10 @@ class UserController extends Controller
 {
     public function index()
     {
-        MiddlewareService::run('auth'); // Checking authorization
-
         $language = $this->language;
         $title = 'users';
+
+        MiddlewareService::run('auth'); // Checking authorization
 
         $userModel = new User();
         $users = $userModel->getAllUsers();
@@ -25,10 +25,10 @@ class UserController extends Controller
 
     public function edit($id)
     {
-        MiddlewareService::run('auth'); // Checking authorization
-
         $language = $this->language;
         $title = 'user_properties';
+
+        MiddlewareService::run('auth'); // Checking authorization
 
         $userModel = new User();
         $user = $userModel->getById($id);

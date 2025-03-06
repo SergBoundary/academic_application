@@ -1,0 +1,10 @@
+.navbar {
+    border-radius: 0 0 15px 15px;
+    padding: 10px 20px;
+    font-size: 1.2rem;
+}
+
+.breadcrumb {
+    padding: 5px 40px;
+    font-size: 1.2rem;
+}

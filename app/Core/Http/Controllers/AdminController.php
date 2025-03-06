@@ -10,9 +10,9 @@ class AdminController extends Controller
 {
     public function index()
     {
+        $language = $this->language;
         MiddlewareService::run('auth'); // Checking authorization
 
-        $language = $this->language;
         if (!AuthMiddleware::checkRole('admin')) {
             echo "Доступ запрещен!";
             exit;
