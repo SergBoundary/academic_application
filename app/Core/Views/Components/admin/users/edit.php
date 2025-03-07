@@ -1,6 +1,6 @@
 <h2><?= __('editing_user_properties') ?>: <?= $user['name'] ?></h2>
 
-<form method="POST" action="/admin/users/update">
+<form method="POST" action="/<?= $language ?>/admin/users/update">
     <input type="hidden" name="id" value="<?= $user['id']; ?>">
 
     <label>Email</label>
@@ -8,7 +8,7 @@
     <br>
     <br>
 
-    <label><?= __('role') ?></label>
+    <label><?= __('role') ?>: </label>
     <select name="role">
         <option value="user" <?= $user['role'] === 'user' ? 'selected' : ''; ?>>User</option>
         <option value="admin" <?= $user['role'] === 'admin' ? 'selected' : ''; ?>>Admin</option>

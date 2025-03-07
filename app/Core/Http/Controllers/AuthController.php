@@ -58,9 +58,10 @@ class AuthController extends Controller
 
             $userModel = new User();
             $user = $userModel->getByEmail($email);
+            $userPassword = $userModel->getUserPassword($user['id']);
 
             // Проверка email с хешированым паролем
-            if (isset($user) && $email === $user['email'] && password_verify($password, $user['password'])) {
+            if (isset($user) && $email === $user['email'] && password_verify($password, $userPassword['password'])) {
                 // Загружаем права доступа
                 $permissions = $userModel->getPermissions($user['id']);
                 // Создаем сессию для пользователя и записываем в нее его свойства

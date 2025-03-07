@@ -6,6 +6,7 @@ use App\Core\Http\Controllers\Controller;
 use App\Core\Middleware\MiddlewareService;
 use App\Core\Models\User;
 use App\Core\Views\View;
+use App\Core\Services\RedisService;
 
 class UserController extends Controller
 {
@@ -47,7 +48,10 @@ class UserController extends Controller
 
     public function update()
     {
+        MiddlewareService::run('auth'); // Checking authorization
+
         $language = $this->language;
+
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $id = $_POST['id'];
             $email = $_POST['email'];
@@ -61,8 +65,18 @@ class UserController extends Controller
             $userModel = new User();
             $userModel->updateUser($id, $email, $role, $permissions);
 
+            $updatedUser = $userModel->getById($id);
+            // Обновляем кэш в Redis:
+            $redis = RedisService::getConnection();
+            $key = "user_data:{$id}";
+            // Сохраним данные в виде хэша:
+            $redis->hmset($key, $updatedUser);
+            // Установим TTL, например, 1 час:
+            $redis->expire($key, 3600);
+
             // Если админ редактирует сам себя — обновляем сессию
             if ($_SESSION['user']['id'] == $id) {
+                $_SESSION['user']['permissions'] = $permissions;
                 $_SESSION['user']['permissions'] = $permissions;
             }
 
@@ -74,7 +88,10 @@ class UserController extends Controller
 
     public function delete()
     {
+        MiddlewareService::run('auth'); // Checking authorization
+
         $language = $this->language;
+
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $id = $_POST['id'];
 

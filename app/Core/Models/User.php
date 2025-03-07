@@ -16,9 +16,16 @@ class User extends Model
 
     public function getByEmail(string $email): ?array
     {
-        $sql = "SELECT * FROM `users` WHERE `email` = :email LIMIT 1";
+        $sql = "SELECT `id`, `email`, `name`, `surname`, `role`, `permissions`, `updated_at` FROM `users` WHERE `email` = :email LIMIT 1";
         $result = $this->model->query($sql, ['email' => $email]);
         return $result ? $result[0] : null;
+    }
+
+    public function getUserPassword($id)
+    {
+        $sql = "SELECT `id`, `password` FROM `users` WHERE `id` = :id";
+        $result = $this->query($sql, ['id' => $id]);
+        return $result[0] ?? null;
     }
 
     public function createUser(string $name, string $surname, string $email, string $password): void
@@ -28,7 +35,7 @@ class User extends Model
             'name' => $name,
             'surname' => $surname,
             'email' => $email,
-            'password' => $password // Позже заменим на хеширование!
+            'password' => $password
         ]);
     }
 
@@ -40,21 +47,21 @@ class User extends Model
 
     public function getAllUsers(): array
     {
-        $sql = "SELECT `id`, `email`, `name`, `surname`, `role` FROM `users`";
+        $sql = "SELECT `id`, `email`, `name`, `surname`, `role`, `permissions` FROM `users`";
         $result = $this->model->query($sql);
         return $result;
     }
 
     public function getById($id)
     {
-        $sql = "SELECT * FROM `users` WHERE `id` = :id";
+        $sql = "SELECT `id`, `email`, `name`, `surname`, `role`, `permissions`, `updated_at` FROM `users` WHERE `id` = :id";
         $result = $this->query($sql, ['id' => $id]);
         return $result[0] ?? null;
     }
 
     public function updateUser($id, $email, $role, array $permissions)
     {
-        $sql = "UPDATE `users` SET `email` = :email, `role` = :role, permissions = :permissions WHERE `id` = :id";
+        $sql = "UPDATE `users` SET `email` = :email, `role` = :role, `permissions` = :permissions WHERE `id` = :id";
         return $this->execute($sql, ['id' => $id, 'email' => $email, 'role' => $role, 'permissions' => json_encode($permissions)]);
     }
 
