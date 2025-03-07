@@ -17,7 +17,7 @@
         <header>
             <nav class="navbar navbar-expand navbar-dark bg-dark">
                 <div class="container-fluid">
-                    <a class="navbar-brand" href="#">
+                    <a class="navbar-brand" href="/">
                         <img src="/img/layout/baseline_public_white_24dp.png" alt="" width="24" height="24" class="d-inline-block align-text-top">
                     </a>
                     <div class="collapse navbar-collapse" id="navbarNavAltMarkup">

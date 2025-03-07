@@ -28,11 +28,6 @@ class Router
         $languages = $_SESSION['languages'] ?? [];
         $found = false;
 
-        //     echo '<pre>';
-        // var_dump($langCode);
-        // var_dump($languages);
-        // var_dump($default);die;
-
         foreach ($languages as $lang) {
             if ($lang['code'] === $langCode) {
                 LanguageService::setCurrentLanguage($langCode);
@@ -40,24 +35,15 @@ class Router
                 break;
             }
         }
-        //     echo '<pre>';
-        // var_dump('found: ' . $found);
-        // var_dump('langCode: ' . $langCode);
+        
         if (!$found) {
             $segments = explode('/', trim($url, '/'));
-            // var_dump($segments);
             array_shift($segments);
-            // var_dump($segments);
             $newUrl = implode('/', $segments);
-            // var_dump($newUrl);
-            // die;
-            // array_splice($matches, 0, 2);
 
             header("Location: /{$default}/" . $newUrl);
             exit;
         }
-
-            // die;
 
         if (self::matchRoute($url)) {
             // Проверяем метод запроса (GET, POST и т. д.)

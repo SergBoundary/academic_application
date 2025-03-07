@@ -20,6 +20,13 @@ Router::add('^(?P<language>[a-z-]+)/admin/users$', ['controller' => 'User', 'act
 Router::add('^(?P<language>[a-z-]+)/admin/users/edit/(\d+)$', ['controller' => 'User', 'action' => 'edit', 'role' => 'Admin', 'method' => 'GET']);
 Router::add('^(?P<language>[a-z-]+)/admin/users/update$', ['controller' => 'User', 'action' => 'update', 'role' => 'Admin', 'method' => 'POST']);
 Router::add('^(?P<language>[a-z-]+)/admin/users/delete$', ['controller' => 'User', 'action' => 'delete', 'role' => 'Admin', 'method' => 'POST']);
+// Admin panel for translation management
+Router::add('^(?P<language>[a-z-]+)/admin/translations$', ['controller' => 'Translation', 'action' => 'index', 'role' => 'Admin', 'method' => 'GET']);
+Router::add('^(?P<language>[a-z-]+)/admin/translations/add$', ['controller' => 'Translation', 'action' => 'add', 'role' => 'Admin', 'method' => 'GET']);
+Router::add('^(?P<language>[a-z-]+)/admin/translations/create$', ['controller' => 'Translation', 'action' => 'create', 'role' => 'Admin', 'method' => 'POST']);
+Router::add('^(?P<language>[a-z-]+)/admin/translations/edit/([\w\-]+)$', ['controller' => 'Translation', 'action' => 'edit', 'role' => 'Admin', 'method' => 'GET']);
+Router::add('^(?P<language>[a-z-]+)/admin/translations/update$', ['controller' => 'Translation', 'action' => 'update', 'role' => 'Admin', 'method' => 'POST']);
+Router::add('^(?P<language>[a-z-]+)/admin/translations/delete$', ['controller' => 'Translation', 'action' => 'delete', 'role' => 'Admin', 'method' => 'POST']);
 
 // Module Research
 Router::add('^(?P<lang>[a-z-]+)/research$', ['module' => 'Research', 'controller' => 'Research', 'action' => 'index']);

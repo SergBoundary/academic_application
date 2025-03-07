@@ -11,24 +11,26 @@ class UserController extends Controller
 {
     public function index()
     {
+        MiddlewareService::run('auth'); // Checking authorization
+
         $language = $this->language;
         $title = 'users';
-
-        MiddlewareService::run('auth'); // Checking authorization
+        $header = __('users');
 
         $userModel = new User();
         $users = $userModel->getAllUsers();
 
-        $view = new View('', '', 'admin/users/index', compact('language', 'title', 'users'));
+        $view = new View('', '', 'admin/users/index', compact('language', 'header', 'title', 'users'));
         $view->render();
     }
 
     public function edit($id)
     {
+        MiddlewareService::run('auth'); // Checking authorization
+
         $language = $this->language;
         $title = 'user_properties';
-
-        MiddlewareService::run('auth'); // Checking authorization
+        $header = __('user_properties');
 
         $userModel = new User();
         $user = $userModel->getById($id);
@@ -39,7 +41,7 @@ class UserController extends Controller
         }
         $permissions = $userModel->getPermissions($id);
 
-        $view = new View('', '', 'admin/users/edit', compact('language', 'title', 'user', 'permissions'));
+        $view = new View('', '', 'admin/users/edit', compact('language', 'header', 'title', 'user', 'permissions'));
         $view->render();
     }
 

@@ -12,8 +12,8 @@
             <td><?= $user['email']; ?></td>
             <td><?= $user['role']; ?></td>
             <td>
-                <a href="/admin/users/edit/<?= $user['id']; ?>"><?= __('edit') ?></a>
-                <form method="POST" action="/admin/users/delete" style="display:inline;">
+                <a href="/<?= $language ?>/admin/users/edit/<?= $user['id']; ?>"><?= __('edit') ?></a>
+                <form method="POST" action="/<?= $language ?>/admin/users/delete" style="display:inline;">
                     <input type="hidden" name="id" value="<?= $user['id']; ?>">
                     <button type="submit"><?= __('delete') ?></button>
                 </form>

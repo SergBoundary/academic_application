@@ -13,8 +13,9 @@ class SocialController extends Controller
 
         $language = $this->language;
         $title = $this->title;
+        $header = __($this->title);
         
-        $view = new View('Social', '', 'index', compact('language', 'title'));
+        $view = new View('Social', '', 'index', compact('language', 'header', 'title'));
         $view->render();
     }
 }

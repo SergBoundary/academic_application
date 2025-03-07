@@ -13,3 +13,8 @@ if (!function_exists('isUserLoggedIn')) {
     }
 }
 
+if (!function_exists('debug')) {
+    function debug($arr) {
+        echo '<pre>'.print_r($arr, true).'</pre>';
+    }
+}
