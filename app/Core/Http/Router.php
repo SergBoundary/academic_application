@@ -35,7 +35,7 @@ class Router
                 break;
             }
         }
-        
+
         if (!$found) {
             $segments = explode('/', trim($url, '/'));
             array_shift($segments);
@@ -49,18 +49,18 @@ class Router
             // Проверяем метод запроса (GET, POST и т. д.)
             if (!isset(self::$route['method']) || $_SERVER['REQUEST_METHOD'] === strtoupper(self::$route['method'])) {
 
-                $module = isset(self::$route['module']) && self::$route['module']
-                    ? "Modules\\" . self::$route['module']
-                    : 'Core';
+                $module = self::$route['module'] ?? '';
+                $role = !empty(self::$route['role']) ? '\\' . self::$route['role'] : '';
                 $controller = self::$route['controller'] ?? 'Home';
                 $action = self::$route['action'] ?? 'index';
-                $role = self::$route['role'] ?? '';
                 $params = self::$route['params'] ?? [];
 
-                if ($role == 'Admin') {
-                    $controllerClass = "App\\$module\\Http\\Controllers\\Admin\\$controller" . "Controller";
-                } else {
-                    $controllerClass = "App\\$module\\Http\\Controllers\\$controller" . "Controller";
+                if ($module == "Api\\V1") {
+                    $controllerClass = "App\\Api\\V1\\Controllers{$role}\\$controller" . "Controller";
+                } elseif (!empty($module)) {
+                    $controllerClass = "App\\Modules\\$module\\Http\\Controllers{$role}\\$controller" . "Controller";
+                } elseif (empty($module)) {
+                    $controllerClass = "App\\Core\\Http\\Controllers{$role}\\$controller" . "Controller";
                 }
 
                 if (class_exists($controllerClass)) {

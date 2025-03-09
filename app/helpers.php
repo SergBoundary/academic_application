@@ -14,7 +14,10 @@ if (!function_exists('isUserLoggedIn')) {
 }
 
 if (!function_exists('debug')) {
-    function debug($arr) {
+    function debug($arr, $die = false) {
         echo '<pre>'.print_r($arr, true).'</pre>';
+        if ($die) {
+            die;
+        }
     }
 }

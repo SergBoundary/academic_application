@@ -29,12 +29,18 @@ Router::add('^(?P<language>[a-z-]+)/admin/translations/update$', ['controller' =
 Router::add('^(?P<language>[a-z-]+)/admin/translations/delete$', ['controller' => 'Translation', 'action' => 'delete', 'role' => 'Admin', 'method' => 'POST']);
 
 // Module Research
-Router::add('^(?P<lang>[a-z-]+)/research$', ['module' => 'Research', 'controller' => 'Research', 'action' => 'index']);
-Router::add('^(?P<lang>[a-z-]+)/research/(.+)$', ['module' => 'Research', 'controller' => 'Research', 'action' => 'view']);
+Router::add('^(?P<language>[a-z-]+)/research$', ['module' => 'Research', 'controller' => 'Research', 'action' => 'index']);
+Router::add('^(?P<language>[a-z-]+)/research/(.+)$', ['module' => 'Research', 'controller' => 'Research', 'action' => 'view']);
 
 // Module Social
-Router::add('^(?P<lang>[a-z-]+)/social$', ['module' => 'Social', 'controller' => 'Social', 'action' => 'index']);
-Router::add('^(?P<lang>[a-z-]+)/social/(.+)$', ['module' => 'Social', 'controller' => 'Social', 'action' => 'view']);
+Router::add('^(?P<language>[a-z-]+)/social$', ['module' => 'Social', 'controller' => 'Social', 'action' => 'index']);
+Router::add('^(?P<language>[a-z-]+)/social/(.+)$', ['module' => 'Social', 'controller' => 'Social', 'action' => 'view']);
+
+// API для аутентификации
+Router::add('^(?P<language>[a-z-]+)/api/v1/login$', ['module' => 'Api\\V1', 'controller' => 'Auth', 'action' => 'login', 'method' => 'POST']);
+// Пример API для получения списка пользователей (защищенный эндпоинт)
+Router::add('^(?P<language>[a-z-]+)/api/v1/users$', ['module' => 'Api\\V1', 'controller' => 'User', 'action' => 'index', 'method' => 'GET']);
+Router::add('^(?P<language>[a-z-]+)/api/v1/users/update$', ['module' => 'Api\\V1', 'controller' => 'User', 'action' => 'update', 'method' => 'POST']);
 
 
 
