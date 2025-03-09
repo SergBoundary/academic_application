@@ -59,10 +59,10 @@ class User extends Model
         return $result[0] ?? null;
     }
 
-    public function updateUser($id, $email, $role, array $permissions)
+    public function updateUser($id, $email, $name, $surname, $role, array $permissions)
     {
-        $sql = "UPDATE `users` SET `email` = :email, `role` = :role, `permissions` = :permissions WHERE `id` = :id";
-        return $this->execute($sql, ['id' => $id, 'email' => $email, 'role' => $role, 'permissions' => json_encode($permissions)]);
+        $sql = "UPDATE `users` SET `email` = :email, `name` = :name, `surname` = :surname, `role` = :role, `permissions` = :permissions WHERE `id` = :id";
+        return $this->execute($sql, ['id' => $id, 'email' => $email, 'name' => $name, 'surname' => $surname, 'role' => $role, 'permissions' => json_encode($permissions)]);
     }
 
     public function deleteUser($id)
