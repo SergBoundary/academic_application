@@ -53,7 +53,7 @@ class Router
                 $role = !empty(self::$route['role']) ? '\\' . self::$route['role'] : '';
                 $controller = self::$route['controller'] ?? 'Home';
                 $action = self::$route['action'] ?? 'index';
-                $params = self::$route['params'] ?? [];
+                $params = array_values(self::$route['params'] ?? []);
 
                 if ($module == "Api\\V1") {
                     $controllerClass = "App\\Api\\V1\\Controllers{$role}\\$controller" . "Controller";
@@ -90,8 +90,14 @@ class Router
                             $route[$key] = $value;
                         }
                     }
-                    array_splice($matches, 0, 3);
-                    $route['params'] = $matches; // Добавляем параметры
+                    $params = [];
+                    foreach ($matches as $key => $value) {
+                        if (is_string($key)) {
+                            $params[$key] = $value;
+                        }
+                    }
+                    array_splice($params, 0, 1);
+                    $route['params'] = array_values($params); // Добавляем параметры
                     self::$route = $route;
                     return true;
                 }

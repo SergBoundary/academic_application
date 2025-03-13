@@ -55,6 +55,8 @@ class UserController extends Controller
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $id = $_POST['id'];
             $email = $_POST['email'];
+            $name = $_POST['name'];
+            $surname = $_POST['surname'];
             $role = $_POST['role'];
             $permissions = [
                 'research' => isset($_POST['research']),
@@ -63,7 +65,7 @@ class UserController extends Controller
             ];
 
             $userModel = new User();
-            $userModel->updateUser($id, $email, $role, $permissions);
+            $userModel->updateUser($id, $email, $name, $surname, $role, $permissions);
 
             $updatedUser = $userModel->getById($id);
             // Обновляем кэш в Redis:

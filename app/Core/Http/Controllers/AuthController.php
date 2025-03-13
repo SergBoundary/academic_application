@@ -31,9 +31,11 @@ class AuthController extends Controller
                 if ($existingUser) {
                     $error = "Этот email уже зарегистрирован!";
                 } else {
+                    // Генерируем `username`
+                    $username = $userModel->generateUsername($name, $surname);
                     // Хешируем пароль перед сохранением
                     $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
-                    $userModel->createUser($name, $surname, $email, $hashedPassword);
+                    $userModel->createUser($username, $name, $surname, $email, $hashedPassword);
 
                     header("Location: /{$language}/login");
                     exit;
@@ -108,7 +110,7 @@ class AuthController extends Controller
     {
         $language = $this->language;
         $title = 'reset_password';
-        
+
         $email = $_POST['email'] ?? '';
         if (!$email) {
             die("Email обязателен!");
@@ -125,11 +127,11 @@ class AuthController extends Controller
         $resetModel->createResetToken($email, $token);
 
         // Отправляем ссылку на email
-        $subject = 'Восстановление пароля'; 
+        $subject = 'Восстановление пароля';
         $body = "<p>Для сброса пароля перейдите по ссылке:</p> <p><a href='https://acapp.loc/{$language}/password/new?token=$token'>Сбросить пароль</a></p>";
-        
+
         Mailer::send($email, $subject, $body);
-        
+
         $view = new View('', '', 'password/send_link', compact('language', 'title'));
         $view->render();
     }

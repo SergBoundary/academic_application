@@ -16,8 +16,16 @@ class User extends Model
 
     public function getByEmail(string $email): ?array
     {
-        $sql = "SELECT `id`, `email`, `name`, `surname`, `role`, `permissions`, `updated_at` FROM `users` WHERE `email` = :email LIMIT 1";
+        $sql = "SELECT `id`, `username`, `email`, `name`, `surname`, `role`, `permissions`, `updated_at` FROM `users` WHERE `email` = :email LIMIT 1";
         $result = $this->model->query($sql, ['email' => $email]);
+        return $result ? $result[0] : null;
+    }
+
+    public function getUserByUsername(string $username): ?array
+    {
+        // debug($username, 0);
+        $sql = "SELECT `id`, `username`, `email`, `name`, `surname`, `role`, `permissions`, `avatar`, `updated_at` FROM `users` WHERE `username` = :username LIMIT 1";
+        $result = $this->model->query($sql, ['username' => $username]);
         return $result ? $result[0] : null;
     }
 
@@ -28,10 +36,11 @@ class User extends Model
         return $result[0] ?? null;
     }
 
-    public function createUser(string $name, string $surname, string $email, string $password): void
+    public function createUser(string $username, string $name, string $surname, string $email, string $password): void
     {
-        $sql = "INSERT INTO `users` (`name`, `surname`, `email`, `password`) VALUES (:name, :surname, :email, :password)";
+        $sql = "INSERT INTO `users` (`username`, `name`, `surname`, `email`, `password`) VALUES (:username, :name, :surname, :email, :password)";
         $this->model->execute($sql, [
+            'name' => $username,
             'name' => $name,
             'surname' => $surname,
             'email' => $email,
@@ -79,11 +88,42 @@ class User extends Model
         );
     }
 
+    public function updateProfile($id, $name, $surname, $avatar)
+    {
+        $sql = "UPDATE users SET name = :name, surname = :surname, avatar = :avatar WHERE id = :id";
+        return $this->execute($sql, ['id' => $id, 'name' => $name, 'surname' => $surname, 'avatar' => $avatar]);
+    }
+
+
     public function getPermissions(int $userId): array
     {
         $sql = "SELECT `permissions` FROM `users` WHERE `id` = :id";
         $result = $this->query($sql, ['id' => $userId]);
 
         return !empty($result) ? json_decode($result[0]['permissions'], true) : [];
+    }
+
+    public function generateUsername($name, $surname)
+    {
+        // Транслитерация
+        $baseUsername = strtolower(trim(preg_replace('/[^a-zA-Z0-9]+/', '-', "$name-$surname"), '-'));
+
+        // Проверяем, свободен ли `username`
+        $username = $baseUsername;
+        $counter = 1;
+        while ($this->usernameExists($username)) {
+            $username = $baseUsername . '-' . $counter;
+            $counter++;
+        }
+
+        return $username;
+    }
+
+    // Проверка существования `username`
+    private function usernameExists($username)
+    {
+        $sql = "SELECT id FROM users WHERE username = :username";
+        $result = $this->query($sql, ['username' => $username]);
+        return !empty($result);
     }
 }
