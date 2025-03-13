@@ -50,6 +50,7 @@ Router::add('^(?P<language>[a-z-]+)/?(?P<username>[a-z0-9-]+)?$', ['controller' 
 Router::add('^(?P<language>[a-z-]+)/?(?P<username>[a-z0-9-]+)/?profile$', ['controller' => 'UserProfile', 'action' => 'index']);
 Router::add('^(?P<language>[a-z-]+)/(?P<username>[a-z0-9-]+)/edit-profile$', ['controller' => 'UserProfile', 'action' => 'edit', 'method' => 'GET']);
 Router::add('^(?P<language>[a-z-]+)/(?P<username>[a-z0-9-]+)/update-profile$', ['controller' => 'UserProfile', 'action' => 'update', 'method' => 'POST']);
+Router::add('^(?P<language>[a-z-]+)/(?P<username>[a-z0-9-]+)/delete-account$', ['controller' => 'UserProfile', 'action' => 'delete', 'method' => 'POST']);
 
 
 

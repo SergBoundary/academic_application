@@ -14,6 +14,13 @@ class User extends Model
         $this->model = new Model();
     }
 
+    public function getAllUsers(): array
+    {
+        $sql = "SELECT `id`, `username`, `email`, `name`, `surname`, `role`, `permissions`, `updated_at` FROM `users`";
+        $result = $this->model->query($sql);
+        return $result;
+    }
+
     public function getByEmail(string $email): ?array
     {
         $sql = "SELECT `id`, `username`, `email`, `name`, `surname`, `role`, `permissions`, `updated_at` FROM `users` WHERE `email` = :email LIMIT 1";
@@ -29,6 +36,13 @@ class User extends Model
         return $result ? $result[0] : null;
     }
 
+    public function getById($id)
+    {
+        $sql = "SELECT `id`, `username`, `email`, `name`, `surname`, `role`, `permissions`, `updated_at` FROM `users` WHERE `id` = :id";
+        $result = $this->query($sql, ['id' => $id]);
+        return $result[0] ?? null;
+    }
+
     public function getUserPassword($id)
     {
         $sql = "SELECT `id`, `password` FROM `users` WHERE `id` = :id";
@@ -40,7 +54,7 @@ class User extends Model
     {
         $sql = "INSERT INTO `users` (`username`, `name`, `surname`, `email`, `password`) VALUES (:username, :name, :surname, :email, :password)";
         $this->model->execute($sql, [
-            'name' => $username,
+            'username' => $username,
             'name' => $name,
             'surname' => $surname,
             'email' => $email,
@@ -52,20 +66,6 @@ class User extends Model
     {
         $sql = "UPDATE `users` SET `role` = :role WHERE `id` = :id";
         $this->model->execute($sql, ['role' => $role, 'id' => $userId]);
-    }
-
-    public function getAllUsers(): array
-    {
-        $sql = "SELECT `id`, `email`, `name`, `surname`, `role`, `permissions` FROM `users`";
-        $result = $this->model->query($sql);
-        return $result;
-    }
-
-    public function getById($id)
-    {
-        $sql = "SELECT `id`, `email`, `name`, `surname`, `role`, `permissions`, `updated_at` FROM `users` WHERE `id` = :id";
-        $result = $this->query($sql, ['id' => $id]);
-        return $result[0] ?? null;
     }
 
     public function updateUser($id, $email, $name, $surname, $role, array $permissions)
