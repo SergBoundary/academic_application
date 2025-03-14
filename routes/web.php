@@ -5,13 +5,13 @@ use App\Core\Http\Router;
 // Module Core
 Router::add('^(?P<language>[a-z-]+)$', ['controller' => 'Home', 'action' => 'index']);
 // Authentification
-Router::add('^(?P<language>[a-z-]+)/register$', ['controller' => 'Auth', 'action' => 'register']);
-Router::add('^(?P<language>[a-z-]+)/login$', ['controller' => 'Auth', 'action' => 'login']);
+Router::add('^(?P<language>[a-z-]+)/register$', ['controller' => 'Auth', 'action' => 'register', 'middleware' => 'guest']);
+Router::add('^(?P<language>[a-z-]+)/login$', ['controller' => 'Auth', 'action' => 'login', 'middleware' => 'guest']);
 Router::add('^(?P<language>[a-z-]+)/logout$', ['controller' => 'Auth', 'action' => 'logout']);
 // Reset password
-Router::add('^(?P<language>[a-z-]+)/password/reset$', ['controller' => 'Auth', 'action' => 'showResetForm', 'method' => 'GET']);
+Router::add('^(?P<language>[a-z-]+)/password/reset$', ['controller' => 'Auth', 'action' => 'showResetForm', 'method' => 'GET', 'middleware' => 'guest']);
 Router::add('^(?P<language>[a-z-]+)/password/reset-request$', ['controller' => 'Auth', 'action' => 'sendResetLink', 'method' => 'POST']);
-Router::add('^(?P<language>[a-z-]+)/password/new$', ['controller' => 'Auth', 'action' => 'showNewPasswordForm', 'method' => 'GET']);
+Router::add('^(?P<language>[a-z-]+)/password/new$', ['controller' => 'Auth', 'action' => 'showNewPasswordForm', 'method' => 'GET', 'middleware' => 'guest']);
 Router::add('^(?P<language>[a-z-]+)/password/update$', ['controller' => 'Auth', 'action' => 'updatePassword', 'method' => 'POST']);
 
 // Admin dashboard
@@ -27,7 +27,7 @@ Router::add('^(?P<language>[a-z-]+)/admin/messages$', ['controller' => 'Message'
 Router::add('^(?P<language>[a-z-]+)/admin/translations$', ['controller' => 'Translation', 'action' => 'index', 'role' => 'Admin', 'method' => 'GET']);
 Router::add('^(?P<language>[a-z-]+)/admin/translations/add$', ['controller' => 'Translation', 'action' => 'add', 'role' => 'Admin', 'method' => 'GET']);
 Router::add('^(?P<language>[a-z-]+)/admin/translations/create$', ['controller' => 'Translation', 'action' => 'create', 'role' => 'Admin', 'method' => 'POST']);
-Router::add('^(?P<language>[a-z-]+)/admin/translations/edit/([\w\-]+)$', ['controller' => 'Translation', 'action' => 'edit', 'role' => 'Admin', 'method' => 'GET']);
+Router::add('^(?P<language>[a-z-]+)/admin/translations/edit/?(?P<key>[\w\-]+)$', ['controller' => 'Translation', 'action' => 'edit', 'role' => 'Admin', 'method' => 'GET']);
 Router::add('^(?P<language>[a-z-]+)/admin/translations/update$', ['controller' => 'Translation', 'action' => 'update', 'role' => 'Admin', 'method' => 'POST']);
 Router::add('^(?P<language>[a-z-]+)/admin/translations/delete$', ['controller' => 'Translation', 'action' => 'delete', 'role' => 'Admin', 'method' => 'POST']);
 
@@ -49,7 +49,7 @@ Router::add('^(?P<language>[a-z-]+)/api/v1/users/update$', ['module' => 'Api\\V1
 // User dashboard
 Router::add('^(?P<language>[a-z-]+)/?(?P<username>[a-z0-9-]+)?$', ['controller' => 'User', 'action' => 'index', 'method' => 'GET']);
 // User Profile for edit and delete
-Router::add('^(?P<language>[a-z-]+)/?(?P<username>[a-z0-9-]+)/?profile$', ['controller' => 'UserProfile', 'action' => 'index']);
+Router::add('^(?P<language>[a-z-]+)/(?P<username>[a-z0-9-]+)/profile$', ['controller' => 'UserProfile', 'action' => 'index']);
 Router::add('^(?P<language>[a-z-]+)/(?P<username>[a-z0-9-]+)/edit-profile$', ['controller' => 'UserProfile', 'action' => 'edit', 'method' => 'GET']);
 Router::add('^(?P<language>[a-z-]+)/(?P<username>[a-z0-9-]+)/update-profile$', ['controller' => 'UserProfile', 'action' => 'update', 'method' => 'POST']);
 Router::add('^(?P<language>[a-z-]+)/(?P<username>[a-z0-9-]+)/delete-account$', ['controller' => 'UserProfile', 'action' => 'delete', 'method' => 'POST']);

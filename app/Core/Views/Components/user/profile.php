@@ -11,7 +11,7 @@ $avatarUrl = $avatarFile . "?v=" . time(); // Добавляем timestamp
 <p>Email: <strong><?= htmlspecialchars($user['email']) ?></strong></p>
 <p><?= __('role') ?>: <strong><?= htmlspecialchars($user['role']) ?></strong></p>
 
-<?php if ($_SESSION['user']['id'] == $user['id']): ?>
+<?php if (isset($_SESSION['user']) && $_SESSION['user']['id'] == $user['id']): ?>
     <a href="/<?= $language ?>/<?= $user['username'] ?>/edit-profile"><?= __('edit_profile') ?></a>
     <form action="/<?= $language ?>/<?= $user['username'] ?>/delete-account" method="POST" onsubmit="return confirm('Вы уверены, что хотите удалить аккаунт?');">
         <button type="submit" style="color: red;"><?= __('delete_account') ?></button>

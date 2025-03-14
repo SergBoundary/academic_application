@@ -102,7 +102,9 @@ class AuthController extends Controller
     {
         $language = $this->language;
         $title = 'reset_password';
-        $view = new View('', '', 'password/reset', compact('language', 'title'));
+        $header = __('reset_password');
+        
+        $view = new View('', '', 'password/reset', compact('language', 'header', 'title'));
         $view->render();
     }
 
@@ -110,6 +112,7 @@ class AuthController extends Controller
     {
         $language = $this->language;
         $title = 'reset_password';
+        $header = __('reset_password');
 
         $email = $_POST['email'] ?? '';
         if (!$email) {
@@ -132,14 +135,17 @@ class AuthController extends Controller
 
         Mailer::send($email, $subject, $body);
 
-        $view = new View('', '', 'password/send_link', compact('language', 'title'));
+        $view = new View('', '', 'password/send_link', compact('language', 'header', 'title'));
         $view->render();
     }
 
     public function showNewPasswordForm()
     {
         $language = $this->language;
-        $view = new View('', '', 'password/new', compact('language'));
+        $title = 'new_password';
+        $header = __('new_password');
+
+        $view = new View('', '', 'password/new', compact('language', 'header', 'title'));
         $view->render();
     }
 

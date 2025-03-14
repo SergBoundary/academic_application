@@ -3,6 +3,7 @@
 namespace App\Core\Http;
 
 use App\Core\Services\LanguageService;
+use App\Core\Middleware\MiddlewareService;
 
 class Router
 {
@@ -48,6 +49,11 @@ class Router
         if (self::matchRoute($url)) {
             // Проверяем метод запроса (GET, POST и т. д.)
             if (!isset(self::$route['method']) || $_SERVER['REQUEST_METHOD'] === strtoupper(self::$route['method'])) {
+
+                // 🟢 Обрабатываем Middleware перед загрузкой контроллера
+                if (!empty(self::$route['middleware'])) {
+                    MiddlewareService::run(self::$route['middleware']);
+                }
 
                 $module = self::$route['module'] ?? '';
                 $role = !empty(self::$route['role']) ? '\\' . self::$route['role'] : '';

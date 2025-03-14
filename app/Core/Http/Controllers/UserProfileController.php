@@ -11,8 +11,6 @@ class UserProfileController extends Controller
 {
     public function index($username)
     {
-        MiddlewareService::run('auth'); // Checking authorization
-
         $language = $this->language;
 
         $userModel = new User();

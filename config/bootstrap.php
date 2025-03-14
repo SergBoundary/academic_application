@@ -3,6 +3,7 @@
 use App\Core\Services\DatabaseService;
 use App\Core\Services\LanguageService;
 use App\Core\Middleware\MiddlewareService;
+use App\Core\Middleware\GuestMiddleware;
 use App\Core\Middleware\AuthMiddleware;
 use App\Core\Middleware\PermissionMiddleware;
 use App\Core\Middleware\CsrfMiddleware;
@@ -26,6 +27,7 @@ LanguageService::loadLanguages();
 require_once ROOT . '/routes/web.php';
 
 // Регистрируем middleware
+MiddlewareService::add('guest', [GuestMiddleware::class, 'handle']);
 MiddlewareService::add('auth', [AuthMiddleware::class, 'handle']);
 MiddlewareService::add('permission', [PermissionMiddleware::class, 'handle']);
 MiddlewareService::add('csrf', function () {
