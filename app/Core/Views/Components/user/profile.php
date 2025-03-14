@@ -16,4 +16,10 @@ $avatarUrl = $avatarFile . "?v=" . time(); // Добавляем timestamp
     <form action="/<?= $language ?>/<?= $user['username'] ?>/delete-account" method="POST" onsubmit="return confirm('Вы уверены, что хотите удалить аккаунт?');">
         <button type="submit" style="color: red;"><?= __('delete_account') ?></button>
     </form>
+
+    <h3><?= __('contact_admin') ?></h3>
+    <form action="/<?= $language ?>/<?= $user['username'] ?>/send-message" method="POST">
+        <textarea name="message" placeholder="Введите ваше сообщение" required></textarea>
+        <button type="submit">Отправить</button>
+    </form>
 <?php endif; ?>

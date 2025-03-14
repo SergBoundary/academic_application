@@ -4,6 +4,7 @@ namespace App\Core\Http\Controllers;
 
 use App\Core\Views\View;
 use App\Core\Models\User;
+use App\Core\Models\Message;
 use App\Core\Middleware\MiddlewareService;
 
 class UserProfileController extends Controller
@@ -143,6 +144,47 @@ class UserProfileController extends Controller
         header("Location: /$language/");
         exit;
     }
+
+    public function sendMessage($username)
+    {
+        MiddlewareService::run('auth'); // Checking authorization
+
+        $language = $this->language;
+
+        // Получаем пользователя
+        $userModel = new User();
+        $user = $userModel->getUserByUsername($username);
+
+        if (!$user) {
+            http_response_code(404);
+            echo "Пользователь не найден!";
+            exit;
+        }
+
+        // Проверяем, что отправляет СВОЙ профиль
+        if ($_SESSION['user']['id'] != $user['id']) {
+            http_response_code(403);
+            echo "Доступ запрещен!";
+            exit;
+        }
+
+        // Получаем текст сообщения
+        $messageText = trim($_POST['message'] ?? '');
+
+        if (empty($messageText)) {
+            echo "Ошибка: Сообщение не может быть пустым!";
+            exit;
+        }
+
+        // Сохраняем сообщение в БД
+        $messageModel = new Message();
+        $messageModel->saveMessage($user['id'], $user['email'], $messageText);
+
+        // Перенаправляем обратно на профиль
+        header("Location: /$language/$username/profile?success=1");
+        exit;
+    }
+
 
     // Метод загрузки аватара
     private function uploadAvatar($file, $userId)
