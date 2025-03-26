@@ -6,6 +6,14 @@
     <label>Email</label>
     <input type="email" name="email" value="<?= $user['email']; ?>" required>
     <br>
+
+    <label><?= __('name') ?></label>
+    <input type="text" name="name" value="<?= $user['name']; ?>" required>
+    <br>
+
+    <label><?= __('surname') ?></label>
+    <input type="text" name="surname" value="<?= $user['surname']; ?>">
+    <br>
     <br>
 
     <label><?= __('role') ?>: </label>
@@ -23,8 +31,8 @@
     <br>
 
     <label>
-        <input type="checkbox" name="social" <?= isset($permissions['social']) && $permissions['social'] ? 'checked' : '' ?>>
-        <?= __('module') ?> "Social"
+        <input type="checkbox" name="discussion" <?= isset($permissions['discussion']) && $permissions['discussion'] ? 'checked' : '' ?>>
+        <?= __('module') ?> "Discussion"
     </label>
     <br>
 

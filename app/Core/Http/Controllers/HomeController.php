@@ -10,8 +10,6 @@ class HomeController extends Controller
 {
     public function index()
     {
-        // MiddlewareService::run('auth'); // Checking authorization
-
         $language = $this->language;
         $module = '';
         $layout = '';

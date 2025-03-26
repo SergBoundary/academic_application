@@ -13,6 +13,5 @@ class Controller
     public function __construct()
     {
         $this->language = LanguageService::getCurrentLanguage();
-        $this->title = 'research';
     }
 }

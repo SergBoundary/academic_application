@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Modules\Social\Http\Controllers;
+namespace App\Modules\Discussion\Http\Controllers;
 
 use App\Core\Models\Model;
 use App\Core\Services\LanguageService;
@@ -13,6 +13,5 @@ class Controller
     public function __construct()
     {
         $this->language = LanguageService::getCurrentLanguage();
-        $this->title = 'social_network';
     }
 }

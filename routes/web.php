@@ -31,14 +31,12 @@ Router::add('^(?P<language>[a-z-]+)/admin/translations/edit/?(?P<key>[\w\-]+)$',
 Router::add('^(?P<language>[a-z-]+)/admin/translations/update$', ['controller' => 'Translation', 'action' => 'update', 'role' => 'Admin', 'method' => 'POST']);
 Router::add('^(?P<language>[a-z-]+)/admin/translations/delete$', ['controller' => 'Translation', 'action' => 'delete', 'role' => 'Admin', 'method' => 'POST']);
 
-
 // Module Research
-Router::add('^(?P<language>[a-z-]+)/research$', ['module' => 'Research', 'controller' => 'Research', 'action' => 'index']);
-Router::add('^(?P<language>[a-z-]+)/research/(.+)$', ['module' => 'Research', 'controller' => 'Research', 'action' => 'view']);
-
-// Module Social
-Router::add('^(?P<language>[a-z-]+)/social$', ['module' => 'Social', 'controller' => 'Social', 'action' => 'index']);
-Router::add('^(?P<language>[a-z-]+)/social/(.+)$', ['module' => 'Social', 'controller' => 'Social', 'action' => 'view']);
+Router::add('^(?P<language>[a-z-]+)/research$', ['module' => 'Research', 'controller' => 'ResearchHome', 'action' => 'index', 'method' => 'GET']);
+Router::add('^(?P<language>[a-z-]+)/research/(?P<id>\d+)$', ['module' => 'Research', 'controller' => 'ResearchHome', 'action' => 'view', 'method' => 'GET']);
+// Module Discussion
+Router::add('^(?P<language>[a-z-]+)/discussion$', ['module' => 'Discussion', 'controller' => 'DiscussionHome', 'action' => 'index', 'method' => 'GET']);
+Router::add('^(?P<language>[a-z-]+)/discussion/(?P<id>\d+)$', ['module' => 'Discussion', 'controller' => 'DiscussionHome', 'action' => 'view', 'method' => 'GET']);
 
 // API для аутентификации
 Router::add('^(?P<language>[a-z-]+)/api/v1/login$', ['module' => 'Api\\V1', 'controller' => 'Auth', 'action' => 'login', 'method' => 'POST']);
@@ -47,13 +45,30 @@ Router::add('^(?P<language>[a-z-]+)/api/v1/users$', ['module' => 'Api\\V1', 'con
 Router::add('^(?P<language>[a-z-]+)/api/v1/users/update$', ['module' => 'Api\\V1', 'controller' => 'User', 'action' => 'update', 'method' => 'POST']);
 
 // User dashboard
-Router::add('^(?P<language>[a-z-]+)/?(?P<username>[a-z0-9-]+)?$', ['controller' => 'User', 'action' => 'index', 'method' => 'GET']);
+Router::add('^(?P<language>[a-z-]+)/?(?P<username>[a-z0-9-]+)?$', ['controller' => 'User', 'action' => 'index', 'role' => 'User', 'method' => 'GET']);
 // User Profile for edit and delete
-Router::add('^(?P<language>[a-z-]+)/(?P<username>[a-z0-9-]+)/profile$', ['controller' => 'UserProfile', 'action' => 'index']);
+Router::add('^(?P<language>[a-z-]+)/(?P<username>[a-z0-9-]+)/profile$', ['controller' => 'UserProfile', 'action' => 'index', 'method' => 'GET']);
 Router::add('^(?P<language>[a-z-]+)/(?P<username>[a-z0-9-]+)/edit-profile$', ['controller' => 'UserProfile', 'action' => 'edit', 'method' => 'GET']);
 Router::add('^(?P<language>[a-z-]+)/(?P<username>[a-z0-9-]+)/update-profile$', ['controller' => 'UserProfile', 'action' => 'update', 'method' => 'POST']);
 Router::add('^(?P<language>[a-z-]+)/(?P<username>[a-z0-9-]+)/delete-account$', ['controller' => 'UserProfile', 'action' => 'delete', 'method' => 'POST']);
 Router::add('^(?P<language>[a-z-]+)/(?P<username>[a-z0-9-]+)/send-message$', ['controller' => 'UserProfile', 'action' => 'sendMessage', 'method' => 'POST']);
+// User Research posts for edit and delete
+Router::add('^(?P<language>[a-z-]+)/(?P<username>[a-z0-9-]+)/research$', ['module' => 'Research', 'controller' => 'UserResearchPost', 'action' => 'index', 'method' => 'GET']);
+Router::add('^(?P<language>[a-z-]+)/(?P<username>[a-z0-9-]+)/research/create$', ['module' => 'Research', 'controller' => 'UserResearchPost', 'action' => 'create', 'method' => 'GET']);
+Router::add('^(?P<language>[a-z-]+)/(?P<username>[a-z0-9-]+)/research/store$', ['module' => 'Research', 'controller' => 'UserResearchPost', 'action' => 'store', 'method' => 'POST']);
+Router::add('^(?P<language>[a-z-]+)/(?P<username>[a-z0-9-]+)/research/(?P<id>\d+)$', ['module' => 'Research', 'controller' => 'UserResearchPost', 'action' => 'view', 'method' => 'GET']);
+Router::add('^(?P<language>[a-z-]+)/(?P<username>[a-z0-9-]+)/research/(?P<id>\d+)/edit$', ['module' => 'Research', 'controller' => 'UserResearchPost', 'action' => 'edit', 'method' => 'GET']);
+Router::add('^(?P<language>[a-z-]+)/(?P<username>[a-z0-9-]+)/research/(?P<id>\d+)/update$', ['module' => 'Research', 'controller' => 'UserResearchPost', 'action' => 'update', 'method' => 'POST']);
+Router::add('^(?P<language>[a-z-]+)/(?P<username>[a-z0-9-]+)/research/(?P<id>\d+)/delete$', ['module' => 'Research', 'controller' => 'UserResearchPost', 'action' => 'delete', 'method' => 'POST']);
+// User Discussion posts for edit and delete
+Router::add('^(?P<language>[a-z-]+)/(?P<username>[a-z0-9-]+)/discussion$', ['module' => 'Discussion', 'controller' => 'UserDiscussionPost', 'action' => 'index', 'method' => 'GET']);
+Router::add('^(?P<language>[a-z-]+)/(?P<username>[a-z0-9-]+)/discussion/create$', ['module' => 'Discussion', 'controller' => 'UserDiscussionPost', 'action' => 'create', 'method' => 'GET']);
+Router::add('^(?P<language>[a-z-]+)/(?P<username>[a-z0-9-]+)/discussion/store$', ['module' => 'Discussion', 'controller' => 'UserDiscussionPost', 'action' => 'store', 'method' => 'POST']);
+Router::add('^(?P<language>[a-z-]+)/(?P<username>[a-z0-9-]+)/discussion/(?P<id>\d+)$', ['module' => 'Discussion', 'controller' => 'UserDiscussionPost', 'action' => 'view', 'method' => 'GET']);
+Router::add('^(?P<language>[a-z-]+)/(?P<username>[a-z0-9-]+)/discussion/(?P<id>\d+)/edit$', ['module' => 'Discussion', 'controller' => 'UserDiscussionPost', 'action' => 'edit', 'method' => 'GET']);
+Router::add('^(?P<language>[a-z-]+)/(?P<username>[a-z0-9-]+)/discussion/(?P<id>\d+)/update$', ['module' => 'Discussion', 'controller' => 'UserDiscussionPost', 'action' => 'update', 'method' => 'POST']);
+Router::add('^(?P<language>[a-z-]+)/(?P<username>[a-z0-9-]+)/discussion/(?P<id>\d+)/delete$', ['module' => 'Discussion', 'controller' => 'UserDiscussionPost', 'action' => 'delete', 'method' => 'POST']);
+
 
 
 // Router::add('^$', ['lang' => 'pl', 'action' => 'index', 'content' => 'index']);

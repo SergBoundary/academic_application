@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="<?= $language ?>">
 
 <head>
     <meta charset="UTF-8">
@@ -8,6 +8,7 @@
     <link rel="shortcut icon" href="/img/favicon.png" type="image/png">
     <!-- CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <link rel="stylesheet" href="/css/iconfont.css">
     <link rel="stylesheet" href="/css/index.css">
 </head>
@@ -23,7 +24,7 @@
                     <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
                         <div class="navbar-nav">
                             <a class="nav-link" href="/<?= $language ?>/research"><?= __('research') ?></a>
-                            <a class="nav-link" href="/<?= $language ?>/social"><?= __('social_network') ?></a>
+                            <a class="nav-link" href="/<?= $language ?>/discussion"><?= __('discussion') ?></a>
                             <?php if (isUserLoggedIn()): ?>
                                 <a class="nav-link" href="/<?= $language ?>/logout"><?= __('logout') ?></a>
                             <?php else: ?>
@@ -43,7 +44,7 @@
         <main>
             <?= $content ?? '' ?>
         </main>
-        <footer>
+        <footer class="ms-2 mt-3">
             <p>© 2024. <?= __('all_rights_reserved') ?>.</p>
         </footer>
     </div>

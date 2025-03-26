@@ -18,7 +18,7 @@
             <td><?= $user['role']; ?></td>
             <td>
                 Research: <?= !empty($permissions['research']) ? '✓' : '✗' ?>,
-                Social: <?= !empty($permissions['social']) ? '✓' : '✗' ?>,
+                Discussion: <?= !empty($permissions['discussion']) ? '✓' : '✗' ?>,
                 Private: <?= !empty($permissions['private']) ? '✓' : '✗' ?>
             </td>
             <td>

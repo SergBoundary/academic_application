@@ -47,7 +47,7 @@ class AuthMiddleware
         $url = $_SERVER['REQUEST_URI'];
         $userPermissions = $_SESSION['user']['permissions'] ?? [];
     
-        if (preg_match('#^/(?P<language>[a-z-]+)/(?P<module>research|social|private)(/|$)#', $url, $matches)) {
+        if (preg_match('#^/(?P<language>[a-z-]+)/(?P<module>research|discussion|private)(/|$)#', $url, $matches)) {
             $module = $matches['module'];
     
             if (empty($userPermissions[$module]) || !$userPermissions[$module]) {

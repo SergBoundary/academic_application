@@ -60,7 +60,7 @@ class UserController extends Controller
             $role = $_POST['role'];
             $permissions = [
                 'research' => isset($_POST['research']),
-                'social' => isset($_POST['social']),
+                'discussion' => isset($_POST['discussion']),
                 'private' => isset($_POST['private'])
             ];
 
