@@ -1,5 +1,4 @@
 <h2><?= __($title) ?></h2>
-<hr>
 
 <!-- Список постов -->
 <?php if (!empty($groupedPosts)): ?>
@@ -14,10 +13,10 @@
             <div class="card-body">
                 <h5 class="card-title">
                     <a href="/<?= $language ?>/<?= $group['author_username'] ?>/research/<?= $group['research_id'] ?>" class="text-decoration-none">
-                        <?= htmlspecialchars($group['title'] ?? 'Без названия') ?>
+                        <?= htmlspecialchars($group['author_title'] ?? 'Без названия') ?>
                     </a>
                 </h5>
-                <p class="card-text"><?= htmlspecialchars($group['quote'] ?? 'Без обсуждения') ?></p>
+                <p class="card-text"><?= htmlspecialchars($group['author_content'] ?? 'Без обсуждения') ?></p>
             </div>
             <div class="card-footer bg-transparent">
                 <a href="#" class="btn btn-outline-secondary btn-sm border-0">
@@ -59,13 +58,15 @@
                     </div>
                     <div class="card-body">
                         <h6 class="card-title text-muted">
-                            <?= $discussion['type_name'] ?>
+                            <?= $discussion['discussion_type_name'] ?>
                             <span class="text-muted">[<?= $discussion['discussion_id'] ?>]</span>
                             <?php if (!empty($discussion['discussion_post_id'])): ?>
-                                to <?= $discussion['opponent_type_name'] ?> <span>[<?= $discussion['discussion_post_id'] ?>]</span>
+                                to <?= $discussion['discussion_level_up_type_name'] ?> <span>[<?= $discussion['discussion_post_id'] ?>]</span>
+                            <?php else: ?>
+                                to <?= $discussion['discussion_level_up_type_name'] ?> "<span><?= $group['author_title'] ?></span>"
                             <?php endif; ?>
                         </h6>
-                        <p class="card-text"><?= htmlspecialchars($discussion['discussion'] ?? 'Без обсуждения') ?></p>
+                        <p class="card-text"><?= htmlspecialchars($discussion['discussion_content'] ?? 'Без обсуждения') ?></p>
                     </div>
                     <div class="card-footer bg-transparent">
                         <a href="#" class="btn btn-outline-secondary btn-sm border-0">
@@ -96,4 +97,3 @@
 <?php else: ?>
     <p>Пока здесь нет публикаций.</p>
 <?php endif; ?>
-<hr>

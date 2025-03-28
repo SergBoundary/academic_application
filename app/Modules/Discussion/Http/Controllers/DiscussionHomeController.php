@@ -19,16 +19,13 @@ class DiscussionHomeController extends Controller
         $posts = $postModel->getAllPosts();
 
         $postType = [
+            0 => 'text',
             1 => 'Opinion',
             2 => 'Question',
             3 => 'Proposal',
             4 => 'Answer',
             5 => 'Accept',
             6 => 'Rejection'
-        ];
-
-        $postOppositionType = [
-            1 => 'Opinion',
         ];
 
         $groupedPosts = [];
@@ -39,8 +36,8 @@ class DiscussionHomeController extends Controller
                 $avatarAuthor = $avatarAuthorFile . "?v=" . time();
                 $groupedPosts[$researchId] = [
                     'research_id'      => $post['research_id'],
-                    'title'            => $post['title'],
-                    'quote'            => $post['quote'],
+                    'author_title'     => $post['author_title'],
+                    'author_content'   => $post['author_content'],
                     'author_username'  => $post['author_username'],
                     'author_name'      => $post['author_name'],
                     'author_surname'   => $post['author_surname'],
@@ -58,45 +55,17 @@ class DiscussionHomeController extends Controller
                 'opponent_surname'   => $post['opponent_surname'],
                 'opponent_avatar'    => $avatarOpponent,
                 'discussion_post_id' => $post['discussion_post_id'],
-                'type'               => $post['type'],
-                'type_name'          => $postType[$post['type']],
-                'opponent_type'      => $post['opponent_type'],
-                'opponent_type_name' => $post['opponent_type'] ? $postType[$post['opponent_type']] : '',
-                'discussion'         => $post['discussion'],
+                'discussion_type'               => $post['discussion_type'],
+                'discussion_type_name'          => $postType[$post['discussion_type']],
+                'discussion_level_up_type'      => $post['discussion_level_up_type'],
+                'discussion_level_up_type_name' => $post['discussion_level_up_type'] ? $postType[$post['discussion_level_up_type']] : $postType[0],
+                'discussion_content' => $post['discussion_content'],
                 'created_at'         => $post['created_at'],
                 'updated_at'         => $post['updated_at']
             ];
         }
 
-        $view = new View('Discussion', '', 'index', compact('language', 'header', 'title', 'groupedPosts', 'postOppositionType'));
+        $view = new View('Discussion', '', 'index', compact('language', 'header', 'title', 'groupedPosts'));
         $view->render();
     }
-
-    // public function view($id)
-    // {
-    //     $postModel = new Discussion();
-    //     $post = $postModel->getPostById($id);
-
-    //     if (!$post) {
-    //         http_response_code(404);
-    //         echo "Публикация не найдена!";
-    //         exit;
-    //     }
-
-    //     $userModel = new User();
-    //     $user = $userModel->getById($post['id']);
-
-    //     if (!$user) {
-    //         http_response_code(404);
-    //         echo "Автор публикации не найден!";
-    //         exit;
-    //     }
-
-    //     $language = $this->language;
-    //     $title = 'discussion_post_view';
-    //     $header = __('discussion_post_view') . ' : ' . $user['name'] . ' ' . $user['surname'];
-
-    //     $view = new View('Discussion', '', 'posts/view', compact('language', 'header', 'title', 'post'));
-    //     $view->render();
-    // }
 }
