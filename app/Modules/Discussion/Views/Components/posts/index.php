@@ -1,4 +1,4 @@
-<h2><?= __($title) ?></h2>
+<h4><?= __($title) ?></h4>
 
 <!-- Список постов -->
 <?php if (!empty($groupedPosts)): ?>

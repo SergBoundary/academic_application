@@ -1,4 +1,4 @@
-<h2><?= __($title) ?></h2>
+<h4><?= __($title) ?></h4>
 
 <!-- Список постов -->
 <?php if (!empty($groupedPosts)): ?>
@@ -9,20 +9,6 @@
                 <a href="/<?= $language ?>/<?= $group['username'] ?>/profile" class="text-decoration-none">
                     <strong><?= htmlspecialchars($group['name'] . ' ' . $group['surname']) ?></strong>
                 </a>
-                <div class="float-end">
-                    <a href="#" class="btn btn-outline-secondary btn-sm border-0">
-                        <i class="bi bi-book-fill"></i>
-                        <span class="badge rounded-pill bg-secondary">2</span>
-                    </a>
-                    <a href="#" class="btn btn-outline-secondary btn-sm border-0">
-                        <i class="bi bi-bookmark-fill"></i>
-                        <span class="badge rounded-pill bg-secondary">0</span>
-                    </a>
-                    <a href="#" class="btn btn-outline-secondary btn-sm border-0">
-                        <i class="bi bi-bell-fill"></i>
-                        <span class="badge rounded-pill bg-secondary">0</span>
-                    </a>
-                </div>
             </div>
             <?php if (!empty($group['post'])): ?>
                 <ul class="list-group list-group-flush">

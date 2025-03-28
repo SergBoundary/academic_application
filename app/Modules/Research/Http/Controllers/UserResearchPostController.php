@@ -26,9 +26,11 @@ class UserResearchPostController extends Controller
         
         $postModel = new ResearchPost();
         $posts = $postModel->getUserPosts($user['id']);
-        // debug($posts, 1);
+        
+        $avatarFile = !empty($user['avatar']) ? "/avatars/" . htmlspecialchars($user['avatar']) : "/img/default-avatar.jpg";
+        $avatar = $avatarFile . "?v=" . time();
 
-        $view = new View('Research', '', 'posts/index', compact('language', 'header', 'title', 'user', 'posts'));
+        $view = new View('Research', '', 'posts/index', compact('language', 'header', 'title', 'avatar', 'user', 'posts'));
         $view->render();
     }
 
