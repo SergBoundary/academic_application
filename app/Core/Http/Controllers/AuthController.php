@@ -69,6 +69,7 @@ class AuthController extends Controller
                 // Создаем сессию для пользователя и записываем в нее его свойства
                 $_SESSION['user'] = [
                     'id' => $user['id'],
+                    'username' => $user['username'],
                     'email' => $user['email'],
                     'role' => $user['role'],
                     'permissions' => $permissions

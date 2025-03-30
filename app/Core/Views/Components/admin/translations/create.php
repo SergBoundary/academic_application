@@ -1,5 +1,5 @@
 <h2><?= htmlspecialchars(__($title)) ?></h2>
-<form method="POST" action="/<?= $language ?>/admin/translations/create">
+<form method="POST" action="/<?= $language ?>/admin/translations/store">
     <label><?= __('key') ?> (key_name):</label><br>
     <input type="text" name="key" required><br><br>
     

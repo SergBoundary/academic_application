@@ -68,22 +68,33 @@ class UserResearchPostController extends Controller
 
     public function create($username)
     {
-        $language = $this->language;
-        $title = 'user_research_post_create';
-        $header = __('user_research_post_create');
-        
         if ($_SESSION['user']['username'] !== $username) {
             http_response_code(403);
             echo "Доступ запрещен!";
             exit;
         }
 
-        $title = "Создать пост";
-        $view = new View('user', '', 'posts/edit', compact('language', 'header', 'title', 'username'));
+        $userModel = new User();
+        $user = $userModel->getUserByUsername($username);
+
+        if (!$user) {
+            http_response_code(404);
+            echo "Автор публикации не найден!";
+            exit;
+        }
+
+        $language = $this->language;
+        $title = 'user_research_post_create';
+        $header = __('user_research_post_create');
+        
+        $avatarFile = !empty($user['avatar']) ? "/avatars/" . htmlspecialchars($user['avatar']) : "/img/default-avatar.jpg";
+        $avatar = $avatarFile . "?v=" . time();
+        
+        $view = new View('Research', '', 'posts/create', compact('language', 'header', 'title', 'user', 'avatar'));
         $view->render();
     }
 
-    public function store($language, $username)
+    public function store($username)
     {
         if ($_SESSION['user']['username'] !== $username) {
             http_response_code(403);
@@ -91,48 +102,83 @@ class UserResearchPostController extends Controller
             exit;
         }
 
-        $postModel = new ResearchPost();
-        $postModel->createPost($_SESSION['user']['id'], $_POST['title'], $_POST['content']);
+        $userId = $_SESSION['user']['id'];
+        $title = $_POST['form_post_title'];
+        $category = $_POST['form_post_category'];
+        $content = $_POST['form_post_content'];
+        
+        $language = $this->language;
 
-        header("Location: /$language/$username/posts");
+        $postModel = new ResearchPost();
+        $id = $postModel->createPost($userId, $title, $content, $category);
+
+        header("Location: /{$language}/{$username}/research/{$id}");
         exit;
     }
 
     public function edit($username, $id)
     {
+        $language = $this->language;
+
         $postModel = new ResearchPost();
         $post = $postModel->getPostById($id);
 
-        if (!$post || $post['user_id'] != $_SESSION['user']['id']) {
+        if (!$post || $post['user_id'] != $_SESSION['user']['id'] || $_SESSION['user']['username'] !== $username) {
             http_response_code(403);
             echo "Доступ запрещен!";
             exit;
         }
 
-        $title = "Редактировать пост";
-        $view = new View('user', '', 'posts/edit', compact('title', 'username', 'post'));
+        $userModel = new User();
+        $user = $userModel->getUserByUsername($username);
+
+        if (!$user) {
+            http_response_code(404);
+            echo "Автор публикации не найден!";
+            exit;
+        }
+        
+        $title = 'user_research_post_edit';
+        $header = __('user_research_post_edit');
+        
+        $avatarFile = !empty($user['avatar']) ? "/avatars/" . htmlspecialchars($user['avatar']) : "/img/default-avatar.jpg";
+        $avatar = $avatarFile . "?v=" . time();
+
+        $categories = $postModel->getCategories();
+        
+        $view = new View('Research', '', 'posts/edit', compact('language', 'header', 'title', 'user', 'avatar', 'post', 'categories'));
         $view->render();
     }
 
-    public function update($language, $username, $id)
+    public function update($username, $id)
     {
+        $language = $this->language;
+        
         $postModel = new ResearchPost();
         $post = $postModel->getPostById($id);
 
-        if (!$post || $post['user_id'] != $_SESSION['user']['id']) {
+        if (!$post || $post['user_id'] != $_SESSION['user']['id'] || $_SESSION['user']['username'] !== $username) {
             http_response_code(403);
             echo "Доступ запрещен!";
             exit;
         }
 
-        $postModel->updatePost($id, $_POST['title'], $_POST['content']);
+        $userId = $_SESSION['user']['id'];
+        $title = $_POST['form_post_title'];
+        $category = $_POST['form_post_category'];
+        $content = $_POST['form_post_content'];
 
-        header("Location: /$language/$username/posts");
+        $postModel = new ResearchPost();
+        $postModel->updatePost($id, $title, $content, $category);
+
+        header("Location: /{$language}/{$username}/research/{$id}");
         exit;
     }
 
-    public function delete($language, $username, $id)
+    public function delete($username, $id)
     {
+        $language = $this->language;
+        
         $postModel = new ResearchPost();
         $post = $postModel->getPostById($id);
 
@@ -144,7 +190,7 @@ class UserResearchPostController extends Controller
 
         $postModel->deletePost($id);
 
-        header("Location: /$language/$username/posts");
+        header("Location: /{$language}/{$username}/posts");
         exit;
     }
 }

@@ -6,32 +6,75 @@ use App\Core\Models\Model;
 
 class ResearchPost extends Model
 {
+    public function getCategories()
+    {
+        $sql = "SELECT 
+                    `id`, `{$this->language}` AS `category`
+                FROM `research_post_category` 
+                ORDER BY `{$this->language}`";
+        
+        return $this->query($sql);
+    }
+
     public function getUserPosts($userId)
     {
-        return $this->query("SELECT * FROM `research_posts` WHERE `user_id` = :user_id ORDER BY `created_at` DESC", ['user_id' => $userId]);
+        $sql = "SELECT 
+                    `tr`.`id`, `tr`.`user_id`, `tr`.`title`, `tr`.`content`, `tr`.`category_id`, `tr`.`created_at`, `tr`.`updated_at`,
+                    `trc`.`{$this->language}` AS `category_name`
+                FROM `research_posts` AS `tr` 
+                INNER JOIN `research_post_category` AS `trc`
+                  ON `trc`.`id` = `tr`.`category_id`
+                WHERE `tr`.`user_id` = :user_id 
+                ORDER BY `tr`.`created_at` DESC";
+        
+        return $this->query($sql, ['user_id' => $userId]);
     }
 
     public function getPostById($id)
     {
-        $result = $this->query("SELECT * FROM `research_posts` WHERE `id` = :id", ['id' => $id]);
+        $sql = "SELECT 
+                    `tr`.`id`, `tr`.`user_id`, `tr`.`title`, `tr`.`content`, `tr`.`category_id`, `tr`.`created_at`, `tr`.`updated_at`,
+                    `trc`.`{$this->language}` AS `category_name`
+                FROM `research_posts` AS `tr` 
+                INNER JOIN `research_post_category` AS `trc`
+                  ON `trc`.`id` = `tr`.`category_id`
+                WHERE `tr`.`id` = :id";
+
+        $result = $this->query($sql, ['id' => $id]);
         return $result[0] ?? null;
     }
-    
-    public function createPost($userId, $title, $content)
+
+    public function createPost($userId, $title, $content, $category)
     {
-        return $this->execute("INSERT INTO `research_posts` (`user_id`, `title`, `content`) VALUES (:user_id, :title, :content)", [
-            'user_id' => $userId,
-            'title' => $title,
-            'content' => $content
+        $sql = "INSERT INTO `research_posts` (`user_id`, `title`, `content`, `category_id`) 
+                VALUES (:user_id, :title, :content, :category_id)";
+
+        $result = $this->execute($sql, [
+            'user_id'  => $userId,
+            'title'    => $title,
+            'content'  => $content,
+            'category_id' => $category
         ]);
+
+        // Если запрос выполнен успешно, возвращаем ID вставленной записи
+        if ($result) {
+            return $this->db->lastInsertId();
+        }
+
+        return false;
     }
 
-    public function updatePost($id, $title, $content)
+    public function updatePost($id, $title, $content, $category)
     {
-        return $this->execute("UPDATE `research_posts` SET `title` = :title, `content` = :content WHERE id = :id", [
+        $sql = "UPDATE `research_posts` 
+                SET `title` = :title, `content` = :content, `category_id` = :category_id 
+                WHERE id = :id";
+
+        return $this->execute($sql, [
             'id' => $id,
             'title' => $title,
-            'content' => $content
+            'content' => $content,
+            'category_id' => $category
         ]);
     }
 

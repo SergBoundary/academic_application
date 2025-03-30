@@ -9,10 +9,11 @@
         </div>
     </div>
     <div class="card-body">
+        <h6><em><?= $post['category_name'] ?></em></h6>
         <h4 class="card-title mb-3">
             <strong><?= htmlspecialchars($post['title'] ?? 'Без названия') ?></strong>
         </h4>
-        <p class="card-text"><?= htmlspecialchars($post['content'] ?? 'Без обсуждения') ?></p>
+        <div class="card-text"><?= nl2br(htmlspecialchars($post['content'] ?? 'Без содержания')) ?></div>
     </div>
     <div class="card-footer bg-transparent">
         <a href="#" class="btn btn-outline-secondary btn-sm border-0">

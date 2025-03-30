@@ -14,7 +14,11 @@
                 <ul class="list-group list-group-flush">
                     <?php foreach ($group['post'] as $post): ?>
                         <li class="list-group-item">
+                        <div class="inline-block my-3">
+                            
+                        </div>
                             <div class="inline-block my-3">
+                                <h6><em><?= $post['category_name'] ?></em></h6>
                                 <h5>
                                     <a href="/<?= $language ?>/<?= $group['username'] ?>/research/<?= $post['id'] ?>" class="text-decoration-none">
                                         <?= $post['title'] ?>

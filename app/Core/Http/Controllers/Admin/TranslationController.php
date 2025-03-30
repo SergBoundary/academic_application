@@ -30,20 +30,20 @@ class TranslationController extends Controller
     }
 
     // Форма добавления нового перевода
-    public function add()
+    public function create()
     {
         MiddlewareService::run('auth'); // Checking authorization
 
         $language = $this->language;
-        $title = 'translation_add';
-        $header = __('translation_add');
+        $title = 'translation_create';
+        $header = __('translation_create');
 
-        $view = new View('', '', 'admin/translations/add', compact('language', 'header', 'title'));
+        $view = new View('', '', 'admin/translations/create', compact('language', 'header', 'title'));
         $view->render();
     }
 
     // Обработка добавления нового перевода
-    public function create()
+    public function store()
     {
         // debug($_POST['uk']);die;
         $language = $this->language;

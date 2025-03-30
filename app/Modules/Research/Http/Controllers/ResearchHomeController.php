@@ -25,7 +25,7 @@ class ResearchHomeController extends Controller
                 $avatarAuthorFile = !empty($post['avatar']) ? "/avatars/" . htmlspecialchars($post['avatar']) : "/img/default-avatar.jpg";
                 $avatarAuthor = $avatarAuthorFile . "?v=" . time();
                 $groupedPosts[$userId] = [
-                    'user_id'      => $post['user_id'],
+                    'user_id'   => $post['user_id'],
                     'username'  => $post['username'],
                     'name'      => $post['name'],
                     'surname'   => $post['surname'],
@@ -35,12 +35,13 @@ class ResearchHomeController extends Controller
             }
             // Добавляем обсуждение в группу исследования `tr`.`title`, `tr`.`content`, `tr`.`category`
             $groupedPosts[$userId]['post'][] = [
-                'id'      => $post['id'],
+                'id'            => $post['id'],
                 'title'         => $post['title'],
-                'content'         => $post['content'],
-                'category'         => $post['category'],
-                'created_at'         => $post['created_at'],
-                'updated_at'         => $post['updated_at']
+                'content'       => $post['content'],
+                'category_id'   => $post['category_id'],
+                'category_name' => $post['category_name'],
+                'created_at'    => $post['created_at'],
+                'updated_at'    => $post['updated_at']
             ];
         }
         

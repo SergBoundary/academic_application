@@ -25,8 +25,8 @@ Router::add('^(?P<language>[a-z-]+)/admin/messages$', ['controller' => 'Message'
 
 // Admin panel for translation management
 Router::add('^(?P<language>[a-z-]+)/admin/translations$', ['controller' => 'Translation', 'action' => 'index', 'role' => 'Admin', 'method' => 'GET']);
-Router::add('^(?P<language>[a-z-]+)/admin/translations/add$', ['controller' => 'Translation', 'action' => 'add', 'role' => 'Admin', 'method' => 'GET']);
-Router::add('^(?P<language>[a-z-]+)/admin/translations/create$', ['controller' => 'Translation', 'action' => 'create', 'role' => 'Admin', 'method' => 'POST']);
+Router::add('^(?P<language>[a-z-]+)/admin/translations/create$', ['controller' => 'Translation', 'action' => 'create', 'role' => 'Admin', 'method' => 'GET']);
+Router::add('^(?P<language>[a-z-]+)/admin/translations/store$', ['controller' => 'Translation', 'action' => 'store', 'role' => 'Admin', 'method' => 'POST']);
 Router::add('^(?P<language>[a-z-]+)/admin/translations/edit/?(?P<key>[\w\-]+)$', ['controller' => 'Translation', 'action' => 'edit', 'role' => 'Admin', 'method' => 'GET']);
 Router::add('^(?P<language>[a-z-]+)/admin/translations/update$', ['controller' => 'Translation', 'action' => 'update', 'role' => 'Admin', 'method' => 'POST']);
 Router::add('^(?P<language>[a-z-]+)/admin/translations/delete$', ['controller' => 'Translation', 'action' => 'delete', 'role' => 'Admin', 'method' => 'POST']);

@@ -1,5 +1,5 @@
 <h2><?= htmlspecialchars(__($title)) ?></h2>
-<p><a href="/<?= $language ?>/admin/translations/add"><?= __('add_translation') ?></a></p>
+<p><a href="/<?= $language ?>/admin/translations/create"><?= __('add_translation') ?></a></p>
 <table border="1" cellspacing="0" cellpadding="5">
     <thead>
         <tr>
@@ -23,7 +23,7 @@
                 <a href="/<?= $language ?>/admin/translations/edit/<?= urlencode($trans['key_name']) ?>"><?= __('edit') ?></a>
                 <form action="/<?= $language ?>/admin/translations/delete" method="POST" style="display:inline;">
                     <input type="hidden" name="key" value="<?= htmlspecialchars($trans['key_name']) ?>">
-                    <button type="submit" onclick="return confirm('<?= __('delete_translation') ?>')"><?= __('delete') ?></button>
+                    <button type="submit" onclick="return confirm('<?= __('delete_translation') ?> \'<?= htmlspecialchars($trans['key_name']) ?>\'?')"><?= __('delete') ?></button>
                 </form>
             </td>
         </tr>

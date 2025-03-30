@@ -10,8 +10,8 @@
         <div class="float-end">
             <!-- Кнопка "Создать пост" (только для авторизованных) -->
             <?php if (isset($_SESSION['user'])): ?>
-                <a href="/<?= $language ?>/<?= strtolower($module) ?>/create" class="btn btn-secondary btn-sm">
-                <i class="bi bi-plus-lg"></i>
+                <a href="/<?= $language ?>/<?= $user['username'] ?>/research/create" class="btn btn-secondary btn-sm">
+                    <i class="bi bi-plus-lg"></i>
                     Create new research
                 </a>
             <?php endif; ?>
@@ -22,6 +22,7 @@
             <?php foreach ($posts as $post): ?>
                 <li class="list-group-item">
                     <div class="inline-block my-3">
+                        <h6><em><?= $post['category_name'] ?></em></h6>
                         <h5>
                             <a href="/<?= $language ?>/<?= $user['username'] ?>/research/<?= $post['id'] ?>" class="text-decoration-none">
                                 <?= $post['title'] ?>
