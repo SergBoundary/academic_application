@@ -27,16 +27,6 @@ class UserDiscussionPostController extends Controller
         $postModel = new DiscussionPost();
         $posts = $postModel->getUserPosts($user['id']);
 
-        $postType = [
-            0 => 'text',
-            1 => 'Opinion',
-            2 => 'Question',
-            3 => 'Proposal',
-            4 => 'Answer',
-            5 => 'Accept',
-            6 => 'Rejection'
-        ];
-
         $groupedPosts = [];
         foreach ($posts as $post) {
             $researchId = $post['research_id'];
@@ -50,6 +40,8 @@ class UserDiscussionPostController extends Controller
                     'author_username'  => $post['author_username'],
                     'author_name'      => $post['author_name'],
                     'author_surname'   => $post['author_surname'],
+                    'category_id'      => $post['category_id'],
+                    'category_name'    => $post['category_name'],
                     'author_avatar'    => $avatarAuthor,
                     'discussions'      => []
                 ];
@@ -64,17 +56,17 @@ class UserDiscussionPostController extends Controller
                 'opponent_surname'   => $post['opponent_surname'],
                 'opponent_avatar'    => $avatarOpponent,
                 'discussion_post_id' => $post['discussion_post_id'],
-                'discussion_type'               => $post['discussion_type'],
-                'discussion_type_name'          => $postType[$post['discussion_type']],
-                'discussion_level_up_type'      => $post['discussion_level_up_type'],
-                'discussion_level_up_type_name' => $post['discussion_level_up_type'] ? $postType[$post['discussion_level_up_type']] : $postType[0],
+                'discussion_type_id'            => $post['discussion_type_id'],
+                'discussion_type_name'          => $post['discussion_type_name'],
+                'discussion_level_up_type_id'   => $post['discussion_level_up_type_id'],
+                'discussion_level_up_type_name' => $post['discussion_level_up_type_id'] ? $post['discussion_level_up_type_name'] : 'text',
                 'discussion_content' => $post['discussion_content'],
                 'created_at'         => $post['created_at'],
                 'updated_at'         => $post['updated_at']
             ];
         }
 
-        $view = new View('Discussion', '', 'index', compact('language', 'header', 'title', 'groupedPosts'));
+        $view = new View('Discussion', '', 'posts/index', compact('language', 'header', 'title', 'groupedPosts'));
         $view->render();
     }
 
@@ -102,16 +94,6 @@ class UserDiscussionPostController extends Controller
             exit;
         }
 
-        $postType = [
-            0 => 'text',
-            1 => 'Opinion',
-            2 => 'Question',
-            3 => 'Proposal',
-            4 => 'Answer',
-            5 => 'Accept',
-            6 => 'Rejection'
-        ];
-
         $groupedPost = [];
         $avatarAuthorFile = !empty($post['author_avatar']) ? "/avatars/" . htmlspecialchars($post['author_avatar']) : "/img/default-avatar.jpg";
         $avatarAuthor = $avatarAuthorFile . "?v=" . time();
@@ -125,6 +107,8 @@ class UserDiscussionPostController extends Controller
             'author_name'        => $post['author_name'],
             'author_surname'     => $post['author_surname'],
             'author_content'     => $post['author_content'],
+            'category_id'        => $post['category_id'],
+            'category_name'      => $post['category_name'],
             'author_avatar'      => $avatarAuthor,
             // Добавляем само обсуждение
             'discussion_id'      => $post['discussion_id'],
@@ -134,10 +118,10 @@ class UserDiscussionPostController extends Controller
             'opponent_surname'   => $post['opponent_surname'],
             'opponent_avatar'    => $avatarOpponent,
             'discussion_post_id' => $post['discussion_post_id'],
-            'discussion_type'               => $post['discussion_type'],
-            'discussion_type_name'          => $postType[$post['discussion_type']],
-            'discussion_level_up_type'      => $post['discussion_level_up_type'],
-            'discussion_level_up_type_name' => $post['discussion_level_up_type'] ? $postType[$post['discussion_level_up_type']] : $postType[0],
+            'discussion_type_id'            => $post['discussion_type_id'],
+            'discussion_type_name'          => $post['discussion_type_name'],
+            'discussion_level_up_type_id'   => $post['discussion_level_up_type_id'],
+            'discussion_level_up_type_name' => $post['discussion_level_up_type_id'] ? $post['discussion_level_up_type_name'] : 'text',
             'discussion_content' => $post['discussion_content'],
             'created_at'         => $post['created_at'],
             'updated_at'         => $post['updated_at']

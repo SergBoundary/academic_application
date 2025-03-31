@@ -11,6 +11,7 @@
                 </a>
             </div>
             <div class="card-body">
+                <h6><em><?= $group['category_name'] ?></em></h6>
                 <h5 class="card-title">
                     <a href="/<?= $language ?>/<?= $group['author_username'] ?>/research/<?= $group['research_id'] ?>" class="text-decoration-none">
                         <?= htmlspecialchars($group['author_title'] ?? 'Без названия') ?>

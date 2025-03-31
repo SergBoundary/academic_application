@@ -13,7 +13,7 @@ class Research extends Model
                   `tu`.`username`, `tu`.`name`, `tu`.`surname`, `tu`.`avatar`,
                   `trc`.`{$this->language}` AS `category_name`
                 FROM `research_posts` AS `tr`
-                INNER JOIN `research_post_category` AS `trc`
+                INNER JOIN `research_post_categories` AS `trc`
                   ON `trc`.`id` = `tr`.`category_id`
                 INNER JOIN `users` AS `tu`
                   ON `tu`.`id` = `tr`.`user_id`
@@ -21,19 +21,4 @@ class Research extends Model
         
         return $this->query($sql);
     }
-
-    // public function getPostById($id)
-    // {
-    //     $sql = "SELECT 
-    //               `tr`.`id`, `tr`.`user_id`, `tr`.`title`, `tr`.`content`, `tr`.`category`, `tr`.`created_at`, `tr`.`updated_at`,
-    //               `tu`.`username`, `tu`.`name`, `tu`.`surname`
-    //             FROM `research_posts` AS `tr`
-    //             INNER JOIN `users` AS `tu`
-    //               ON `tu`.`id` = `tr`.`user_id`
-    //             WHERE `tr`.`id` = :id";
-        
-    //     $result = $this->query($sql, ['id' => $id]);
-        
-    //     return $result[0] ?? null;
-    // }
 }

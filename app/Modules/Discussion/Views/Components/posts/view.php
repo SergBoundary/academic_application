@@ -56,8 +56,8 @@
             <a href="#" class="btn btn-outline-secondary btn-sm"><i class="bi bi-file-pdf-fill"></i></a>
             <!-- Кнопки редактирования и удаления (только для автора поста) -->
             <?php if (isset($_SESSION['user']) && $_SESSION['user']['id'] == $viewPost['opponent_id']): ?>
-                <a href="/<?= $language ?>/<?= $viewPost['opponent_username'] ?>/research/<?= $viewPost['discussion_id'] ?>/edit" class="btn btn-outline-warning btn-sm ms-3"><i class="bi bi-pencil-fill"></i></a>
-                <form method="POST" action="/<?= $language ?>/<?= $viewPost['opponent_username'] ?>/research/<?= $viewPost['discussion_id'] ?>/delete" style="display:inline;">
+                <a href="/<?= $language ?>/<?= $viewPost['opponent_username'] ?>/discussion/<?= $viewPost['discussion_id'] ?>/edit" class="btn btn-outline-warning btn-sm ms-3"><i class="bi bi-pencil-fill"></i></a>
+                <form method="POST" action="/<?= $language ?>/<?= $viewPost['opponent_username'] ?>/discussion/<?= $viewPost['discussion_id'] ?>/delete" style="display:inline;">
                     <button type="submit" class="btn btn-outline-danger btn-sm" onclick="return confirm('<?= __('delete') ?>');"><i class="bi bi-trash3-fill"></i></button>
                 </form>
             <?php endif; ?>

@@ -9,43 +9,31 @@ class Discussion extends Model
     public function getAllPosts()
     {
         $sql = "SELECT 
-                  `tr`.`id` AS `research_id`, `tr`.`title` AS `author_title`, `tr`.`content` AS `author_content`, `tr`.`user_id` AS `author_id`,
+                  `tr`.`id` AS `research_id`, `tr`.`title` AS `author_title`, `tr`.`content` AS `author_content`, `tr`.`category_id`, `tr`.`user_id` AS `author_id`,
                   `ta`.`username` AS `author_username`, `ta`.`name` AS `author_name`, `ta`.`surname` AS `author_surname`, `ta`.`avatar` AS `author_avatar`,
                   `to`.`username` AS `opponent_username`, `to`.`name` AS `opponent_name`, `to`.`surname` AS `opponent_surname`, `to`.`avatar` AS `opponent_avatar`,
                   `td`.`id` AS `discussion_id`, `td`.`user_id` AS `opponent_id`, `td`.`research_post_id`, `td`.`discussion_post_id`, 
-                  `td`.`type` AS `discussion_type`, `tdo`.`type` AS `discussion_level_up_type`, `td`.`content` AS `discussion_content`, `td`.`created_at`, `td`.`updated_at`
+                  `td`.`discussion_post_type_id` AS `discussion_type_id`, `tdt`.`{$this->language}` AS `discussion_type_name`,
+                  `tdo`.`discussion_post_type_id` AS `discussion_level_up_type_id`, `tdto`.`{$this->language}` AS `discussion_level_up_type_name`,
+                  `td`.`content` AS `discussion_content`, `td`.`created_at`, `td`.`updated_at`,
+                  `trc`.`{$this->language}` AS `category_name`
                 FROM `discussion_posts` AS `td`
                 INNER JOIN `research_posts` AS `tr`
                   ON `tr`.`id` = `td`.`research_post_id`
+                INNER JOIN `research_post_categories` AS `trc`
+                  ON `trc`.`id` = `tr`.`category_id`
                 INNER JOIN `users` AS `ta`
                   ON `ta`.`id` = `tr`.`user_id`
                 INNER JOIN `users` AS `to`
                   ON `to`.`id` = `td`.`user_id`
                 LEFT JOIN `discussion_posts` AS `tdo`
                   ON `tdo`.`id` = `td`.`discussion_post_id`
+                LEFT JOIN `discussion_post_types` AS `tdt`
+                  ON `tdt`.`id` = `td`.`discussion_post_type_id`
+                LEFT JOIN `discussion_post_types` AS `tdto`
+                  ON `tdto`.`id` = `tdo`.`discussion_post_type_id`
                 ORDER BY `tr`.`id`, `td`.`id` ASC";
         
         return $this->query($sql);
     }
-
-    // public function getPostById($id)
-    // {
-    //     $sql = "SELECT 
-    //               `td`.`id`, `td`.`user_id` AS `opponent`, `td`.`research_id`, `td`.`content` AS `discussion`, `td`.`created_at`, `td`.`updated_at`,
-    //               `tr`.`title`, `tr`.`content` AS `quote`, `tr`.`user_id` AS `author`,
-    //               `ta`.`username` AS `ausername`, `ta`.`name` AS `aname`, `ta`.`surname` AS `asurname`,
-    //               `to`.`username` AS `ousername`, `to`.`name` AS `oname`, `to`.`surname` AS `osurname`
-    //             FROM `discussion_posts` AS `td`
-    //             INNER JOIN `research_posts` AS `tr`
-    //               ON `tr`.`id` = `td`.`research_id`
-    //             INNER JOIN `users` AS `ta`
-    //               ON `ta`.`id` = `tr`.`user_id`
-    //             INNER JOIN `users` AS `to`
-    //               ON `to`.`id` = `td`.`user_id`
-    //             WHERE `td`.`id` = :id";
-        
-    //     $result = $this->query($sql, ['id' => $id]);
-        
-    //     return $result[0] ?? null;
-    // }
 }

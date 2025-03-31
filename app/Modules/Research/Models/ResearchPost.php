@@ -10,7 +10,7 @@ class ResearchPost extends Model
     {
         $sql = "SELECT 
                     `id`, `{$this->language}` AS `category`
-                FROM `research_post_category` 
+                FROM `research_post_categories` 
                 ORDER BY `{$this->language}`";
         
         return $this->query($sql);
@@ -22,7 +22,7 @@ class ResearchPost extends Model
                     `tr`.`id`, `tr`.`user_id`, `tr`.`title`, `tr`.`content`, `tr`.`category_id`, `tr`.`created_at`, `tr`.`updated_at`,
                     `trc`.`{$this->language}` AS `category_name`
                 FROM `research_posts` AS `tr` 
-                INNER JOIN `research_post_category` AS `trc`
+                INNER JOIN `research_post_categories` AS `trc`
                   ON `trc`.`id` = `tr`.`category_id`
                 WHERE `tr`.`user_id` = :user_id 
                 ORDER BY `tr`.`created_at` DESC";
@@ -36,7 +36,7 @@ class ResearchPost extends Model
                     `tr`.`id`, `tr`.`user_id`, `tr`.`title`, `tr`.`content`, `tr`.`category_id`, `tr`.`created_at`, `tr`.`updated_at`,
                     `trc`.`{$this->language}` AS `category_name`
                 FROM `research_posts` AS `tr` 
-                INNER JOIN `research_post_category` AS `trc`
+                INNER JOIN `research_post_categories` AS `trc`
                   ON `trc`.`id` = `tr`.`category_id`
                 WHERE `tr`.`id` = :id";
 

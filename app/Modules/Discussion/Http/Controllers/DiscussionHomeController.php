@@ -18,16 +18,6 @@ class DiscussionHomeController extends Controller
         $postModel = new Discussion();
         $posts = $postModel->getAllPosts();
 
-        $postType = [
-            0 => 'text',
-            1 => 'Opinion',
-            2 => 'Question',
-            3 => 'Proposal',
-            4 => 'Answer',
-            5 => 'Accept',
-            6 => 'Rejection'
-        ];
-
         $groupedPosts = [];
         foreach ($posts as $post) {
             $researchId = $post['research_id'];
@@ -41,6 +31,8 @@ class DiscussionHomeController extends Controller
                     'author_username'  => $post['author_username'],
                     'author_name'      => $post['author_name'],
                     'author_surname'   => $post['author_surname'],
+                    'category_id'      => $post['category_id'],
+                    'category_name'    => $post['category_name'],
                     'author_avatar'    => $avatarAuthor,
                     'discussions'      => []
                 ];
@@ -55,10 +47,10 @@ class DiscussionHomeController extends Controller
                 'opponent_surname'   => $post['opponent_surname'],
                 'opponent_avatar'    => $avatarOpponent,
                 'discussion_post_id' => $post['discussion_post_id'],
-                'discussion_type'               => $post['discussion_type'],
-                'discussion_type_name'          => $postType[$post['discussion_type']],
-                'discussion_level_up_type'      => $post['discussion_level_up_type'],
-                'discussion_level_up_type_name' => $post['discussion_level_up_type'] ? $postType[$post['discussion_level_up_type']] : $postType[0],
+                'discussion_type_id'            => $post['discussion_type_id'],
+                'discussion_type_name'          => $post['discussion_type_name'],
+                'discussion_level_up_type_id'   => $post['discussion_level_up_type_id'],
+                'discussion_level_up_type_name' => $post['discussion_level_up_type_id'] ? $post['discussion_level_up_type_name'] : 'text',
                 'discussion_content' => $post['discussion_content'],
                 'created_at'         => $post['created_at'],
                 'updated_at'         => $post['updated_at']
