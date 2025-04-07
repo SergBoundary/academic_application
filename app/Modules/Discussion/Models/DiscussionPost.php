@@ -11,8 +11,8 @@ class DiscussionPost extends Model
         $sql = "SELECT 
                     `id`, `{$this->language}` AS `type`
                 FROM `discussion_post_types` 
-                ORDER BY `{$this->language}`";
-        
+                ORDER BY `id`";
+
         return $this->query($sql);
     }
 
@@ -44,7 +44,7 @@ class DiscussionPost extends Model
                   ON `tdto`.`id` = `tdo`.`discussion_post_type_id`
                 WHERE `td`.`user_id` = :user_id
                 ORDER BY `tr`.`id`, `td`.`id` ASC";
-        
+
         return $this->query($sql, ['user_id' => $userId]);
     }
 
@@ -76,31 +76,38 @@ class DiscussionPost extends Model
                   ON `tdto`.`id` = `tdo`.`discussion_post_type_id`
                 WHERE `td`.`id` = :id
                 ORDER BY `tr`.`id`, `td`.`id` ASC";
-        
+
         $result = $this->query($sql, ['id' => $id]);
         return $result[0] ?? null;
     }
-    
-    public function createPost($userId, $typeId, $content, $researchId = null, $discussionId = null)
+
+    public function createPost($userId, $typeId, $content, $researchId, $discussionId = '0')
     {
         $sql = "INSERT INTO `discussion_posts` (`user_id`, `research_post_id`, `discussion_post_id`, `discussion_post_type_id`, `content`) 
                 VALUES (:user_id, :research_post_id, :discussion_post_id, :discussion_post_type_id, :content)";
 
-        return $this->execute($sql, [
+        $result = $this->execute($sql, [
             'user_id' => $userId,
             'research_post_id' => $researchId,
             'discussion_post_id' => $discussionId,
             'discussion_post_type_id' => $typeId,
             'content' => $content
         ]);
+
+        // Если запрос выполнен успешно, возвращаем ID вставленной записи
+        if ($result) {
+            return $this->db->lastInsertId();
+        }
+
+        return false;
     }
 
-    public function updatePost($id, $typeId, $content, $researchId = null, $discussionId = null)
+    public function updatePost($id, $typeId, $content, $researchId, $discussionId = '0')
     {
         $sql = "UPDATE `discussion_posts` 
                 SET `content` = :content, `research_post_id` = :research_post_id, `discussion_post_id` = :discussion_post_id, `discussion_post_type_id` = :discussion_post_type_id 
                 WHERE id = :id";
-        
+
         return $this->execute($sql, [
             'id' => $id,
             'research_post_id' => $researchId,

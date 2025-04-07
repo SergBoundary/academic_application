@@ -12,11 +12,11 @@ function updateClock() {
 
     // Обновляем содержимое элемента
     document.getElementById('dynamicClock').textContent = formattedDateTime;
-  }
+}
 
-  // Первоначальный вызов функции для немедленного отображения времени
-  updateClock();
-  // Обновляем каждую секунду
-  setInterval(updateClock, 1000);
+// Первоначальный вызов функции для немедленного отображения времени
+updateClock();
+// Обновляем каждую секунду
+setInterval(updateClock, 1000);
 
-  autosize(document.getElementById('form_post_content'));
+//   autosize(document.getElementById('form_post_content'));

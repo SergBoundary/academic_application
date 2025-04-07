@@ -14,9 +14,9 @@
                 <ul class="list-group list-group-flush">
                     <?php foreach ($group['post'] as $post): ?>
                         <li class="list-group-item">
-                        <div class="inline-block my-3">
-                            
-                        </div>
+                            <div class="inline-block my-3">
+
+                            </div>
                             <div class="inline-block my-3">
                                 <h6><em><?= $post['category_name'] ?></em></h6>
                                 <h5>
@@ -27,30 +27,30 @@
                             </div>
 
                             <div class="float-start mt-1">
-                                <a href="#" class="btn btn-outline-secondary btn-sm border-0">
+                                <a href="#" class="btn btn-outline-secondary btn-sm border-0" title="Agree">
                                     <i class="bi bi-heart-fill"></i>
                                     <span class="badge rounded-pill bg-secondary">0</span>
                                 </a>
-                                <a href="#" class="btn btn-outline-secondary btn-sm border-0">
+                                <a href="#" class="btn btn-outline-secondary btn-sm border-0" title="Disagree">
                                     <i class="bi bi-heartbreak-fill"></i>
                                     <span class="badge rounded-pill bg-secondary">0</span>
                                 </a>
-                                <a href="#" class="btn btn-outline-secondary btn-sm border-0">
+                                <a href="#" class="btn btn-outline-secondary btn-sm border-0" title="Comments">
                                     <i class="bi bi-chat-left-text-fill"></i>
                                     <span class="badge rounded-pill bg-secondary">0</span>
                                 </a>
-                                <a href="#" class="btn btn-outline-secondary btn-sm border-0">
+                                <a href="#" class="btn btn-outline-secondary btn-sm border-0" title="Share">
                                     <i class="bi bi-share-fill"></i>
                                     <span class="badge rounded-pill bg-secondary">0</span>
                                 </a>
-                                <a href="#" class="btn btn-outline-secondary btn-sm border-0 ms-3">
+                                <a href="#" class="btn btn-outline-secondary btn-sm border-0 ms-3" title="Translate">
                                     <i class="bi bi-translate"></i>
                                 </a>
-                                <a href="#" class="btn btn-outline-secondary btn-sm border-0 ms-3">
+                                <a href="#" class="btn btn-outline-secondary btn-sm border-0 ms-3" title="Bookmark">
                                     <i class="bi bi-bookmark-fill"></i>
                                     <span class="badge rounded-pill bg-secondary">0</span>
                                 </a>
-                                <a href="#" class="btn btn-outline-secondary btn-sm border-0">
+                                <a href="#" class="btn btn-outline-secondary btn-sm border-0" title="Subscription">
                                     <i class="bi bi-bell-fill"></i>
                                     <span class="badge rounded-pill bg-secondary">0</span>
                                 </a>

@@ -20,29 +20,39 @@
                 <p class="card-text"><?= htmlspecialchars($group['author_content'] ?? 'Без обсуждения') ?></p>
             </div>
             <div class="card-footer bg-transparent">
-                <a href="#" class="btn btn-outline-secondary btn-sm border-0">
-                    <i class="bi bi-heart-fill"></i>
-                    <span class="badge rounded-pill bg-secondary">0</span>
-                </a>
-                <a href="#" class="btn btn-outline-secondary btn-sm border-0">
-                    <i class="bi bi-heartbreak-fill"></i>
-                    <span class="badge rounded-pill bg-secondary">0</span>
-                </a>
-                <a href="#" class="btn btn-outline-secondary btn-sm border-0">
-                    <i class="bi bi-chat-left-text-fill"></i>
-                    <span class="badge rounded-pill bg-secondary">0</span>
-                </a>
-                <a href="#" class="btn btn-outline-secondary btn-sm border-0 ms-3">
-                    <i class="bi bi-translate"></i>
-                </a>
-                <a href="#" class="btn btn-outline-secondary btn-sm border-0 ms-3">
-                    <i class="bi bi-bookmark-fill"></i>
-                    <span class="badge rounded-pill bg-secondary">0</span>
-                </a>
-                <a href="#" class="btn btn-outline-secondary btn-sm border-0">
-                    <i class="bi bi-bell-fill"></i>
-                    <span class="badge rounded-pill bg-secondary">0</span>
-                </a>
+                <div class="float-start mt-1">
+                    <a href="#" class="btn btn-outline-secondary btn-sm border-0" title="Agree">
+                        <i class="bi bi-heart-fill"></i>
+                        <span class="badge rounded-pill bg-secondary">0</span>
+                    </a>
+                    <a href="#" class="btn btn-outline-secondary btn-sm border-0" title="Disagree">
+                        <i class="bi bi-heartbreak-fill"></i>
+                        <span class="badge rounded-pill bg-secondary">0</span>
+                    </a>
+                    <a href="#" class="btn btn-outline-secondary btn-sm border-0" title="Comments">
+                        <i class="bi bi-chat-left-text-fill"></i>
+                        <span class="badge rounded-pill bg-secondary">0</span>
+                    </a>
+                    <a href="#" class="btn btn-outline-secondary btn-sm border-0 ms-3" title="Translate">
+                        <i class="bi bi-translate"></i>
+                    </a>
+                    <a href="#" class="btn btn-outline-secondary btn-sm border-0 ms-3" title="Bookmark">
+                        <i class="bi bi-bookmark-fill"></i>
+                        <span class="badge rounded-pill bg-secondary">0</span>
+                    </a>
+                    <a href="#" class="btn btn-outline-secondary btn-sm border-0" title="Subscription">
+                        <i class="bi bi-bell-fill"></i>
+                        <span class="badge rounded-pill bg-secondary">0</span>
+                    </a>
+                </div>
+                <div class="float-end">
+                    <!-- Кнопка "Создать пост" (только для авторизованных) -->
+                    <?php if (isset($_SESSION['user'])): ?>
+                        <a href="/<?= $language ?>/<?= $_SESSION['user']['username'] ?>/discussion/<?= $group['research_id'] ?>/0/create" class="btn btn-outline-secondary btn-sm" title="Create new post">
+                            <i class="bi bi-plus-lg"></i>
+                        </a>
+                    <?php endif; ?>
+                </div>
             </div>
         </div>
         <?php if (!empty($group['discussions'])): ?>
@@ -70,25 +80,31 @@
                         <p class="card-text"><?= htmlspecialchars($discussion['discussion_content'] ?? 'Без обсуждения') ?></p>
                     </div>
                     <div class="card-footer bg-transparent">
-                        <a href="#" class="btn btn-outline-secondary btn-sm border-0">
+                        <a href="#" class="btn btn-outline-secondary btn-sm border-0" title="Agree">
                             <i class="bi bi-heart-fill"></i>
                             <span class="badge rounded-pill bg-secondary">0</span>
                         </a>
-                        <a href="#" class="btn btn-outline-secondary btn-sm border-0">
+                        <a href="#" class="btn btn-outline-secondary btn-sm border-0" title="Disagree">
                             <i class="bi bi-heartbreak-fill"></i>
                             <span class="badge rounded-pill bg-secondary">0</span>
                         </a>
-                        <a href="#" class="btn btn-outline-secondary btn-sm border-0">
+                        <a href="#" class="btn btn-outline-secondary btn-sm border-0" title="Comments">
                             <i class="bi bi-chat-left-text-fill"></i>
                             <span class="badge rounded-pill bg-secondary">0</span>
                         </a>
-                        <a href="#" class="btn btn-outline-secondary btn-sm border-0 ms-3">
+                        <a href="#" class="btn btn-outline-secondary btn-sm border-0 ms-3" title="Translate">
                             <i class="bi bi-translate"></i>
                         </a>
                         <div class="float-end">
-                            <a href="/<?= $language ?>/<?= $discussion['opponent_username'] ?>/discussion/<?= $discussion['discussion_id'] ?>" class="btn btn-outline-secondary btn-sm">
+                            <a href="/<?= $language ?>/<?= $discussion['opponent_username'] ?>/discussion/<?= $discussion['discussion_id'] ?>" class="btn btn-outline-secondary btn-sm" title="View post">
                                 <i class="bi bi-eye-fill"></i>
                             </a>
+                            <!-- Кнопка "Создать пост" (только для авторизованных) -->
+                            <?php if (isset($_SESSION['user'])): ?>
+                                <a href="/<?= $language ?>/<?= $_SESSION['user']['username'] ?>/discussion/<?= $group['research_id'] ?>/<?= $discussion['discussion_id'] ?>/create" class="btn btn-outline-secondary btn-sm" title="Create new post">
+                                    <i class="bi bi-plus-lg"></i>
+                                </a>
+                            <?php endif; ?>
                         </div>
                     </div>
                 </div>

@@ -17,7 +17,7 @@
             <?php else: ?>
                 to <?= $viewPost['discussion_level_up_type_name'] ?>
                 <a href="/<?= $language ?>/<?= $viewPost['author_username'] ?>/research/<?= $viewPost['research_id'] ?>" class="text-decoration-none">
-                "<span><?= $viewPost['author_title'] ?></span>"
+                    "<span><?= $viewPost['author_title'] ?></span>"
                 </a>
                 by
                 <img class="rounded-circle border" src="<?= $viewPost['author_avatar'] ?>" alt="Аватар оппонента" width="30">
@@ -29,36 +29,36 @@
         <p class="card-text"><?= htmlspecialchars($viewPost['discussion_content'] ?? 'Без обсуждения') ?></p>
     </div>
     <div class="card-footer bg-transparent">
-        <a href="#" class="btn btn-outline-secondary btn-sm border-0">
+        <a href="#" class="btn btn-outline-secondary btn-sm border-0" title="Agree">
             <i class="bi bi-heart-fill"></i>
             <span class="badge rounded-pill bg-secondary">0</span>
         </a>
-        <a href="#" class="btn btn-outline-secondary btn-sm border-0">
+        <a href="#" class="btn btn-outline-secondary btn-sm border-0" title="Disagree">
             <i class="bi bi-heartbreak-fill"></i>
             <span class="badge rounded-pill bg-secondary">0</span>
         </a>
-        <a href="#" class="btn btn-outline-secondary btn-sm border-0">
+        <a href="#" class="btn btn-outline-secondary btn-sm border-0" title="Comments">
             <i class="bi bi-chat-left-text-fill"></i>
             <span class="badge rounded-pill bg-secondary">0</span>
         </a>
-        <a href="#" class="btn btn-outline-secondary btn-sm border-0 ms-3">
+        <a href="#" class="btn btn-outline-secondary btn-sm border-0 ms-3" title="Translate">
             <i class="bi bi-translate"></i>
         </a>
-        <a href="#" class="btn btn-outline-secondary btn-sm border-0 ms-3">
+        <a href="#" class="btn btn-outline-secondary btn-sm border-0 ms-3" title="Bookmark">
             <i class="bi bi-bookmark-fill"></i>
             <span class="badge rounded-pill bg-secondary">0</span>
         </a>
-        <a href="#" class="btn btn-outline-secondary btn-sm border-0">
+        <a href="#" class="btn btn-outline-secondary btn-sm border-0" title="Subscription">
             <i class="bi bi-bell-fill"></i>
             <span class="badge rounded-pill bg-secondary">0</span>
         </a>
         <div class="float-end">
-            <a href="#" class="btn btn-outline-secondary btn-sm"><i class="bi bi-file-pdf-fill"></i></a>
+            <a href="#" class="btn btn-outline-secondary btn-sm" title="Download PDF"><i class="bi bi-file-pdf-fill"></i></a>
             <!-- Кнопки редактирования и удаления (только для автора поста) -->
             <?php if (isset($_SESSION['user']) && $_SESSION['user']['id'] == $viewPost['opponent_id']): ?>
-                <a href="/<?= $language ?>/<?= $viewPost['opponent_username'] ?>/discussion/<?= $viewPost['discussion_id'] ?>/edit" class="btn btn-outline-warning btn-sm ms-3"><i class="bi bi-pencil-fill"></i></a>
+                <a href="/<?= $language ?>/<?= $viewPost['opponent_username'] ?>/discussion/<?= $viewPost['discussion_id'] ?>/edit" class="btn btn-outline-warning btn-sm ms-3" title="Edit"><i class="bi bi-pencil-fill"></i></a>
                 <form method="POST" action="/<?= $language ?>/<?= $viewPost['opponent_username'] ?>/discussion/<?= $viewPost['discussion_id'] ?>/delete" style="display:inline;">
-                    <button type="submit" class="btn btn-outline-danger btn-sm" onclick="return confirm('<?= __('delete') ?>');"><i class="bi bi-trash3-fill"></i></button>
+                    <button type="submit" class="btn btn-outline-danger btn-sm" onclick="return confirm('<?= __('delete') ?>');" title="Delete"><i class="bi bi-trash3-fill"></i></button>
                 </form>
             <?php endif; ?>
         </div>

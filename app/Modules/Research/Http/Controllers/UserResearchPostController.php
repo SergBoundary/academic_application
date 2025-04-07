@@ -89,8 +89,11 @@ class UserResearchPostController extends Controller
         
         $avatarFile = !empty($user['avatar']) ? "/avatars/" . htmlspecialchars($user['avatar']) : "/img/default-avatar.jpg";
         $avatar = $avatarFile . "?v=" . time();
+
+        $postModel = new ResearchPost();
+        $categories = $postModel->getCategories();
         
-        $view = new View('Research', '', 'posts/create', compact('language', 'header', 'title', 'user', 'avatar'));
+        $view = new View('Research', '', 'posts/create', compact('language', 'header', 'title', 'user', 'avatar', 'categories'));
         $view->render();
     }
 
@@ -168,7 +171,6 @@ class UserResearchPostController extends Controller
         $category = $_POST['form_post_category'];
         $content = $_POST['form_post_content'];
 
-        $postModel = new ResearchPost();
         $postModel->updatePost($id, $title, $content, $category);
 
         header("Location: /{$language}/{$username}/research/{$id}");

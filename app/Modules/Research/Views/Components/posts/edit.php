@@ -31,7 +31,7 @@
         </div>
         <div class="card-footer bg-transparent">
             <div class="float-end">
-                <a href="/<?= $language ?>/<?= $user['username'] ?>/research" class="btn btn-outline-secondary btn-sm ms-3"><?= __('cancel') ?></a>
+                <a href="/<?= $language ?>/<?= $user['username'] ?>/research/<?= $post['id'] ?>" class="btn btn-outline-secondary btn-sm ms-3"><?= __('cancel') ?></a>
                 <button type="submit" class="btn btn-secondary btn-sm"><?= __('save') ?></button>
             </div>
         </div>

@@ -16,10 +16,10 @@
             </div>
             <div class="mb-3 col-6">
                 <label for="category" class="form-label"><?= __('form_post_category') ?></label>
-                <select class="form-select" name="form_post_category" id="category">
-                    <option value="1" selected>Philosophy</option>
-                    <option value="2">Phisics</option>
-                    <option value="3">Ethics</option>
+                <select class="form-select" name="form_post_category" id="form_post_category">
+                    <?php foreach ($categories as $category): ?>
+                        <option value="<?= $category['id'] ?>"><?= $category['category'] ?></option>
+                    <?php endforeach; ?>
                 </select>
             </div>
             <div class="mb-3">

@@ -10,10 +10,7 @@
         <div class="float-end">
             <!-- Кнопка "Создать пост" (только для авторизованных) -->
             <?php if (isset($_SESSION['user'])): ?>
-                <a href="/<?= $language ?>/<?= $user['username'] ?>/research/create" class="btn btn-secondary btn-sm">
-                    <i class="bi bi-plus-lg"></i>
-                    Create new research
-                </a>
+                <a href="/<?= $language ?>/<?= $user['username'] ?>/research/create" class="btn btn-outline-secondary btn-sm" title="Create new post"><i class="bi bi-plus-lg"></i></a>
             <?php endif; ?>
         </div>
     </div>
@@ -31,30 +28,30 @@
                     </div>
 
                     <div class="float-start mt-1">
-                        <a href="#" class="btn btn-outline-secondary btn-sm border-0">
+                        <a href="#" class="btn btn-outline-secondary btn-sm border-0" title="Agree">
                             <i class="bi bi-heart-fill"></i>
                             <span class="badge rounded-pill bg-secondary">0</span>
                         </a>
-                        <a href="#" class="btn btn-outline-secondary btn-sm border-0">
+                        <a href="#" class="btn btn-outline-secondary btn-sm border-0" title="Disagree">
                             <i class="bi bi-heartbreak-fill"></i>
                             <span class="badge rounded-pill bg-secondary">0</span>
                         </a>
-                        <a href="#" class="btn btn-outline-secondary btn-sm border-0">
+                        <a href="#" class="btn btn-outline-secondary btn-sm border-0" title="Comments">
                             <i class="bi bi-chat-left-text-fill"></i>
                             <span class="badge rounded-pill bg-secondary">0</span>
                         </a>
-                        <a href="#" class="btn btn-outline-secondary btn-sm border-0">
+                        <a href="#" class="btn btn-outline-secondary btn-sm border-0" title="Share">
                             <i class="bi bi-share-fill"></i>
                             <span class="badge rounded-pill bg-secondary">0</span>
                         </a>
-                        <a href="#" class="btn btn-outline-secondary btn-sm border-0 ms-3">
+                        <a href="#" class="btn btn-outline-secondary btn-sm border-0 ms-3" title="Translate">
                             <i class="bi bi-translate"></i>
                         </a>
-                        <a href="#" class="btn btn-outline-secondary btn-sm border-0 ms-3">
+                        <a href="#" class="btn btn-outline-secondary btn-sm border-0 ms-3" title="Bookmark">
                             <i class="bi bi-bookmark-fill"></i>
                             <span class="badge rounded-pill bg-secondary">0</span>
                         </a>
-                        <a href="#" class="btn btn-outline-secondary btn-sm border-0">
+                        <a href="#" class="btn btn-outline-secondary btn-sm border-0" title="Subscription">
                             <i class="bi bi-bell-fill"></i>
                             <span class="badge rounded-pill bg-secondary">0</span>
                         </a>

@@ -20,8 +20,11 @@ class ResearchPost extends Model
     {
         $sql = "SELECT 
                     `tr`.`id`, `tr`.`user_id`, `tr`.`title`, `tr`.`content`, `tr`.`category_id`, `tr`.`created_at`, `tr`.`updated_at`,
+                    `ta`.`username`, `ta`.`name`, `ta`.`surname`, `ta`.`avatar`,
                     `trc`.`{$this->language}` AS `category_name`
                 FROM `research_posts` AS `tr` 
+                INNER JOIN `users` AS `ta`
+                  ON `ta`.`id` = `tr`.`user_id`
                 INNER JOIN `research_post_categories` AS `trc`
                   ON `trc`.`id` = `tr`.`category_id`
                 WHERE `tr`.`user_id` = :user_id 
@@ -34,8 +37,11 @@ class ResearchPost extends Model
     {
         $sql = "SELECT 
                     `tr`.`id`, `tr`.`user_id`, `tr`.`title`, `tr`.`content`, `tr`.`category_id`, `tr`.`created_at`, `tr`.`updated_at`,
+                    `ta`.`username`, `ta`.`name`, `ta`.`surname`, `ta`.`avatar`,
                     `trc`.`{$this->language}` AS `category_name`
                 FROM `research_posts` AS `tr` 
+                INNER JOIN `users` AS `ta`
+                  ON `ta`.`id` = `tr`.`user_id`
                 INNER JOIN `research_post_categories` AS `trc`
                   ON `trc`.`id` = `tr`.`category_id`
                 WHERE `tr`.`id` = :id";
