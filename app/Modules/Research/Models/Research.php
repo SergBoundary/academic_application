@@ -17,7 +17,7 @@ class Research extends Model
                   ON `trc`.`id` = `tr`.`category_id`
                 INNER JOIN `users` AS `tu`
                   ON `tu`.`id` = `tr`.`user_id`
-                ORDER BY `tr`.`user_id`, `tr`.`id` ASC";
+                ORDER BY `tr`.`user_id`, `tr`.`created_at` DESC";
         
         return $this->query($sql);
     }

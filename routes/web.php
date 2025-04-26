@@ -69,6 +69,9 @@ Router::add('^(?P<language>[a-z-]+)/(?P<username>[a-z0-9-]+)/discussion/(?P<id>\
 Router::add('^(?P<language>[a-z-]+)/(?P<username>[a-z0-9-]+)/discussion/(?P<id>\d+)/update$', ['module' => 'Discussion', 'controller' => 'UserDiscussionPost', 'action' => 'update', 'method' => 'POST']);
 Router::add('^(?P<language>[a-z-]+)/(?P<username>[a-z0-9-]+)/discussion/(?P<id>\d+)/delete$', ['module' => 'Discussion', 'controller' => 'UserDiscussionPost', 'action' => 'delete', 'method' => 'POST']);
 
+// Universal Interaction Controller
+Router::add('^(?P<language>[a-z-]+)/interact/(?P<type>liked|disliked|bookmarked|subscribed|shared)/(?P<level>research|discussion)/(?P<id>\d+)$', ['controller' => 'Interaction', 'action' => 'toggle', 'method' => 'POST']);
+
 
 
 // Router::add('^$', ['lang' => 'pl', 'action' => 'index', 'content' => 'index']);

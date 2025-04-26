@@ -60,6 +60,12 @@ class Router
                 $controller = self::$route['controller'] ?? 'Home';
                 $action = self::$route['action'] ?? 'index';
                 $params = array_values(self::$route['params'] ?? []);
+                
+                // debug($module, 0);
+                // debug($role, 0);
+                // debug($controller, 0);
+                // debug($action, 0);
+                // debug($params, 0);
 
                 if ($module == "Api\\V1") {
                     $controllerClass = "App\\Api\\V1\\Controllers{$role}\\$controller" . "Controller";
