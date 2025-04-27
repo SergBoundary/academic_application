@@ -19,6 +19,7 @@ class MessageController extends AdminController
 
         $messageModel = new Message();
         $messages = $messageModel->getAllMessages();
+        // debug($messages, 1);
 
         $view = new View('', '', 'admin/messages/index', compact('language', 'header', 'title', 'messages'));
         $view->render();

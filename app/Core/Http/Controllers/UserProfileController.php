@@ -4,6 +4,7 @@ namespace App\Core\Http\Controllers;
 
 use App\Core\Views\View;
 use App\Core\Models\User;
+use App\Core\Models\Statistics;
 use App\Core\Models\Message;
 use App\Core\Middleware\MiddlewareService;
 
@@ -22,10 +23,15 @@ class UserProfileController extends Controller
             exit;
         }
 
+        // debug($user, 1);
+        $statModel = new Statistics();
+        $statUserResearchPost = $statModel->statUserResearchPost($user['id']);
+        $statUserDiscussionPost = $statModel->statUserDiscussionPost($user['id']);
+
         $title = 'user_profile';
         $header = __('user_profile') . ' : ' . $user['name'] . ' ' . $user['surname'];
 
-        $view = new View('', '', 'user/profile', compact('language', 'header', 'title', 'user'));
+        $view = new View('', '', 'user/profile', compact('language', 'header', 'title', 'user', 'statUserResearchPost', 'statUserDiscussionPost'));
         $view->render();
     }
 
@@ -103,6 +109,7 @@ class UserProfileController extends Controller
 
     public function delete($username)
     {
+        debug('test', 1);
         MiddlewareService::run('auth'); // Checking authorization
 
         $language = $this->language;

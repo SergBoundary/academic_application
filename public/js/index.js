@@ -24,9 +24,23 @@ setInterval(updateClock, 1000);
 
 //   autosize(document.getElementById('form_post_content'));
 
-// AJAX for interaction
-document.addEventListener("DOMContentLoaded", function() {
+document.addEventListener("DOMContentLoaded", function () {
 
+    const input = document.getElementById('avatarInput');
+    const preview = document.getElementById('avatarPreview');
+
+    input.addEventListener('change', function () {
+        const file = this.files[0];
+        if (!file) return;
+
+        const objectUrl = URL.createObjectURL(file);
+        preview.src = objectUrl;
+
+        // Выгрузка изображения из памяти
+        preview.onload = () => URL.revokeObjectURL(objectUrl);
+    });
+
+    // AJAX for interaction
     // Функция для обработки ответа и обновления кнопок
     function updateInteraction(responseData, action, postId) {
         console.log('updateInteraction()', action, postId, responseData);
@@ -39,7 +53,7 @@ document.addEventListener("DOMContentLoaded", function() {
         // Обновляем стиль кнопок: если active (1) — btn-outline-primary, иначе — btn-outline-secondary
         var newClass = (responseData[action] == 1) ? 'btn-outline-primary' : 'btn-outline-secondary';
 
-        forms.forEach(function(form) {
+        forms.forEach(function (form) {
             var btn = form.querySelector('button');
             if (btn) {
                 // Удаляем оба класса и добавляем нужный
@@ -51,7 +65,7 @@ document.addEventListener("DOMContentLoaded", function() {
         // Обновляем счетчик на badge
         // Предположим, сервер возвращает поле с количеством, например: likeCount, dislikeCount и т.д.
         var countField = action + 'Count';
-        badges.forEach(function(badge) {
+        badges.forEach(function (badge) {
             var span = badge.querySelector('span');
             if (span && responseData[countField] !== undefined) {
                 span.textContent = responseData[countField];
@@ -61,8 +75,8 @@ document.addEventListener("DOMContentLoaded", function() {
 
     // Перехватываем отправку всех форм с классом ajax-interaction
     var ajaxForms = document.querySelectorAll('form.ajax-interaction');
-    ajaxForms.forEach(function(form) {
-        form.addEventListener('submit', function(e) {
+    ajaxForms.forEach(function (form) {
+        form.addEventListener('submit', function (e) {
             e.preventDefault();
             var url = form.getAttribute('action');
             var method = form.getAttribute('method').toUpperCase();
@@ -75,24 +89,24 @@ document.addEventListener("DOMContentLoaded", function() {
                 body: formData,
                 credentials: 'include'  // Для передачи cookies, если требуется
             })
-            .then(function(response) {
-                if (!response.ok) {
-                    throw new Error("Network response was not ok");
-                }
-                return response.json();
-            })
-            .then(function(data) {
-                console.log("AJAX response:", data);
-                var postId = form.dataset.postId;
-                ['liked','disliked','bookmarked','subscribed','shared'].forEach(function(act) {
-                  if (data.hasOwnProperty(act) && data.hasOwnProperty(act + 'Count')) {
-                    updateInteraction(data, act, postId);
-                  }
+                .then(function (response) {
+                    if (!response.ok) {
+                        throw new Error("Network response was not ok");
+                    }
+                    return response.json();
+                })
+                .then(function (data) {
+                    console.log("AJAX response:", data);
+                    var postId = form.dataset.postId;
+                    ['liked', 'disliked', 'bookmarked', 'subscribed', 'shared'].forEach(function (act) {
+                        if (data.hasOwnProperty(act) && data.hasOwnProperty(act + 'Count')) {
+                            updateInteraction(data, act, postId);
+                        }
+                    });
+                })
+                .catch(function (error) {
+                    console.error("Ошибка при отправке AJAX-запроса:", error);
                 });
-            })
-            .catch(function(error) {
-                console.error("Ошибка при отправке AJAX-запроса:", error);
-            });
         });
     });
 });

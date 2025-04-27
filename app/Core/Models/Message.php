@@ -12,7 +12,12 @@ class Message extends Model
 
     public function getAllMessages()
     {
-        $sql = "SELECT * FROM `messages` ORDER BY `created_at` DESC";
+        $sql = "SELECT `m`.`id`, `m`.`user_id`, `m`.`email`, `m`.`message`, `m`.`created_at`, 
+                       `u`.`username`, `u`.`name`, `u`.`surname`, `u`.`avatar`, `u`.`role`
+                FROM `messages` AS `m`
+                INNER JOIN `users` AS `u`
+                  ON `u`.`id` = `m`.`user_id`
+                ORDER BY `created_at` DESC";
         return $this->query($sql);
     }
 }
