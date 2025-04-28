@@ -89,8 +89,8 @@ $avatarUrl = $avatarFile . "?v=" . time(); // Добавляем timestamp
         <div class="row">
             <form action="/<?= $language ?>/<?= $user['username'] ?>/send-message" method="POST">
                 <div class="mb-3">
-                    <label for="content" class="form-label"><?= __('contact_admin') ?></label>
-                    <textarea class="form-control" name="message" id="content" rows="3" placeholder="<?= __('enter_your_message') ?>" required></textarea>
+                    <label for="message" class="form-label"><?= __('contact_admin') ?></label>
+                    <textarea class="form-control" name="message" id="message" rows="3" placeholder="<?= __('enter_your_message') ?>" required></textarea>
                 </div>
                 <div class="float-end">
                     <button type="submit" class="btn btn-secondary btn-sm"><?= __('send') ?></button>

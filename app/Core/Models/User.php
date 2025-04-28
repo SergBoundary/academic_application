@@ -16,29 +16,28 @@ class User extends Model
 
     public function getAllUsers(): array
     {
-        $sql = "SELECT `id`, `username`, `email`, `name`, `surname`, `role`, `permissions`, `updated_at` FROM `users`";
+        $sql = "SELECT `id`, `username`, `name`, `surname`, `avatar`, `email`, `role`, `permissions`, `updated_at` FROM `users`";
         $result = $this->model->query($sql);
         return $result;
     }
 
     public function getByEmail(string $email): ?array
     {
-        $sql = "SELECT `id`, `username`, `email`, `name`, `surname`, `role`, `permissions`, `updated_at` FROM `users` WHERE `email` = :email LIMIT 1";
+        $sql = "SELECT `id`, `username`, `name`, `surname`, `avatar`, `email`, `role`, `permissions`, `updated_at` FROM `users` WHERE `email` = :email LIMIT 1";
         $result = $this->model->query($sql, ['email' => $email]);
         return $result ? $result[0] : null;
     }
 
     public function getUserByUsername(string $username): ?array
     {
-        // debug($username, 0);
-        $sql = "SELECT `id`, `username`, `email`, `name`, `surname`, `role`, `permissions`, `avatar`, `updated_at` FROM `users` WHERE `username` = :username LIMIT 1";
+        $sql = "SELECT `id`, `username`, `name`, `surname`, `avatar`, `email`, `role`, `permissions`, `updated_at` FROM `users` WHERE `username` = :username LIMIT 1";
         $result = $this->model->query($sql, ['username' => $username]);
         return $result ? $result[0] : null;
     }
 
     public function getById($id)
     {
-        $sql = "SELECT `id`, `username`, `email`, `name`, `surname`, `role`, `permissions`, `updated_at` FROM `users` WHERE `id` = :id";
+        $sql = "SELECT `id`, `username`, `name`, `surname`, `avatar`, `email`, `role`, `permissions`, `updated_at` FROM `users` WHERE `id` = :id";
         $result = $this->query($sql, ['id' => $id]);
         return $result[0] ?? null;
     }
@@ -68,10 +67,10 @@ class User extends Model
         $this->model->execute($sql, ['role' => $role, 'id' => $userId]);
     }
 
-    public function updateUser($id, $email, $name, $surname, $role, array $permissions)
+    public function updateUser($id, $name, $surname, $avatar, $email, $role, array $permissions)
     {
-        $sql = "UPDATE `users` SET `email` = :email, `name` = :name, `surname` = :surname, `role` = :role, `permissions` = :permissions WHERE `id` = :id";
-        return $this->execute($sql, ['id' => $id, 'email' => $email, 'name' => $name, 'surname' => $surname, 'role' => $role, 'permissions' => json_encode($permissions)]);
+        $sql = "UPDATE `users` SET `name` = :name, `surname` = :surname, `avatar` = :avatar, `email` = :email, `role` = :role, `permissions` = :permissions WHERE `id` = :id";
+        return $this->execute($sql, ['id' => $id, 'name' => $name, 'surname' => $surname, 'avatar' => $avatar, 'email' => $email, 'role' => $role, 'permissions' => json_encode($permissions)]);
     }
 
     public function deleteUser($id)

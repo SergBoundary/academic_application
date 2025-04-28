@@ -1,6 +1,16 @@
-<h2><?= __('new_password') ?></h2>
-<form action="/<?= $language ?>/password/update" method="post">
-    <input type="hidden" name="token" value="<?= htmlspecialchars($_GET['token'] ?? '') ?>">
-    <input type="password" name="password" placeholder="<?= __('enter_new_password') ?>" required>
-    <button type="submit"><?= __('to_update_password') ?></button>
-</form>
+<div class="container p-5 bg-light shadow-lg border">
+    <div class="row">
+        <div class="col-3 mx-auto text-center">
+            <h5><?= __('new_password') ?></h5>
+            <form action="/<?= $language ?>/password/update" method="POST">
+                <input type="hidden" name="token" value="<?= htmlspecialchars($_GET['token'] ?? '') ?>">
+                <div class="mb-3 row">
+                    <input type="password" class="form-control" name="password" placeholder="<?= __('enter_new_password') ?>" required>
+                </div>
+                <div class="mb-3 row">
+                    <button type="submit" class="btn btn-secondary"><?= __('update_password') ?></button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

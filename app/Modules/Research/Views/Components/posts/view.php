@@ -71,12 +71,12 @@
             </a>
         </div>
         <div class="float-end">
-            <a href="" class="btn btn-outline-secondary btn-sm" title="Download PDF"><i class="bi bi-file-pdf-fill"></i></a>
+            <a href="" class="btn btn-outline-secondary btn-sm" title="<?= __('download') ?> PDF"><i class="bi bi-file-pdf-fill"></i></a>
             <!-- Кнопки редактирования и удаления (только для автора поста) -->
             <?php if (isset($_SESSION['user']) && $_SESSION['user']['id'] == $post['user_id']): ?>
-                <a href="/<?= $language ?>/<?= $user['username'] ?>/research/<?= $post['id'] ?>/edit" class="btn btn-outline-warning btn-sm ms-3" title="Edit"><i class="bi bi-pencil-fill"></i></a>
-                <form method="POST" action="/<?= $language ?>/<?= $user['username'] ?>/research/<?= $post['id'] ?>/delete" style="display:inline;">
-                    <button type="submit" class="btn btn-outline-danger btn-sm" onclick="return confirm('<?= __('delete') ?>');" title="Delete"><i class="bi bi-trash3-fill"></i></button>
+                <a href="/<?= $language ?>/<?= $user['username'] ?>/research/<?= $post['id'] ?>/edit" class="btn btn-outline-warning btn-sm ms-3" title="<?= __('edit') ?>"><i class="bi bi-pencil-fill"></i></a>
+                <form method="POST" action="/<?= $language ?>/<?= $user['username'] ?>/research/<?= $post['id'] ?>/delete" class="d-inline-block">
+                    <button type="submit" class="btn btn-outline-danger btn-sm" onclick="return confirm('<?= __('delete') ?>');" title="<?= __('delete') ?>"><i class="bi bi-trash3-fill"></i></button>
                 </form>
             <?php endif; ?>
         </div>

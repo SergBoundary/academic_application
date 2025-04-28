@@ -4,6 +4,7 @@ namespace App\Core\Http\Controllers;
 
 use App\Core\Views\View;
 use App\Core\Models\User;
+use App\Core\Models\Statistics;
 use App\Core\Middleware\MiddlewareService;
 
 class HomeController extends Controller
@@ -14,13 +15,16 @@ class HomeController extends Controller
         $module = '';
         $layout = '';
         $view = '';
-        $title = 'users';
-        $header = __('users');
+        $title = 'welcome_to_acapp';
+        $header = __('welcome_to_acapp');
 
         $userModel = new User();
         $users = $userModel->getAllUsers();
 
-        $view = new View($module, $layout, $view, compact(['language', 'header', 'title', 'users']));
+        $statModel = new Statistics();
+        $statAllUsers = $statModel->statAllUsers();
+
+        $view = new View('', '', '', compact(['language', 'header', 'title', 'users', 'statAllUsers']));
         $view->render();
     }
 }

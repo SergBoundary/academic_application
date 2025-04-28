@@ -23,7 +23,6 @@ class UserProfileController extends Controller
             exit;
         }
 
-        // debug($user, 1);
         $statModel = new Statistics();
         $statUserResearchPost = $statModel->statUserResearchPost($user['id']);
         $statUserDiscussionPost = $statModel->statUserDiscussionPost($user['id']);
@@ -189,7 +188,6 @@ class UserProfileController extends Controller
         header("Location: /$language/$username/profile?success=1");
         exit;
     }
-
 
     // Метод загрузки аватара
     private function uploadAvatar($file, $userId)

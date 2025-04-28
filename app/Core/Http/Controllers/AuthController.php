@@ -60,29 +60,34 @@ class AuthController extends Controller
 
             $userModel = new User();
             $user = $userModel->getByEmail($email);
-            $userPassword = $userModel->getUserPassword($user['id']);
+            // Проверка email
+            if (isset($user)) {
+                $userPassword = $userModel->getUserPassword($user['id']);
 
-            // Проверка email с хешированым паролем
-            if (isset($user) && $email === $user['email'] && password_verify($password, $userPassword['password'])) {
-                // Загружаем права доступа
-                $permissions = $userModel->getPermissions($user['id']);
-                // Создаем сессию для пользователя и записываем в нее его свойства
-                $_SESSION['user'] = [
-                    'id' => $user['id'],
-                    'username' => $user['username'],
-                    'email' => $user['email'],
-                    'role' => $user['role'],
-                    'permissions' => $permissions
-                ];
-                // Если админ — отправляем на /admin
-                if ($user['role'] === 'admin') {
-                    header("Location: /{$language}/admin");
+                // Проверка email с хешированым паролем
+                if (isset($user) && $email === $user['email'] && password_verify($password, $userPassword['password'])) {
+                    // Загружаем права доступа
+                    $permissions = $userModel->getPermissions($user['id']);
+                    // Создаем сессию для пользователя и записываем в нее его свойства
+                    $_SESSION['user'] = [
+                        'id' => $user['id'],
+                        'username' => $user['username'],
+                        'email' => $user['email'],
+                        'role' => $user['role'],
+                        'permissions' => $permissions
+                    ];
+                    // Если админ — отправляем на /admin
+                    if ($user['role'] === 'admin') {
+                        header("Location: /{$language}/admin");
+                        exit;
+                    }
+                    header("Location: /{$language}");
                     exit;
+                } else {
+                    $error = __('incorrect_data_entered');
                 }
-                header("Location: /{$language}");
-                exit;
             } else {
-                $error = "Неверный email или пароль!";
+                $error = __('incorrect_data_entered');
             }
         }
 
@@ -104,7 +109,7 @@ class AuthController extends Controller
         $language = $this->language;
         $title = 'reset_password';
         $header = __('reset_password');
-        
+
         $view = new View('', '', 'password/reset', compact('language', 'header', 'title'));
         $view->render();
     }

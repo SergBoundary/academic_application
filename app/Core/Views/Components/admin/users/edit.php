@@ -1,47 +1,76 @@
-<h2><?= __('editing_user_properties') ?>: <?= $user['name'] ?></h2>
-
-<form method="POST" action="/<?= $language ?>/admin/users/update">
-    <input type="hidden" name="id" value="<?= $user['id']; ?>">
-
-    <label>Email</label>
-    <input type="email" name="email" value="<?= $user['email']; ?>" required>
-    <br>
-
-    <label><?= __('name') ?></label>
-    <input type="text" name="name" value="<?= $user['name']; ?>" required>
-    <br>
-
-    <label><?= __('surname') ?></label>
-    <input type="text" name="surname" value="<?= $user['surname']; ?>">
-    <br>
-    <br>
-
-    <label><?= __('role') ?>: </label>
-    <select name="role">
-        <option value="user" <?= $user['role'] === 'user' ? 'selected' : ''; ?>>User</option>
-        <option value="admin" <?= $user['role'] === 'admin' ? 'selected' : ''; ?>>Admin</option>
-    </select>
-    <br>
-
-    <h4><?= __('user_rights') ?>:</h4>
-    <label>
-        <input type="checkbox" name="research" <?= isset($permissions['research']) && $permissions['research'] ? 'checked' : '' ?>>
-        <?= __('module') ?> "Research"
-    </label>
-    <br>
-
-    <label>
-        <input type="checkbox" name="discussion" <?= isset($permissions['discussion']) && $permissions['discussion'] ? 'checked' : '' ?>>
-        <?= __('module') ?> "Discussion"
-    </label>
-    <br>
-
-    <label>
-        <input type="checkbox" name="private" <?= isset($permissions['private']) && $permissions['private'] ? 'checked' : '' ?>>
-        <?= __('module') ?> "Private"
-    </label>
-    <br>
-    <br>
-
-    <button type="submit"><?= __('save') ?></button>
-</form>
+<?php
+$avatarFile = !empty($user['avatar']) ? "/avatars/" . htmlspecialchars($user['avatar']) : "/img/default-avatar.jpg";
+$avatarUrl = $avatarFile . "?v=" . time(); // Добавляем timestamp
+?>
+<div class="container p-4 bg-light shadow-lg">
+    <form action="/<?= $language ?>/admin/users/update" method="POST" enctype="multipart/form-data">
+        <input type="hidden" name="id" value="<?= $user['id']; ?>">
+        <div class="row">
+            <div class="col-auto">
+                <div class="card">
+                    <img class="card-img-top rounded border" src="<?= $avatarUrl ?>" id="avatarPreview" alt="Аватар" width="100">
+                </div>
+                <div class="card-body d-grid gap-2">
+                    <input type="file" name="avatar" id="avatarInput" class="d-none">
+                    <label for="avatarInput" class="btn btn-outline-secondary btn-sm mb-1" title="<?= __('upload_photo') ?>"><i class="bi bi-download me-2"></i><?= __('upload_photo') ?></label>
+                </div>
+            </div>
+            <div class="col-10">
+                <div class="mb-3 row">
+                    <label for="name" class="col-sm-2 col-form-label"><?= __('name') ?></label>
+                    <div class="col-sm-6">
+                        <input type="text" class="form-control" id="name" name="name" value="<?= htmlspecialchars($user['name']) ?>">
+                    </div>
+                </div>
+                <div class="mb-3 row">
+                    <label for="surname" class="col-sm-2 col-form-label"><?= __('surname') ?></label>
+                    <div class="col-sm-6">
+                        <input type="text" class="form-control" id="surname" name="surname" value="<?= htmlspecialchars($user['surname']) ?>">
+                    </div>
+                </div>
+                <div class="mb-3 row">
+                    <label for="email" class="col-sm-2 col-form-label"><?= __('email') ?></label>
+                    <div class="col-sm-6">
+                        <input type="text" class="form-control" id="email" name="email" value="<?= htmlspecialchars($user['email']) ?>">
+                    </div>
+                </div>
+                <div class="mb-3 row">
+                    <label for="role" class="col-sm-2 col-form-label"><?= __('role') ?></label>
+                    <div class="col-sm-6">
+                        <select id="role" name="role" class="form-select" aria-label="Default select example">
+                            <option value="user" <?= $user['role'] === 'user' ? 'selected' : ''; ?>><?= __('user') ?></option>
+                            <option value="admin" <?= $user['role'] === 'admin' ? 'selected' : ''; ?>><?= __('admin') ?></option>
+                        </select>
+                    </div>
+                </div>
+                <div class="mb-3 row">
+                    <label for="role" class="col-sm-2 col-form-label"><?= __('user_rights') ?></label>
+                    <div class="col-sm-6 my-2">
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" name="research" id="checkResearch" <?= isset($permissions['research']) && $permissions['research'] ? 'checked' : '' ?>>
+                            <label class="form-check-label" for="checkResearch">
+                                <?= __('research') ?>
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" name="discussion" id="checkDiscussion" <?= isset($permissions['discussion']) && $permissions['discussion'] ? 'checked' : '' ?>>
+                            <label class="form-check-label" for="checkDiscussion">
+                                <?= __('discussion') ?>
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" name="project" id="checkProject" <?= isset($permissions['project']) && $permissions['project'] ? 'checked' : '' ?>>
+                            <label class="form-check-label" for="checkProject">
+                                <?= __('project') ?>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-10 offset-2 mt-5">
+                    <a href="/<?= $language ?>/<?= $user['username'] ?>/profile" class="btn btn-outline-secondary btn-sm me-1"><?= __('cancel') ?></a>
+                    <button type="submit" class="btn btn-secondary btn-sm"><?= __('save_changes') ?></button>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>

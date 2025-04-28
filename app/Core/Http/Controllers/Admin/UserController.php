@@ -30,8 +30,8 @@ class UserController extends Controller
         MiddlewareService::run('auth'); // Checking authorization
 
         $language = $this->language;
-        $title = 'user_properties';
-        $header = __('user_properties');
+        $title = 'editing_user_data';
+        $header = __('editing_user_data');
 
         $userModel = new User();
         $user = $userModel->getById($id);
@@ -54,18 +54,35 @@ class UserController extends Controller
 
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $id = $_POST['id'];
-            $email = $_POST['email'];
             $name = $_POST['name'];
             $surname = $_POST['surname'];
+            $email = $_POST['email'];
+            $avatar = $_POST['avatar'];
             $role = $_POST['role'];
             $permissions = [
                 'research' => isset($_POST['research']),
                 'discussion' => isset($_POST['discussion']),
-                'private' => isset($_POST['private'])
+                'project' => isset($_POST['project'])
             ];
 
+            // Проверяем, существует ли пользователь
             $userModel = new User();
-            $userModel->updateUser($id, $email, $name, $surname, $role, $permissions);
+            $user = $userModel->getById($id);
+    
+            if (!$user) {
+                http_response_code(404);
+                echo "Пользователь не найден!";
+                exit;
+            }
+
+            // Проверяем, загружен ли файл
+            if (!empty($_FILES['avatar']['name'])) {
+                $avatarPath = $this->uploadAvatar($_FILES['avatar'], $user['id']);
+            } else {
+                $avatarPath = $user['avatar'];
+            }
+
+            $userModel->updateUser($id, $name, $surname, $avatarPath, $email, $role, $permissions);
 
             $updatedUser = $userModel->getById($id);
             // Обновляем кэш в Redis:
@@ -78,7 +95,6 @@ class UserController extends Controller
 
             // Если админ редактирует сам себя — обновляем сессию
             if ($_SESSION['user']['id'] == $id) {
-                $_SESSION['user']['permissions'] = $permissions;
                 $_SESSION['user']['permissions'] = $permissions;
             }
 
@@ -101,6 +117,37 @@ class UserController extends Controller
             $userModel->deleteUser($id);
 
             header("Location: /{$language}/admin/users");
+            exit;
+        }
+    }
+
+    // Метод загрузки аватара
+    private function uploadAvatar($file, $userId)
+    {
+        $allowedTypes = ['image/jpeg', 'image/png', 'image/gif'];
+        $uploadDir = ROOT . '/storage/uploads/avatars/';
+
+        // Проверяем и создаём директорию, если её нет
+        if (!is_dir($uploadDir)) {
+            mkdir($uploadDir, 0777, true);
+        }
+
+        // Проверяем MIME-тип
+        if (!in_array($file['type'], $allowedTypes)) {
+            echo "Ошибка: Допустимы только JPG, PNG и GIF!";
+            exit;
+        }
+
+        // Генерируем уникальное имя файла
+        $fileExt = pathinfo($file['name'], PATHINFO_EXTENSION);
+        $fileName = "user_avatar_{$userId}." . $fileExt;
+        $filePath = $uploadDir . $fileName;
+
+        // Перемещаем загруженный файл
+        if (move_uploaded_file($file['tmp_name'], $filePath)) {
+            return $fileName;
+        } else {
+            echo "Ошибка загрузки файла!";
             exit;
         }
     }
