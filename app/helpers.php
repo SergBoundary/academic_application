@@ -13,6 +13,12 @@ if (!function_exists('isUserLoggedIn')) {
     }
 }
 
+if (!function_exists('isAdminLoggedIn')) {
+    function isAdminLoggedIn(): bool {
+        return $_SESSION['user']['role'] === 'admin';
+    }
+}
+
 if (!function_exists('debug')) {
     function debug($arr, $die = false) {
         echo '<pre>'.print_r($arr, true).'</pre>';

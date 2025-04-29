@@ -1,4 +1,4 @@
-<div class="card text-dark bg-light shadow-lg">
+<div class="card text-dark bg-body shadow mb-2">
     <div class="card-header">
         <img class="rounded-circle border" src="<?= $post['opponent_avatar'] ?>" alt="Аватар оппонента" width="30">
         <a href="/<?= $language ?>/<?= $post['opponent_username'] ?>/profile" class="text-decoration-none">

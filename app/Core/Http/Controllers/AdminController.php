@@ -21,7 +21,14 @@ class AdminController extends Controller
             exit;
         }
 
-        $view = new View('', '', 'admin/admin', compact(['language', 'header', 'title']));
+        $navbar = 'admin';
+        $breadcrumb = [
+            'active' => __('admin_panel'),
+            'list' => [
+                ['name' => 'AcApp', 'url' => '']
+            ],];
+
+        $view = new View('', '', 'admin/admin', compact(['language', 'header', 'title', 'navbar', 'breadcrumb']));
         $view->render();
     }
 }

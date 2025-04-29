@@ -2,7 +2,7 @@
 $avatarFile = !empty($user['avatar']) ? "/avatars/" . htmlspecialchars($user['avatar']) : "/img/default-avatar.jpg";
 $avatarUrl = $avatarFile . "?v=" . time(); // Добавляем timestamp
 ?>
-<div class="container p-4 bg-light shadow-lg">
+<div class="container border mb-2 p-4 bg-body shadow">
     <form action="/<?= $language ?>/<?= $user['username'] ?>/update-profile" method="POST" enctype="multipart/form-data">
         <div class="row">
             <div class="col-auto">

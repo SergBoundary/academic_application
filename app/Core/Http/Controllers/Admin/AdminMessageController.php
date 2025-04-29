@@ -7,7 +7,7 @@ use App\Core\Models\Message;
 use App\Core\Views\View;
 use App\Core\Middleware\MiddlewareService;
 
-class MessageController extends AdminController
+class AdminMessageController extends AdminController
 {
     public function index()
     {
@@ -20,7 +20,15 @@ class MessageController extends AdminController
         $messageModel = new Message();
         $messages = $messageModel->getAllMessages();
 
-        $view = new View('', '', 'admin/messages/index', compact('language', 'header', 'title', 'messages'));
+        $navbar = 'admin';
+        $breadcrumb = [
+            'active' => __('messages_from_users'),
+            'list' => [
+                ['name' => 'AcApp', 'url' => ''],
+                ['name' => __('admin_panel'), 'url' => 'admin']
+            ],];
+
+        $view = new View('', '', 'admin/messages/index', compact('language', 'header', 'title', 'navbar', 'breadcrumb', 'messages'));
         $view->render();
     }
 }

@@ -1,6 +1,4 @@
-<h3><?= htmlspecialchars(__($title)) ?></h3>
-
-<div class="container mt-2 p-4 bg-light shadow-lg">
+<div class="container border mb-2 p-4 bg-body shadow">
     <div class="row">
         <div class="col">
             <table class="table table-hover">
@@ -8,6 +6,7 @@
                     <tr>
                         <th scope="col"><?= __('user') ?></th>
                         <th scope="col"><?= __('email') ?></th>
+                        <th scope="col" class="col-1"><?= __('role') ?></th>
                         <th scope="col" class="col-1"><?= __('research') ?></th>
                         <th scope="col" class="col-1"><?= __('discussion') ?></th>
                     </tr>
@@ -21,9 +20,13 @@
                         <tr>
                             <td>
                                 <img class="rounded-circle border" src="<?= $avatar ?>" alt="Аватар автора" width="30">
-                                <a class="text-decoration-none" href="/<?= $language ?>/<?= $user['username']; ?>/profile"><?= $user['name']; ?> <?= $user['surname']; ?></a>
+                                <a class="text-decoration-none" href="/<?= $language ?>/<?= $user['username']; ?>"><?= $user['name']; ?> <?= $user['surname']; ?></a>
                             </td>
                             <td><?= $user['email']; ?></td>
+                            <td>
+                                <?= $user['role'] === 'admin' ? __('admin') : '' ?>
+                                <?= $user['role'] === 'user' ? __('user') : '' ?>
+                            </td>
                             <td class="text-end px-3"><?= $statAllUsers[$user['id']]['research']['posted'] ?></td>
                             <td class="text-end px-3"><?= $statAllUsers[$user['id']]['discussion']['posted'] ?></td>
                         </tr>

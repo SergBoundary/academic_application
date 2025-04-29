@@ -17,19 +17,19 @@ Router::add('^(?P<language>[a-z-]+)/password/update$', ['controller' => 'Auth', 
 // Admin dashboard
 Router::add('^(?P<language>[a-z-]+)/admin$', ['controller' => 'Admin', 'action' => 'index', 'method' => 'GET']);
 // User list for edit and delete
-Router::add('^(?P<language>[a-z-]+)/admin/users$', ['controller' => 'User', 'action' => 'index', 'role' => 'Admin', 'method' => 'GET']);
-Router::add('^(?P<language>[a-z-]+)/admin/users/edit/?(?P<id>[0-9]+)$', ['controller' => 'User', 'action' => 'edit', 'role' => 'Admin', 'method' => 'GET']);
-Router::add('^(?P<language>[a-z-]+)/admin/users/update$', ['controller' => 'User', 'action' => 'update', 'role' => 'Admin', 'method' => 'POST']);
-Router::add('^(?P<language>[a-z-]+)/admin/users/delete$', ['controller' => 'User', 'action' => 'delete', 'role' => 'Admin', 'method' => 'POST']);
-Router::add('^(?P<language>[a-z-]+)/admin/messages$', ['controller' => 'Message', 'action' => 'index', 'role' => 'Admin', 'method' => 'GET']);
+Router::add('^(?P<language>[a-z-]+)/admin/users$', ['controller' => 'AdminUser', 'action' => 'index', 'role' => 'Admin', 'method' => 'GET']);
+Router::add('^(?P<language>[a-z-]+)/admin/users/edit/?(?P<id>[0-9]+)$', ['controller' => 'AdminUser', 'action' => 'edit', 'role' => 'Admin', 'method' => 'GET']);
+Router::add('^(?P<language>[a-z-]+)/admin/users/update$', ['controller' => 'AdminUser', 'action' => 'update', 'role' => 'Admin', 'method' => 'POST']);
+Router::add('^(?P<language>[a-z-]+)/admin/users/delete$', ['controller' => 'AdminUser', 'action' => 'delete', 'role' => 'Admin', 'method' => 'POST']);
+Router::add('^(?P<language>[a-z-]+)/admin/messages$', ['controller' => 'AdminMessage', 'action' => 'index', 'role' => 'Admin', 'method' => 'GET']);
 
 // Admin panel for translation management
-Router::add('^(?P<language>[a-z-]+)/admin/translations$', ['controller' => 'Translation', 'action' => 'index', 'role' => 'Admin', 'method' => 'GET']);
-Router::add('^(?P<language>[a-z-]+)/admin/translations/create$', ['controller' => 'Translation', 'action' => 'create', 'role' => 'Admin', 'method' => 'GET']);
-Router::add('^(?P<language>[a-z-]+)/admin/translations/store$', ['controller' => 'Translation', 'action' => 'store', 'role' => 'Admin', 'method' => 'POST']);
-Router::add('^(?P<language>[a-z-]+)/admin/translations/edit/?(?P<key>[\w\-]+)$', ['controller' => 'Translation', 'action' => 'edit', 'role' => 'Admin', 'method' => 'GET']);
-Router::add('^(?P<language>[a-z-]+)/admin/translations/update$', ['controller' => 'Translation', 'action' => 'update', 'role' => 'Admin', 'method' => 'POST']);
-Router::add('^(?P<language>[a-z-]+)/admin/translations/delete$', ['controller' => 'Translation', 'action' => 'delete', 'role' => 'Admin', 'method' => 'POST']);
+Router::add('^(?P<language>[a-z-]+)/admin/translations$', ['controller' => 'AdminTranslation', 'action' => 'index', 'role' => 'Admin', 'method' => 'GET']);
+Router::add('^(?P<language>[a-z-]+)/admin/translations/create$', ['controller' => 'AdminTranslation', 'action' => 'create', 'role' => 'Admin', 'method' => 'GET']);
+Router::add('^(?P<language>[a-z-]+)/admin/translations/store$', ['controller' => 'AdminTranslation', 'action' => 'store', 'role' => 'Admin', 'method' => 'POST']);
+Router::add('^(?P<language>[a-z-]+)/admin/translations/edit/?(?P<key>[\w\-]+)$', ['controller' => 'AdminTranslation', 'action' => 'edit', 'role' => 'Admin', 'method' => 'GET']);
+Router::add('^(?P<language>[a-z-]+)/admin/translations/update$', ['controller' => 'AdminTranslation', 'action' => 'update', 'role' => 'Admin', 'method' => 'POST']);
+Router::add('^(?P<language>[a-z-]+)/admin/translations/delete$', ['controller' => 'AdminTranslation', 'action' => 'delete', 'role' => 'Admin', 'method' => 'POST']);
 
 // Module Research
 Router::add('^(?P<language>[a-z-]+)/research$', ['module' => 'Research', 'controller' => 'ResearchHome', 'action' => 'index', 'method' => 'GET']);
@@ -47,11 +47,11 @@ Router::add('^(?P<language>[a-z-]+)/api/v1/users/update$', ['module' => 'Api\\V1
 // User dashboard
 Router::add('^(?P<language>[a-z-]+)/?(?P<username>[a-z0-9-]+)?$', ['controller' => 'User', 'action' => 'index', 'role' => 'User', 'method' => 'GET']);
 // User Profile for edit and delete
-Router::add('^(?P<language>[a-z-]+)/(?P<username>[a-z0-9-]+)/profile$', ['controller' => 'UserProfile', 'action' => 'index', 'method' => 'GET']);
-Router::add('^(?P<language>[a-z-]+)/(?P<username>[a-z0-9-]+)/edit-profile$', ['controller' => 'UserProfile', 'action' => 'edit', 'method' => 'GET']);
-Router::add('^(?P<language>[a-z-]+)/(?P<username>[a-z0-9-]+)/update-profile$', ['controller' => 'UserProfile', 'action' => 'update', 'method' => 'POST']);
-Router::add('^(?P<language>[a-z-]+)/(?P<username>[a-z0-9-]+)/delete-account$', ['controller' => 'UserProfile', 'action' => 'delete', 'method' => 'POST']);
-Router::add('^(?P<language>[a-z-]+)/(?P<username>[a-z0-9-]+)/send-message$', ['controller' => 'UserProfile', 'action' => 'sendMessage', 'method' => 'POST']);
+Router::add('^(?P<language>[a-z-]+)/(?P<username>[a-z0-9-]+)/profile$', ['controller' => 'UserProfile', 'action' => 'index', 'role' => 'User', 'method' => 'GET']);
+Router::add('^(?P<language>[a-z-]+)/(?P<username>[a-z0-9-]+)/edit-profile$', ['controller' => 'UserProfile', 'action' => 'edit', 'role' => 'User', 'method' => 'GET']);
+Router::add('^(?P<language>[a-z-]+)/(?P<username>[a-z0-9-]+)/update-profile$', ['controller' => 'UserProfile', 'action' => 'update', 'role' => 'User', 'method' => 'POST']);
+Router::add('^(?P<language>[a-z-]+)/(?P<username>[a-z0-9-]+)/delete-account$', ['controller' => 'UserProfile', 'action' => 'delete', 'role' => 'User', 'method' => 'POST']);
+Router::add('^(?P<language>[a-z-]+)/(?P<username>[a-z0-9-]+)/send-message$', ['controller' => 'UserProfile', 'action' => 'sendMessage', 'role' => 'User', 'method' => 'POST']);
 // User Research posts for edit and delete
 Router::add('^(?P<language>[a-z-]+)/(?P<username>[a-z0-9-]+)/research$', ['module' => 'Research', 'controller' => 'UserResearchPost', 'action' => 'index', 'method' => 'GET']);
 Router::add('^(?P<language>[a-z-]+)/(?P<username>[a-z0-9-]+)/research/create$', ['module' => 'Research', 'controller' => 'UserResearchPost', 'action' => 'create', 'method' => 'GET']);

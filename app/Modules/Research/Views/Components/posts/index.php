@@ -1,7 +1,4 @@
-<h4><?= __($title) ?></h4>
-
-<!-- Список постов -->
-<div class="card text-dark bg-light shadow-lg mb-2">
+<div class="card text-dark bg-body shadow mb-2">
     <div class="card-header">
         <img class="rounded-circle border" src="<?= $avatar ?>" alt="Аватар автора" width="30">
         <a href="/<?= $language ?>/<?= $user['username'] ?>/profile" class="text-decoration-none">
@@ -80,7 +77,7 @@
                         </a>
                     </div>
                     <div class="float-end mt-2">
-                        <a href="/<?= $language ?>/<?= $user['username'] ?>/research/<?= $post['id'] ?>" class="btn btn-outline-secondary btn-sm rounded-pill" title="View post">
+                        <a href="/<?= $language ?>/<?= $user['username'] ?>/research/<?= $post['id'] ?>" class="btn btn-outline-secondary btn-sm rounded-pill" title="<?= __('view_post') ?>">
                             <i class="bi bi-eye-fill"></i>
                         </a>
                     </div>

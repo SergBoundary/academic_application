@@ -1,4 +1,4 @@
-<div class="container p-5 bg-light shadow-lg border">
+<div class="container border mb-2 p-4 bg-body shadow">
     <div class="row">
         <div class="col-3 mx-auto text-center">
             <h5><?= __('new_password') ?></h5>

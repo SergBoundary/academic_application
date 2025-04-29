@@ -8,7 +8,7 @@ use App\Core\Models\User;
 use App\Core\Views\View;
 use App\Core\Services\RedisService;
 
-class UserController extends Controller
+class AdminUserController extends Controller
 {
     public function index()
     {
@@ -21,7 +21,15 @@ class UserController extends Controller
         $userModel = new User();
         $users = $userModel->getAllUsers();
 
-        $view = new View('', '', 'admin/users/index', compact('language', 'header', 'title', 'users'));
+        $navbar = 'admin';
+        $breadcrumb = [
+            'active' => __('users'),
+            'list' => [
+                ['name' => 'AcApp', 'url' => ''],
+                ['name' => __('admin_panel'), 'url' => 'admin']
+            ],];
+
+        $view = new View('', '', 'admin/users/index', compact('language', 'header', 'title', 'navbar', 'breadcrumb', 'users'));
         $view->render();
     }
 
@@ -42,7 +50,16 @@ class UserController extends Controller
         }
         $permissions = $userModel->getPermissions($id);
 
-        $view = new View('', '', 'admin/users/edit', compact('language', 'header', 'title', 'user', 'permissions'));
+        $navbar = 'admin';
+        $breadcrumb = [
+            'active' => __('editing_user_data'),
+            'list' => [
+                ['name' => 'AcApp', 'url' => ''],
+                ['name' => __('admin_panel'), 'url' => 'admin'],
+                ['name' => __('users'), 'url' => 'admin/users']
+            ],];
+
+        $view = new View('', '', 'admin/users/edit', compact('language', 'header', 'title', 'navbar', 'breadcrumb', 'user', 'permissions'));
         $view->render();
     }
 

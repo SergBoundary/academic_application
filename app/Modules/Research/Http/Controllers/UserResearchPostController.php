@@ -24,6 +24,14 @@ class UserResearchPostController extends Controller
         $language = $this->language;
         $title = 'user_research_posts';
         $header = __('user_research_posts') . ' : ' . $user['name'] . ' ' . $user['surname'];
+
+        $navbar = 'research';
+        $breadcrumb = [
+            'active' => __('research'),
+            'list' => [
+                ['name' => 'AcApp', 'url' => ''],
+                ['name' => $user['name'] . ' ' . $user['surname'], 'url' => $username]
+            ],];
         
         $postModel = new ResearchPost();
         $postList = $postModel->getUserPosts($user['id']);
@@ -64,7 +72,7 @@ class UserResearchPostController extends Controller
             ];
         }
 
-        $view = new View('Research', '', 'posts/index', compact('language', 'header', 'title', 'avatar', 'user', 'posts'));
+        $view = new View('Research', '', 'posts/index', compact('language', 'header', 'title', 'navbar', 'breadcrumb', 'avatar', 'user', 'posts'));
         $view->render();
     }
 
@@ -82,6 +90,15 @@ class UserResearchPostController extends Controller
         $language = $this->language;
         $title = 'user_research_post_view';
         $header = __('user_research_post_view') . ' : ' . $user['name'] . ' ' . $user['surname'];
+
+        $navbar = 'research';
+        $breadcrumb = [
+            'active' => __('view'),
+            'list' => [
+                ['name' => 'AcApp', 'url' => ''],
+                ['name' => $user['name'] . ' ' . $user['surname'], 'url' => $username],
+                ['name' => __('research'), 'url' => $username.'/research']
+            ],];
         
         $postModel = new ResearchPost();
         $postView = $postModel->getPostById($id);
@@ -133,7 +150,7 @@ class UserResearchPostController extends Controller
         ];
         // debug($post, 1);
         
-        $view = new View('Research', '', 'posts/view', compact('language', 'header', 'title', 'user', 'avatar', 'titlePost', 'post'));
+        $view = new View('Research', '', 'posts/view', compact('language', 'header', 'title', 'navbar', 'breadcrumb', 'user', 'avatar', 'titlePost', 'post'));
         $view->render();
     }
 
@@ -157,6 +174,15 @@ class UserResearchPostController extends Controller
         $language = $this->language;
         $title = 'user_research_post_create';
         $header = __('user_research_post_create');
+
+        $navbar = 'research';
+        $breadcrumb = [
+            'active' => __('creation'),
+            'list' => [
+                ['name' => 'AcApp', 'url' => ''],
+                ['name' => $user['name'] . ' ' . $user['surname'], 'url' => $username],
+                ['name' => __('research'), 'url' => $username.'/research']
+            ],];
         
         $avatarFile = !empty($user['avatar']) ? "/avatars/" . htmlspecialchars($user['avatar']) : "/img/default-avatar.jpg";
         $avatar = $avatarFile . "?v=" . time();
@@ -164,7 +190,7 @@ class UserResearchPostController extends Controller
         $postModel = new ResearchPost();
         $categories = $postModel->getCategories();
         
-        $view = new View('Research', '', 'posts/create', compact('language', 'header', 'title', 'user', 'avatar', 'categories'));
+        $view = new View('Research', '', 'posts/create', compact('language', 'header', 'title', 'navbar', 'breadcrumb', 'user', 'avatar', 'categories'));
         $view->render();
     }
 
@@ -214,13 +240,22 @@ class UserResearchPostController extends Controller
         
         $title = 'user_research_post_edit';
         $header = __('user_research_post_edit');
+
+        $navbar = 'research';
+        $breadcrumb = [
+            'active' => __('editing'),
+            'list' => [
+                ['name' => 'AcApp', 'url' => ''],
+                ['name' => $user['name'] . ' ' . $user['surname'], 'url' => $username],
+                ['name' => __('research'), 'url' => $username.'/research']
+            ],];
         
         $avatarFile = !empty($user['avatar']) ? "/avatars/" . htmlspecialchars($user['avatar']) : "/img/default-avatar.jpg";
         $avatar = $avatarFile . "?v=" . time();
 
         $categories = $postModel->getCategories();
         
-        $view = new View('Research', '', 'posts/edit', compact('language', 'header', 'title', 'user', 'avatar', 'post', 'categories'));
+        $view = new View('Research', '', 'posts/edit', compact('language', 'header', 'title', 'navbar', 'breadcrumb', 'user', 'avatar', 'post', 'categories'));
         $view->render();
     }
 

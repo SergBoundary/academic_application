@@ -166,7 +166,7 @@
 <form method="POST" action="/<?= $language ?>/<?= $user['username'] ?>/discussion/store">
     <input type="hidden" name="form_post_research_id" id="form_post_research_id" value="<?= $post['research_id'] ?>">
     <input type="hidden" name="form_post_discussion_id" id="form_post_discussion_id" value="<?= $post['discussion_id'] ?? '0' ?>">
-    <div class="card text-dark bg-light shadow-lg ms-3 mb-2">
+    <div class="card text-dark bg-body shadow mb-2 ms-3">
         <div class="card-header">
             <img class="rounded-circle border" src="<?= $avatar ?>" alt="Аватар автора" width="30">
             <a href="/<?= $language ?>/<?= $user['username'] ?>/profile" class="text-decoration-none">

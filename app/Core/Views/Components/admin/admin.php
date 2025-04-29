@@ -1,4 +1,4 @@
-<div class="container mt-2 p-4 bg-light shadow-lg">
+<div class="container border mb-2 p-4 bg-body shadow">
     <div class="row">
         <h3><?= htmlspecialchars(__($title)) ?></h3>
         <ul class="list-group">

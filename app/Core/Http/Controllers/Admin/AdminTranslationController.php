@@ -8,7 +8,7 @@ use App\Core\Models\Translation;
 use App\Core\Views\View;
 use App\Core\Services\RedisService; // для обновления кэша, если нужно
 
-class TranslationController extends Controller
+class AdminTranslationController extends Controller
 {
     protected $languages = ['ru', 'en', 'pl', 'uk'];
 
@@ -25,7 +25,15 @@ class TranslationController extends Controller
         $translationModel = new Translation();
         $translations = $translationModel->getAll();
 
-        $view = new View('', '', 'admin/translations/index', compact('language', 'header', 'title', 'translations'));
+        $navbar = 'admin';
+        $breadcrumb = [
+            'active' => __('translation_table'),
+            'list' => [
+                ['name' => 'AcApp', 'url' => ''],
+                ['name' => __('admin_panel'), 'url' => 'admin']
+            ],];
+
+        $view = new View('', '', 'admin/translations/index', compact('language', 'header', 'title', 'navbar', 'breadcrumb', 'translations'));
         $view->render();
     }
 
@@ -38,7 +46,16 @@ class TranslationController extends Controller
         $title = 'translation_create';
         $header = __('translation_create');
 
-        $view = new View('', '', 'admin/translations/create', compact('language', 'header', 'title'));
+        $navbar = 'admin';
+        $breadcrumb = [
+            'active' => __('translation_create'),
+            'list' => [
+                ['name' => 'AcApp', 'url' => ''],
+                ['name' => __('admin_panel'), 'url' => 'admin'],
+                ['name' => __('translation_table'), 'url' => 'admin/translations']
+            ],];
+
+        $view = new View('', '', 'admin/translations/create', compact('language', 'header', 'title', 'navbar', 'breadcrumb'));
         $view->render();
     }
 
@@ -86,7 +103,16 @@ class TranslationController extends Controller
             exit;
         }
 
-        $view = new View('', '', 'admin/translations/edit', compact('language', 'header', 'title', 'translation'));
+        $navbar = 'admin';
+        $breadcrumb = [
+            'active' => __('translation_edit'),
+            'list' => [
+                ['name' => 'AcApp', 'url' => ''],
+                ['name' => __('admin_panel'), 'url' => 'admin'],
+                ['name' => __('translation_table'), 'url' => 'admin/translations']
+            ],];
+
+        $view = new View('', '', 'admin/translations/edit', compact('language', 'header', 'title', 'navbar', 'breadcrumb', 'translation'));
         $view->render();
     }
 

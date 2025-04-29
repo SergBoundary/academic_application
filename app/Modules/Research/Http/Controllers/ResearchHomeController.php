@@ -16,6 +16,13 @@ class ResearchHomeController extends Controller
         $title = 'research_posts';
         $header = __('research_posts');
 
+        $navbar = 'research';
+        $breadcrumb = [
+            'active' => __('research_posts'),
+            'list' => [
+                ['name' => 'AcApp', 'url' => '']
+            ],];
+
         $postModel = new Research();
         $postList = $postModel->getAllPosts();
 
@@ -27,7 +34,6 @@ class ResearchHomeController extends Controller
             $statAction = $interactionModel->statUserPostsList($userId, 'research');
             $сommentAction = $interactionModel->statUserCommentsList($userId, 'research');
         }
-        // debug($сommentAction, 1);
 
         $groupedPosts = [];
         foreach ($postList as $post) {
@@ -67,9 +73,8 @@ class ResearchHomeController extends Controller
                 'sharedCount'     => $statCount[$post['id']]['shared'] ?? '0'
             ];
         }
-        // debug($groupedPosts, 1);
 
-        $view = new View('Research', '', 'index', compact('language', 'header', 'title', 'groupedPosts'));
+        $view = new View('Research', '', 'index', compact('language', 'header', 'title', 'navbar', 'breadcrumb', 'groupedPosts'));
         $view->render();
     }
 }

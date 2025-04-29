@@ -1,4 +1,4 @@
-<div class="card text-dark bg-light shadow-lg mb-2">
+<div class="card text-dark bg-body shadow mb-2">
     <div class="card-header">
         <img class="rounded-circle border" src="<?= $post['author_avatar'] ?>" alt="Аватар оппонента" width="30">
         <a href="/<?= $language ?>/<?= $post['author_username'] ?>/profile" class="text-decoration-none">
@@ -78,7 +78,7 @@
     </div>
 </div>
 <?php if ($discussionid != 0): ?>
-    <div class="card text-dark bg-light shadow-lg ms-3 mb-2">
+    <div class="card text-dark bg-body shadow mb-2 ms-3">
         <div class="card-header">
             <img class="rounded-circle border" src="<?= $post['opponent_avatar'] ?>" alt="Аватар оппонента" width="30">
             <a href="/<?= $language ?>/<?= $post['opponent_username'] ?>/profile" class="text-decoration-none">

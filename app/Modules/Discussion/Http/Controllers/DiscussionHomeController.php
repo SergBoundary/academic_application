@@ -16,6 +16,13 @@ class DiscussionHomeController extends Controller
         $title = 'discussion_posts';
         $header = __('discussion_posts');
 
+        $navbar = 'discussion';
+        $breadcrumb = [
+            'active' => __('discussion_posts'),
+            'list' => [
+                ['name' => 'AcApp', 'url' => '']
+            ],];
+
         $postModel = new Discussion();
         $posts = $postModel->getAllPosts();
 
@@ -97,7 +104,7 @@ class DiscussionHomeController extends Controller
             ];
         }
 
-        $view = new View('Discussion', '', 'index', compact('language', 'header', 'title', 'groupedPosts'));
+        $view = new View('Discussion', '', 'index', compact('language', 'header', 'title', 'navbar', 'breadcrumb', 'groupedPosts'));
         $view->render();
     }
 }

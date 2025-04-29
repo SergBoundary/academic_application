@@ -1,9 +1,6 @@
-<h4><?= __($title) ?></h4>
-
-<!-- Список постов -->
 <?php if (!empty($groupedPosts)): ?>
     <?php foreach ($groupedPosts as $group): ?>
-        <div class="card text-dark bg-light shadow-lg mb-2">
+        <div class="card text-dark bg-body shadow mb-2">
             <div class="card-header">
                 <div class="float-start">
                     <img class="rounded-circle border" src="<?= $group['author_avatar'] ?>" alt="Аватар оппонента" width="30">
@@ -78,7 +75,7 @@
                     </a>
                 </div>
                 <div class="float-end">
-                    <a href="/<?= $language ?>/<?= $group['author_username'] ?>/research/<?= $group['research_id'] ?>" class="btn btn-outline-secondary btn-sm rounded-pill" title="View post">
+                    <a href="/<?= $language ?>/<?= $group['author_username'] ?>/research/<?= $group['research_id'] ?>" class="btn btn-outline-secondary btn-sm rounded-pill" title="<?= __('view_post') ?>">
                         <i class="bi bi-eye-fill"></i>
                     </a>
                 </div>
@@ -86,7 +83,7 @@
         </div>
         <?php if (!empty($group['discussions'])): ?>
             <?php foreach ($group['discussions'] as $discussion): ?>
-                <div class="card text-dark bg-light shadow-lg ms-3 mb-2">
+                <div class="card text-dark bg-body shadow mb-2 ms-3">
                     <div class="card-header">
                         <img class="rounded-circle border" src="<?= $discussion['opponent_avatar'] ?>" alt="Аватар оппонента" width="30">
                         <a href="/<?= $language ?>/<?= $discussion['opponent_username'] ?>/profile" class="text-decoration-none">
@@ -164,7 +161,7 @@
                             </a>
                         </div>
                         <div class="float-end">
-                            <a href="/<?= $language ?>/<?= $discussion['opponent_username'] ?>/discussion/<?= $discussion['discussion_id'] ?>" class="btn btn-outline-secondary btn-sm rounded-pill" title="View post">
+                            <a href="/<?= $language ?>/<?= $discussion['opponent_username'] ?>/discussion/<?= $discussion['discussion_id'] ?>" class="btn btn-outline-secondary btn-sm rounded-pill" title="<?= __('view_post') ?>">
                                 <i class="bi bi-eye-fill"></i>
                             </a>
                         </div>

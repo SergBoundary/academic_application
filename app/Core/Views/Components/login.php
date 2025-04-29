@@ -1,4 +1,4 @@
-<div class="container p-5 bg-light shadow-lg border">
+<div class="container border mb-2 p-4 bg-body shadow">
     <?php if (!empty($error)): ?>
         <div class="alert alert-danger text-center col-8 mx-auto " role="alert">
             <?= $error ?>

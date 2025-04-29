@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Core\Http\Controllers;
+namespace App\Core\Http\Controllers\User;
 
+use App\Core\Http\Controllers\Controller;
 use App\Core\Views\View;
 use App\Core\Models\User;
 use App\Core\Models\Statistics;
@@ -30,7 +31,15 @@ class UserProfileController extends Controller
         $title = 'user_profile';
         $header = __('user_profile') . ' : ' . $user['name'] . ' ' . $user['surname'];
 
-        $view = new View('', '', 'user/profile', compact('language', 'header', 'title', 'user', 'statUserResearchPost', 'statUserDiscussionPost'));
+        $navbar = '';
+        $breadcrumb = [
+            'active' => __('user_profile'),
+            'list' => [
+                ['name' => 'AcApp', 'url' => ''],
+                ['name' => $user['name'] . ' ' . $user['surname'], 'url' => $username]
+            ],];
+
+        $view = new View('', '', 'user/profile', compact('language', 'header', 'title', 'navbar', 'breadcrumb', 'user', 'statUserResearchPost', 'statUserDiscussionPost'));
         $view->render();
     }
 
@@ -60,7 +69,16 @@ class UserProfileController extends Controller
         $title = 'editing_profile';
         $header = __('editing_profile') . ' : ' . $user['name'] . ' ' . $user['surname'];
 
-        $view = new View('', '', 'user/edit-profile', compact('language', 'header', 'title', 'user'));
+        $navbar = '';
+        $breadcrumb = [
+            'active' => __('editing_profile'),
+            'list' => [
+                ['name' => 'AcApp', 'url' => ''],
+                ['name' => $user['name'] . ' ' . $user['surname'], 'url' => $username],
+                ['name' => __('user_profile'), 'url' => $username.'/profile']
+            ],];
+
+        $view = new View('', '', 'user/edit-profile', compact('language', 'header', 'title', 'navbar', 'breadcrumb', 'user'));
         $view->render();
     }
 

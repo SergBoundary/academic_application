@@ -1,5 +1,5 @@
 <form method="POST" action="/<?= $language ?>/<?= $user['username'] ?>/research/<?= $post['id'] ?>/update">
-    <div class="card text-dark bg-light shadow-lg mb-2">
+    <div class="card text-dark bg-body shadow mb-2">
         <div class="card-header">
             <img class="rounded-circle border" src="<?= $avatar ?>" alt="Аватар автора" width="30">
             <a href="/<?= $language ?>/<?= $user['username'] ?>/profile" class="text-decoration-none">

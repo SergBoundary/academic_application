@@ -12,9 +12,7 @@ class HomeController extends Controller
     public function index()
     {
         $language = $this->language;
-        $module = '';
-        $layout = '';
-        $view = '';
+        
         $title = 'welcome_to_acapp';
         $header = __('welcome_to_acapp');
 
@@ -24,7 +22,13 @@ class HomeController extends Controller
         $statModel = new Statistics();
         $statAllUsers = $statModel->statAllUsers();
 
-        $view = new View('', '', '', compact(['language', 'header', 'title', 'users', 'statAllUsers']));
+        $navbar = '';
+        $breadcrumb = [
+            'active' => 'AcApp',
+            'list' => [],
+        ];
+
+        $view = new View('', '', '', compact(['language', 'header', 'title', 'navbar', 'breadcrumb', 'users', 'statAllUsers']));
         $view->render();
     }
 }

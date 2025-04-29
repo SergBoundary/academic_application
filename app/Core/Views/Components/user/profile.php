@@ -2,7 +2,7 @@
 $avatarFile = !empty($user['avatar']) ? "/avatars/" . htmlspecialchars($user['avatar']) : "/img/default-avatar.jpg";
 $avatarUrl = $avatarFile . "?v=" . time(); // Добавляем timestamp
 ?>
-<div class="container p-4 bg-light shadow-lg">
+<div class="container border mb-2 p-4 bg-body shadow">
     <div class="row">
         <div class="col-auto">
             <div class="card">
@@ -45,7 +45,7 @@ $avatarUrl = $avatarFile . "?v=" . time(); // Добавляем timestamp
         </div>
     </div>
 </div>
-<div class="container mt-2 p-4 bg-light shadow-lg">
+<div class="container border mb-2 p-4 bg-body shadow">
     <div class="row">
         <div class="col">
             <table class="table table-hover">
@@ -85,8 +85,13 @@ $avatarUrl = $avatarFile . "?v=" . time(); // Добавляем timestamp
     </div>
 </div>
 <?php if (isset($_SESSION['user']) && $_SESSION['user']['id'] == $user['id']): ?>
-    <div class="container mt-2 p-4 bg-light shadow-lg">
+    <div class="container border mb-2 p-4 bg-body shadow">
         <div class="row">
+            <?php if (isset($_GET['success']) && $_GET['success'] == '1'): ?>
+                <div class="alert alert-success" role="alert">
+                    <?php echo("Сообщение успешно отправлено. Ожидайте ответ Администратора на Вашу почту.") ?>
+                </div>
+            <?php endif; ?>
             <form action="/<?= $language ?>/<?= $user['username'] ?>/send-message" method="POST">
                 <div class="mb-3">
                     <label for="message" class="form-label"><?= __('contact_admin') ?></label>

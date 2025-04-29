@@ -28,21 +28,26 @@
                     </a>
                     <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
                         <div class="navbar-nav">
-                            <a class="nav-link" href="/<?= $language ?>/research"><?= __('research') ?></a>
-                            <a class="nav-link" href="/<?= $language ?>/discussion"><?= __('discussion') ?></a>
+                            <a class="nav-link <?php if ($navbar == 'research'): ?>active<?php endif; ?>" href="/<?= $language ?>/research"><?= __('research') ?></a>
+                            <a class="nav-link <?php if ($navbar == 'discussion'): ?>active<?php endif; ?>" href="/<?= $language ?>/discussion"><?= __('discussion') ?></a>
                             <?php if (isUserLoggedIn()): ?>
+                                <?php if (isAdminLoggedIn()): ?>
+                                    <a class="nav-link <?php if ($navbar == 'admin'): ?>active<?php endif; ?>" href="/<?= $language ?>/admin"><?= __('admin_panel') ?></a>
+                                <?php endif; ?>
                                 <a class="nav-link" href="/<?= $language ?>/logout"><?= __('logout') ?></a>
                             <?php else: ?>
-                                <a class="nav-link" href="/<?= $language ?>/login"><?= __('log_in') ?></a>
+                                <a class="nav-link <?php if ($navbar == 'authorization'): ?>active<?php endif; ?>" href="/<?= $language ?>/login"><?= __('log_in') ?></a>
                             <?php endif; ?>
                         </div>
                     </div>
                 </div>
             </nav>
-            <nav aria-label="breadcrumb">
-                <ol class="breadcrumb">
-                    <li class="breadcrumb-item"><a href="/<?= $language ?>">AcApp</a></li>
-                    <li class="breadcrumb-item active" aria-current="page"><?= __($title) ?></li>
+            <nav class="row" aria-label="breadcrumb">
+                <ol class="breadcrumb m-0">
+                    <?php foreach ($breadcrumb['list'] as $item): ?>
+                    <li class="breadcrumb-item"><a href="/<?= $language ?><?= $item['url'] ? '/' . $item['url'] : '' ?>"><?= $item['name'] ?></a></li>
+                    <?php endforeach; ?>
+                        <li class="breadcrumb-item active" aria-current="page"><?= $breadcrumb['active'] ?></li>
                 </ol>
             </nav>
         </header>

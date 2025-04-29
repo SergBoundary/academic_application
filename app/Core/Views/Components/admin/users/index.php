@@ -1,4 +1,4 @@
-<div class="container mt-2 p-4 bg-light shadow-lg">
+<div class="container border mb-2 p-4 bg-body shadow">
     <div class="row">
         <div class="col">
             <table class="table table-sm table-hover">

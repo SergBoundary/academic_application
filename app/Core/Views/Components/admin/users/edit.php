@@ -2,7 +2,7 @@
 $avatarFile = !empty($user['avatar']) ? "/avatars/" . htmlspecialchars($user['avatar']) : "/img/default-avatar.jpg";
 $avatarUrl = $avatarFile . "?v=" . time(); // Добавляем timestamp
 ?>
-<div class="container p-4 bg-light shadow-lg">
+<div class="container border mb-2 p-4 bg-body shadow">
     <form action="/<?= $language ?>/admin/users/update" method="POST" enctype="multipart/form-data">
         <input type="hidden" name="id" value="<?= $user['id']; ?>">
         <div class="row">
@@ -67,7 +67,7 @@ $avatarUrl = $avatarFile . "?v=" . time(); // Добавляем timestamp
                     </div>
                 </div>
                 <div class="col-10 offset-2 mt-5">
-                    <a href="/<?= $language ?>/<?= $user['username'] ?>/profile" class="btn btn-outline-secondary btn-sm me-1"><?= __('cancel') ?></a>
+                    <a href="/<?= $language ?>/admin/users" class="btn btn-outline-secondary btn-sm me-1"><?= __('cancel') ?></a>
                     <button type="submit" class="btn btn-secondary btn-sm"><?= __('save_changes') ?></button>
                 </div>
             </div>

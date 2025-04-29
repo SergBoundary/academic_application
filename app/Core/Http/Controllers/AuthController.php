@@ -43,7 +43,14 @@ class AuthController extends Controller
             }
         }
 
-        $view = new View('', '', 'register', compact('language', 'header', 'title', 'error'));
+        $navbar = 'authorization';
+        $breadcrumb = [
+            'active' => __('register'),
+            'list' => [
+                ['name' => 'AcApp', 'url' => '']
+            ],];
+
+        $view = new View('', '', 'register', compact('language', 'header', 'title', 'navbar', 'breadcrumb', 'error'));
         $view->render();
     }
 
@@ -76,11 +83,6 @@ class AuthController extends Controller
                         'role' => $user['role'],
                         'permissions' => $permissions
                     ];
-                    // Если админ — отправляем на /admin
-                    if ($user['role'] === 'admin') {
-                        header("Location: /{$language}/admin");
-                        exit;
-                    }
                     header("Location: /{$language}");
                     exit;
                 } else {
@@ -91,7 +93,14 @@ class AuthController extends Controller
             }
         }
 
-        $view = new View('', '', 'login', compact('language', 'header', 'title', 'error'));
+        $navbar = 'authorization';
+        $breadcrumb = [
+            'active' => __('authorization'),
+            'list' => [
+                ['name' => 'AcApp', 'url' => '']
+            ],];
+
+        $view = new View('', '', 'login', compact('language', 'header', 'title', 'navbar', 'breadcrumb', 'error'));
         $view->render();
     }
 
@@ -110,7 +119,14 @@ class AuthController extends Controller
         $title = 'reset_password';
         $header = __('reset_password');
 
-        $view = new View('', '', 'password/reset', compact('language', 'header', 'title'));
+        $navbar = 'authorization';
+        $breadcrumb = [
+            'active' => __('reset_password'),
+            'list' => [
+                ['name' => 'AcApp', 'url' => '']
+            ],];
+
+        $view = new View('', '', 'password/reset', compact('language', 'header', 'navbar', 'breadcrumb', 'title'));
         $view->render();
     }
 
@@ -141,7 +157,14 @@ class AuthController extends Controller
 
         Mailer::send($email, $subject, $body);
 
-        $view = new View('', '', 'password/send_link', compact('language', 'header', 'title'));
+        $navbar = 'authorization';
+        $breadcrumb = [
+            'active' => __('reset_password'),
+            'list' => [
+                ['name' => 'AcApp', 'url' => '']
+            ],];
+
+        $view = new View('', '', 'password/send_link', compact('language', 'header', 'navbar', 'breadcrumb', 'title'));
         $view->render();
     }
 
@@ -151,7 +174,14 @@ class AuthController extends Controller
         $title = 'new_password';
         $header = __('new_password');
 
-        $view = new View('', '', 'password/new', compact('language', 'header', 'title'));
+        $navbar = 'authorization';
+        $breadcrumb = [
+            'active' => __('new_password'),
+            'list' => [
+                ['name' => 'AcApp', 'url' => '']
+            ],];
+
+        $view = new View('', '', 'password/new', compact('language', 'header', 'navbar', 'breadcrumb', 'title'));
         $view->render();
     }
 

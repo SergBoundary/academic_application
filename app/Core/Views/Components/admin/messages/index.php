@@ -5,7 +5,7 @@
         $avatarFile = !empty($message['avatar']) ? "/avatars/" . htmlspecialchars($message['avatar']) : "/img/default-avatar.jpg";
         $avatarUrl = $avatarFile . "?v=" . time(); // Добавляем timestamp
         ?>
-        <div class="card text-dark bg-light shadow-lg mb-2">
+        <div class="card text-dark border mb-2 bg-body shadow">
             <div class="card-header">
                 <div class="float-start">
                     <img class="rounded-circle border" src="<?= $avatarUrl ?>" alt="Аватар пользователя" width="30">
@@ -23,7 +23,7 @@
             <div class="card-footer bg-transparent">
                 <div class="float-start">
                     <a href="" class="btn btn-outline-secondary btn-sm border-0" title="Send email">
-                        <i class="bi bi-envelope-fill me-1"></i><?= htmlspecialchars($message['email']) ?>
+                        <i class="bi bi-envelope-fill me-2"></i><?= htmlspecialchars($message['email']) ?>
                     </a>
                 </div>
             </div>
