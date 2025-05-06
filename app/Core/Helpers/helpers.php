@@ -19,6 +19,13 @@ if (!function_exists('isAdminLoggedIn')) {
     }
 }
 
+if (!function_exists('flash')) {
+    function flash(string $title, string $text = '', string $icon = 'info'): void 
+    {
+        App\Core\Helpers\Flash::set($title, $text, $icon);
+    }
+}
+
 if (!function_exists('debug')) {
     function debug($arr, $die = false) {
         echo '<pre>'.print_r($arr, true).'</pre>';

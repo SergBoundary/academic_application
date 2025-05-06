@@ -14,7 +14,7 @@
                 <tbody>
                     <?php foreach ($users as $user): ?>
                         <?php
-                        $avatarFile = !empty($user['avatar']) ? "/avatars/" . htmlspecialchars($user['avatar']) : "/img/default-avatar.jpg";
+                        $avatarFile = !empty($user['avatar']) ? "/uploads/avatars/" . htmlspecialchars($user['avatar']) : "/img/default-avatar.jpg";
                         $avatar = $avatarFile . "?v=" . time();
                         ?>
                         <tr>

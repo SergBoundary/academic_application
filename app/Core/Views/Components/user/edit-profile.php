@@ -1,5 +1,5 @@
 <?php
-$avatarFile = !empty($user['avatar']) ? "/avatars/" . htmlspecialchars($user['avatar']) : "/img/default-avatar.jpg";
+$avatarFile = !empty($user['avatar']) ? "/uploads/avatars/" . htmlspecialchars($user['avatar']) : "/img/default-avatar.jpg";
 $avatarUrl = $avatarFile . "?v=" . time(); // Добавляем timestamp
 ?>
 <div class="container border mb-2 p-4 bg-body shadow">

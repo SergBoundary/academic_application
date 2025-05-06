@@ -85,6 +85,10 @@
             <?php endforeach; ?>
         </ul>
     <?php else: ?>
-        <p>Пока здесь нет публикаций.</p>
+        <div class="row">
+            <div class="h-auto mx-auto text-center p-5">
+                <h3 class="text-muted"><?= __('no_publications_here_yet') ?></h3>
+            </div>
+        </div>
     <?php endif; ?>
 </div>

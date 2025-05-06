@@ -19,7 +19,7 @@ class ResearchPost extends Model
     public function getUserPosts($userId)
     {
         $sql = "SELECT 
-                    `tr`.`id`, `tr`.`user_id`, `tr`.`title`, `tr`.`content`, `tr`.`category_id`, `tr`.`created_at`, `tr`.`updated_at`,
+                    `tr`.`id`, `tr`.`user_id`, `tr`.`title`, `tr`.`category_id`, `tr`.`content`, `tr`.`file_path`, `tr`.`created_at`, `tr`.`updated_at`,
                     `ta`.`username`, `ta`.`name`, `ta`.`surname`, `ta`.`avatar`,
                     `trc`.`{$this->language}` AS `category_name`
                 FROM `research_posts` AS `tr` 
@@ -36,7 +36,7 @@ class ResearchPost extends Model
     public function getPostById($id)
     {
         $sql = "SELECT 
-                    `tr`.`id`, `tr`.`user_id`, `tr`.`title`, `tr`.`content`, `tr`.`category_id`, `tr`.`created_at`, `tr`.`updated_at`,
+                    `tr`.`id`, `tr`.`user_id`, `tr`.`title`, `tr`.`category_id`, `tr`.`content`, `tr`.`file_path`, `tr`.`created_at`, `tr`.`updated_at`,
                     `ta`.`username`, `ta`.`name`, `ta`.`surname`, `ta`.`avatar`,
                     `trc`.`{$this->language}` AS `category_name`
                 FROM `research_posts` AS `tr` 
@@ -50,16 +50,24 @@ class ResearchPost extends Model
         return $result[0] ?? null;
     }
 
-    public function createPost($userId, $title, $content, $category)
+    public function createPost($userId, $language, $category, $title, $authors, $keywords, $description, $abstract, $objective, $methods, $results, $conclusions)
     {
-        $sql = "INSERT INTO `research_posts` (`user_id`, `title`, `content`, `category_id`) 
-                VALUES (:user_id, :title, :content, :category_id)";
+        $sql = "INSERT INTO `research_posts` (`user_id`, `language_id`, `category_id`, `title`, `authors`, `keywords`, `description`, `abstract`, `objective`, `methods`, `results`, `conclusions`) 
+                VALUES (:user_id, :language_id, :category_id, :title, :authors, :keywords, :description, :abstract, :objective, :methods, :results, :conclusions)";
 
         $result = $this->execute($sql, [
             'user_id'  => $userId,
+            'language_id' => $language,
+            'category_id' => $category,
             'title'    => $title,
-            'content'  => $content,
-            'category_id' => $category
+            'authors'  => $authors,
+            'keywords'  => $keywords,
+            'description'  => $description,
+            'abstract'  => $abstract,
+            'objective'  => $objective,
+            'methods'  => $methods,
+            'results'  => $results,
+            'conclusions'  => $conclusions
         ]);
 
         // Если запрос выполнен успешно, возвращаем ID вставленной записи

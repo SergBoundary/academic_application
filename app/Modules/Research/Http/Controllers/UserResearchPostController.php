@@ -4,8 +4,10 @@ namespace App\Modules\Research\Http\Controllers;
 
 use App\Modules\Research\Http\Controllers\Controller;
 use App\Modules\Research\Models\ResearchPost;
+use App\Core\Services\FileStorageService;
 use App\Core\Models\Interaction;
 use App\Core\Models\User;
+use App\Core\Models\Language;
 use App\Core\Views\View;
 
 class UserResearchPostController extends Controller
@@ -22,6 +24,9 @@ class UserResearchPostController extends Controller
         }
 
         $language = $this->language;
+        $description = '';
+        $keywords = '';
+        $authors = '';
         $title = 'user_research_posts';
         $header = __('user_research_posts') . ' : ' . $user['name'] . ' ' . $user['surname'];
 
@@ -45,9 +50,10 @@ class UserResearchPostController extends Controller
             $сommentAction = $interactionModel->statUserCommentsList($userId, 'research');
         }
         
-        $avatarFile = !empty($user['avatar']) ? "/avatars/" . htmlspecialchars($user['avatar']) : "/img/default-avatar.jpg";
+        $avatarFile = !empty($user['avatar']) ? "/uploads/avatars/" . htmlspecialchars($user['avatar']) : "/img/default-avatar.jpg";
         $avatar = $avatarFile . "?v=" . time();
 
+        $posts = [];
         foreach ($postList as $post) {
             $posts[$post['id']] = [
                 'id'              => $post['id'],
@@ -119,7 +125,7 @@ class UserResearchPostController extends Controller
         }
 
         $titlePost = $postView['title'];
-        $avatarFile = !empty($user['avatar']) ? "/avatars/" . htmlspecialchars($user['avatar']) : "/img/default-avatar.jpg";
+        $avatarFile = !empty($user['avatar']) ? "/uploads/avatars/" . htmlspecialchars($user['avatar']) : "/img/default-avatar.jpg";
         $avatar = $avatarFile . "?v=" . time();
 
         $post = [
@@ -131,6 +137,7 @@ class UserResearchPostController extends Controller
             'id'              => $postView['id'],
             'title'           => $postView['title'],
             'content'         => $postView['content'],
+            'file_path'       => FileStorageService::getUrl('posts/'.$postView['file_path']),
             'category_id'     => $postView['category_id'],
             'category_name'   => $postView['category_name'],
             'created_at'      => $postView['created_at'],
@@ -156,10 +163,12 @@ class UserResearchPostController extends Controller
 
     public function create($username)
     {
-        if ($_SESSION['user']['username'] !== $username) {
-            http_response_code(403);
-            echo "Доступ запрещен!";
-            exit;
+        $language = $this->language;
+        
+        if (!isset($_SESSION['user']) || $_SESSION['user']['username'] !== $username) {
+            flash('', __('cannot_create_another_user_content'), 'error');
+            header("Location: /{$language}/{$username}/research");
+            return;
         }
 
         $userModel = new User();
@@ -171,7 +180,6 @@ class UserResearchPostController extends Controller
             exit;
         }
 
-        $language = $this->language;
         $title = 'user_research_post_create';
         $header = __('user_research_post_create');
 
@@ -184,33 +192,50 @@ class UserResearchPostController extends Controller
                 ['name' => __('research'), 'url' => $username.'/research']
             ],];
         
-        $avatarFile = !empty($user['avatar']) ? "/avatars/" . htmlspecialchars($user['avatar']) : "/img/default-avatar.jpg";
+        $avatarFile = !empty($user['avatar']) ? "/uploads/avatars/" . htmlspecialchars($user['avatar']) : "/img/default-avatar.jpg";
         $avatar = $avatarFile . "?v=" . time();
 
         $postModel = new ResearchPost();
         $categories = $postModel->getCategories();
         
-        $view = new View('Research', '', 'posts/create', compact('language', 'header', 'title', 'navbar', 'breadcrumb', 'user', 'avatar', 'categories'));
+        $languageModel = new Language();
+        $languages = $languageModel->getLanguages();
+        
+        $view = new View('Research', '', 'posts/create', compact('language', 'header', 'title', 'navbar', 'breadcrumb', 'user', 'avatar', 'categories', 'languages'));
         $view->render();
     }
 
     public function store($username)
     {
-        if ($_SESSION['user']['username'] !== $username) {
-            http_response_code(403);
-            echo "Доступ запрещен!";
-            exit;
+        $language = $this->language;
+        
+        if (!isset($_SESSION['user']) || $_SESSION['user']['username'] !== $username) {
+            flash('', __('cannot_create_another_user_content'), 'error');
+            header("Location: /{$language}/{$username}/research");
+            return;
         }
 
         $userId = $_SESSION['user']['id'];
-        $title = $_POST['form_post_title'];
+        $lang = $_POST['form_post_language'];
         $category = $_POST['form_post_category'];
-        $content = $_POST['form_post_content'];
-        
-        $language = $this->language;
+        $title = trim($_POST['form_post_title']);
+        $authors = trim($_POST['form_post_authors']);
+        $keywords = trim($_POST['form_post_keywords']);
+        $description = trim($_POST['form_post_description']);
+        $abstract = trim($_POST['form_post_abstract']);
+        $objective = trim($_POST['form_post_objective']);
+        $methods = trim($_POST['form_post_methods']);
+        $results = trim($_POST['form_post_results']);
+        $conclusions = trim($_POST['form_post_conclusions']);
+
+        $abstractFilePath = FileStorageService::saveString('posts', $abstract, 'abstract');
+        $objectiveFilePath = FileStorageService::saveString('posts', $objective, 'objective');
+        $methodsFilePath = FileStorageService::saveString('posts', $methods, 'methods');
+        $resultsFilePath = FileStorageService::saveString('posts', $results, 'results');
+        $conclusionsFilePath = FileStorageService::saveString('posts', $conclusions, 'conclusions');
 
         $postModel = new ResearchPost();
-        $id = $postModel->createPost($userId, $title, $content, $category);
+        $id = $postModel->createPost($userId, $lang, $category, $title, $authors, $keywords, $description, $abstractFilePath, $objectiveFilePath, $methodsFilePath, $resultsFilePath, $conclusionsFilePath);
 
         header("Location: /{$language}/{$username}/research/{$id}");
         exit;
@@ -219,11 +244,17 @@ class UserResearchPostController extends Controller
     public function edit($username, $id)
     {
         $language = $this->language;
+        
+        if (!isset($_SESSION['user']) || $_SESSION['user']['username'] !== $username) {
+            flash('', __('cannot_edit_another_user_content'), 'error');
+            header("Location: /{$language}/{$username}/research/{$id}");
+            return;
+        }
 
         $postModel = new ResearchPost();
         $post = $postModel->getPostById($id);
 
-        if (!$post || $post['user_id'] != $_SESSION['user']['id'] || $_SESSION['user']['username'] !== $username) {
+        if (!$post || !isset($_SESSION['user']) || $post['user_id'] != $_SESSION['user']['id'] || $_SESSION['user']['username'] !== $username) {
             http_response_code(403);
             echo "Доступ запрещен!";
             exit;
@@ -250,7 +281,7 @@ class UserResearchPostController extends Controller
                 ['name' => __('research'), 'url' => $username.'/research']
             ],];
         
-        $avatarFile = !empty($user['avatar']) ? "/avatars/" . htmlspecialchars($user['avatar']) : "/img/default-avatar.jpg";
+        $avatarFile = !empty($user['avatar']) ? "/uploads/avatars/" . htmlspecialchars($user['avatar']) : "/img/default-avatar.jpg";
         $avatar = $avatarFile . "?v=" . time();
 
         $categories = $postModel->getCategories();
@@ -263,10 +294,16 @@ class UserResearchPostController extends Controller
     {
         $language = $this->language;
         
+        if (!isset($_SESSION['user']) || $_SESSION['user']['username'] !== $username) {
+            flash('', __('cannot_edit_another_user_content'), 'error');
+            header("Location: /{$language}/{$username}/research/{$id}");
+            return;
+        }
+        
         $postModel = new ResearchPost();
         $post = $postModel->getPostById($id);
 
-        if (!$post || $post['user_id'] != $_SESSION['user']['id'] || $_SESSION['user']['username'] !== $username) {
+        if (!$post || !isset($_SESSION['user']) || $post['user_id'] != $_SESSION['user']['id'] || $_SESSION['user']['username'] !== $username) {
             http_response_code(403);
             echo "Доступ запрещен!";
             exit;
@@ -287,10 +324,16 @@ class UserResearchPostController extends Controller
     {
         $language = $this->language;
         
+        if (!isset($_SESSION['user']) || $_SESSION['user']['username'] !== $username) {
+            flash('', 'Вы не можете изменять контент от имени другого пользователя', 'error');
+            header("Location: /{$language}/{$username}/research/{$id}");
+            return;
+        }
+        
         $postModel = new ResearchPost();
         $post = $postModel->getPostById($id);
 
-        if (!$post || $post['user_id'] != $_SESSION['user']['id']) {
+        if (!$post || !isset($_SESSION['user']) || $post['user_id'] != $_SESSION['user']['id']) {
             http_response_code(403);
             echo "Доступ запрещен!";
             exit;
@@ -298,7 +341,7 @@ class UserResearchPostController extends Controller
 
         $postModel->deletePost($id);
 
-        header("Location: /{$language}/{$username}/posts");
+        header("Location: /{$language}/{$username}/research");
         exit;
     }
 }

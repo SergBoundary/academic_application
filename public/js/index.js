@@ -39,6 +39,9 @@ document.addEventListener("DOMContentLoaded", function () {
         // Выгрузка изображения из памяти
         preview.onload = () => URL.revokeObjectURL(objectUrl);
     });
+});
+
+document.addEventListener("DOMContentLoaded", function () {
 
     // AJAX for interaction
     // Функция для обработки ответа и обновления кнопок

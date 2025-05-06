@@ -14,6 +14,18 @@
             <?= htmlspecialchars($post['title'] ?? 'Без названия') ?>
         </h4>
         <div class="card-text"><?= nl2br(htmlspecialchars($post['content'] ?? 'Без содержания')) ?></div>
+        <hr>
+        <div class="card-text">эпистмология, гносеология, познание, непосредственное познание</div>
+        <hr>
+        <?php if ($post['file_path']): ?>
+            <?php
+            // подсказка: файл может быть .md — можно преобразовать в HTML
+            $content = file_get_contents(ROOT . '/storage' . $post['file_path']);
+            ?>
+            <div class="post-content"><?= nl2br(htmlspecialchars($content)) ?></div>
+        <?php else: ?>
+            <div class="post-content"><?= nl2br(htmlspecialchars($post['content'])) ?></div>
+        <?php endif; ?>
     </div>
     <div class="card-footer bg-transparent">
         <div class="float-start">
@@ -76,7 +88,7 @@
             <?php if (isset($_SESSION['user']) && $_SESSION['user']['id'] == $post['user_id']): ?>
                 <a href="/<?= $language ?>/<?= $user['username'] ?>/research/<?= $post['id'] ?>/edit" class="btn btn-outline-warning btn-sm ms-3" title="<?= __('edit') ?>"><i class="bi bi-pencil-fill"></i></a>
                 <form method="POST" action="/<?= $language ?>/<?= $user['username'] ?>/research/<?= $post['id'] ?>/delete" class="d-inline-block">
-                    <button type="submit" class="btn btn-outline-danger btn-sm" onclick="return confirm('<?= __('delete') ?>');" title="<?= __('delete') ?>"><i class="bi bi-trash3-fill"></i></button>
+                    <button type="submit" class="btn btn-outline-danger btn-sm" onclick="return confirm('<?= __('delete') ?> `<?= $post['title'] ?>`?');" title="<?= __('delete') ?>"><i class="bi bi-trash3-fill"></i></button>
                 </form>
             <?php endif; ?>
         </div>

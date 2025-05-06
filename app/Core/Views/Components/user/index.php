@@ -2,7 +2,7 @@
     <div class="row">
         <div class="col">
             <?php
-            $avatarFile = !empty($user['avatar']) ? "/avatars/" . htmlspecialchars($user['avatar']) : "/img/default-avatar.jpg";
+            $avatarFile = !empty($user['avatar']) ? "/uploads/avatars/" . htmlspecialchars($user['avatar']) : "/img/default-avatar.jpg";
             $avatarUrl = $avatarFile . "?v=" . time(); // Добавляем timestamp
             ?>
             <div class="float-start">

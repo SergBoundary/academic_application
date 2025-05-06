@@ -43,7 +43,7 @@ class DiscussionHomeController extends Controller
         foreach ($posts as $post) {
             $researchId = $post['research_id'];
             if (!isset($groupedPosts[$researchId])) {
-                $avatarAuthorFile = !empty($post['author_avatar']) ? "/avatars/" . htmlspecialchars($post['author_avatar']) : "/img/default-avatar.jpg";
+                $avatarAuthorFile = !empty($post['author_avatar']) ? "/uploads/avatars/" . htmlspecialchars($post['author_avatar']) : "/img/default-avatar.jpg";
                 $avatarAuthor = $avatarAuthorFile . "?v=" . time();
                 $groupedPosts[$researchId] = [
                     'research_id'              => $post['research_id'],
@@ -73,7 +73,7 @@ class DiscussionHomeController extends Controller
                 ];
             }
             // Добавляем обсуждение в группу исследования
-            $avatarOpponentFile = !empty($post['opponent_avatar']) ? "/avatars/" . htmlspecialchars($post['opponent_avatar']) : "/img/default-avatar.jpg";
+            $avatarOpponentFile = !empty($post['opponent_avatar']) ? "/uploads/avatars/" . htmlspecialchars($post['opponent_avatar']) : "/img/default-avatar.jpg";
             $avatarOpponent = $avatarOpponentFile . "?v=" . time();
             $groupedPosts[$researchId]['discussions'][] = [
                 'discussion_id'                 => $post['discussion_id'],

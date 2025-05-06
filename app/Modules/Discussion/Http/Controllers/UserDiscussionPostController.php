@@ -54,7 +54,7 @@ class UserDiscussionPostController extends Controller
         foreach ($posts as $post) {
             $researchId = $post['research_id'];
             if (!isset($groupedPosts[$researchId])) {
-                $avatarAuthorFile = !empty($post['author_avatar']) ? "/avatars/" . htmlspecialchars($post['author_avatar']) : "/img/default-avatar.jpg";
+                $avatarAuthorFile = !empty($post['author_avatar']) ? "/uploads/avatars/" . htmlspecialchars($post['author_avatar']) : "/img/default-avatar.jpg";
                 $avatarAuthor = $avatarAuthorFile . "?v=" . time();
                 $groupedPosts[$researchId] = [
                     'research_id'              => $post['research_id'],
@@ -84,7 +84,7 @@ class UserDiscussionPostController extends Controller
                 ];
             }
             // Добавляем обсуждение в группу исследования
-            $avatarOpponentFile = !empty($post['opponent_avatar']) ? "/avatars/" . htmlspecialchars($post['opponent_avatar']) : "/img/default-avatar.jpg";
+            $avatarOpponentFile = !empty($post['opponent_avatar']) ? "/uploads/avatars/" . htmlspecialchars($post['opponent_avatar']) : "/img/default-avatar.jpg";
             $avatarOpponent = $avatarOpponentFile . "?v=" . time();
             $groupedPosts[$researchId]['discussions'][] = [
                 'discussion_id'                 => $post['discussion_id'],
@@ -114,8 +114,11 @@ class UserDiscussionPostController extends Controller
                 'discussion_sharedCount'        => $statDiscussionCount[$post['discussion_id']]['shared'] ?? '0'
             ];
         }
+        
+        $avatarFile = !empty($user['avatar']) ? "/uploads/avatars/" . htmlspecialchars($user['avatar']) : "/img/default-avatar.jpg";
+        $avatar = $avatarFile . "?v=" . time();
 
-        $view = new View('Discussion', '', 'posts/index', compact('language', 'header', 'title', 'navbar', 'breadcrumb', 'groupedPosts'));
+        $view = new View('Discussion', '', 'posts/index', compact('language', 'header', 'title', 'navbar', 'breadcrumb', 'avatar', 'user', 'groupedPosts'));
         $view->render();
     }
 
@@ -165,9 +168,9 @@ class UserDiscussionPostController extends Controller
             $сommentDiscussionAction = $interactionModel->statUserCommentsList($userId, 'discussion');
         }
 
-        $avatarAuthorFile = !empty($postView['author_avatar']) ? "/avatars/" . htmlspecialchars($postView['author_avatar']) : "/img/default-avatar.jpg";
+        $avatarAuthorFile = !empty($postView['author_avatar']) ? "/uploads/avatars/" . htmlspecialchars($postView['author_avatar']) : "/img/default-avatar.jpg";
         $avatarAuthor = $avatarAuthorFile . "?v=" . time();
-        $avatarOpponentFile = !empty($postView['opponent_avatar']) ? "/avatars/" . htmlspecialchars($postView['opponent_avatar']) : "/img/default-avatar.jpg";
+        $avatarOpponentFile = !empty($postView['opponent_avatar']) ? "/uploads/avatars/" . htmlspecialchars($postView['opponent_avatar']) : "/img/default-avatar.jpg";
         $avatarOpponent = $avatarOpponentFile . "?v=" . time();
         $post = [
             // Добавляем предмет обсуждения
@@ -229,7 +232,7 @@ class UserDiscussionPostController extends Controller
 
     public function create($username, $researchid, $discussionid)
     {
-        if ($_SESSION['user']['username'] !== $username) {
+        if (!isset($_SESSION['user']) || $_SESSION['user']['username'] !== $username) {
             http_response_code(403);
             echo "Доступ запрещен!";
             exit;
@@ -265,7 +268,7 @@ class UserDiscussionPostController extends Controller
         }
 
         if ($discussionid == 0) {
-            $avatarAuthorFile = !empty($researchPost['avatar']) ? "/avatars/" . htmlspecialchars($researchPost['avatar']) : "/img/default-avatar.jpg";
+            $avatarAuthorFile = !empty($researchPost['avatar']) ? "/uploads/avatars/" . htmlspecialchars($researchPost['avatar']) : "/img/default-avatar.jpg";
             $avatarAuthor = $avatarAuthorFile . "?v=" . time();
             $post = [
                 // Добавляем предмет обсуждения
@@ -294,9 +297,9 @@ class UserDiscussionPostController extends Controller
                 'research_sharedCount'     => $statResearchCount[$researchPost['id']]['shared'] ?? '0',
             ];
         } else {
-            $avatarAuthorFile = !empty($discussionPost['author_avatar']) ? "/avatars/" . htmlspecialchars($discussionPost['author_avatar']) : "/img/default-avatar.jpg";
+            $avatarAuthorFile = !empty($discussionPost['author_avatar']) ? "/uploads/avatars/" . htmlspecialchars($discussionPost['author_avatar']) : "/img/default-avatar.jpg";
             $avatarAuthor = $avatarAuthorFile . "?v=" . time();
-            $avatarOpponentFile = !empty($discussionPost['opponent_avatar']) ? "/avatars/" . htmlspecialchars($discussionPost['opponent_avatar']) : "/img/default-avatar.jpg";
+            $avatarOpponentFile = !empty($discussionPost['opponent_avatar']) ? "/uploads/avatars/" . htmlspecialchars($discussionPost['opponent_avatar']) : "/img/default-avatar.jpg";
             $avatarOpponent = $avatarOpponentFile . "?v=" . time();
             $post = [
                 // Добавляем предмет обсуждения
@@ -366,7 +369,7 @@ class UserDiscussionPostController extends Controller
                 ['name' => __('discussion'), 'url' => $username.'/discussion']
             ],];
 
-        $avatarFile = !empty($user['avatar']) ? "/avatars/" . htmlspecialchars($user['avatar']) : "/img/default-avatar.jpg";
+        $avatarFile = !empty($user['avatar']) ? "/uploads/avatars/" . htmlspecialchars($user['avatar']) : "/img/default-avatar.jpg";
         $avatar = $avatarFile . "?v=" . time();
 
         $view = new View('Discussion', '', 'posts/create', compact('language', 'header', 'title', 'navbar', 'breadcrumb', 'user', 'avatar', 'discussionid', 'discussionTypes', 'post'));
@@ -375,7 +378,7 @@ class UserDiscussionPostController extends Controller
 
     public function store($username)
     {
-        if ($_SESSION['user']['username'] !== $username) {
+        if (!isset($_SESSION['user']) || $_SESSION['user']['username'] !== $username) {
             http_response_code(403);
             echo "Доступ запрещен!";
             exit;
@@ -398,7 +401,7 @@ class UserDiscussionPostController extends Controller
 
     public function edit($username, $id)
     {
-        if ($_SESSION['user']['username'] !== $username) {
+        if (!isset($_SESSION['user']) || $_SESSION['user']['username'] !== $username) {
             http_response_code(403);
             echo "Доступ запрещен!";
             exit;
@@ -437,7 +440,7 @@ class UserDiscussionPostController extends Controller
         }
 
         if ($discussionid == 0) {
-            $avatarAuthorFile = !empty($researchPost['avatar']) ? "/avatars/" . htmlspecialchars($researchPost['avatar']) : "/img/default-avatar.jpg";
+            $avatarAuthorFile = !empty($researchPost['avatar']) ? "/uploads/avatars/" . htmlspecialchars($researchPost['avatar']) : "/img/default-avatar.jpg";
             $avatarAuthor = $avatarAuthorFile . "?v=" . time();
             $post = [
                 // Добавляем предмет обсуждения
@@ -467,9 +470,9 @@ class UserDiscussionPostController extends Controller
                 'discussion_id'            => $discussionid
             ];
         } else {
-            $avatarAuthorFile = !empty($discussionPost['author_avatar']) ? "/avatars/" . htmlspecialchars($discussionPost['author_avatar']) : "/img/default-avatar.jpg";
+            $avatarAuthorFile = !empty($discussionPost['author_avatar']) ? "/uploads/avatars/" . htmlspecialchars($discussionPost['author_avatar']) : "/img/default-avatar.jpg";
             $avatarAuthor = $avatarAuthorFile . "?v=" . time();
-            $avatarOpponentFile = !empty($discussionPost['opponent_avatar']) ? "/avatars/" . htmlspecialchars($discussionPost['opponent_avatar']) : "/img/default-avatar.jpg";
+            $avatarOpponentFile = !empty($discussionPost['opponent_avatar']) ? "/uploads/avatars/" . htmlspecialchars($discussionPost['opponent_avatar']) : "/img/default-avatar.jpg";
             $avatarOpponent = $avatarOpponentFile . "?v=" . time();
             $post = [
                 // Добавляем предмет обсуждения
@@ -539,7 +542,7 @@ class UserDiscussionPostController extends Controller
                 ['name' => __('discussion'), 'url' => $username.'/discussion']
             ],];
 
-        $avatarFile = !empty($user['avatar']) ? "/avatars/" . htmlspecialchars($user['avatar']) : "/img/default-avatar.jpg";
+        $avatarFile = !empty($user['avatar']) ? "/uploads/avatars/" . htmlspecialchars($user['avatar']) : "/img/default-avatar.jpg";
         $avatar = $avatarFile . "?v=" . time();
 
         $view = new View('Discussion', '', 'posts/edit', compact('language', 'header', 'title', 'navbar', 'breadcrumb', 'user', 'avatar', 'discussionid', 'discussionTypes', 'post', 'postUpdate'));
@@ -548,7 +551,7 @@ class UserDiscussionPostController extends Controller
 
     public function update($username, $id)
     {
-        if ($_SESSION['user']['username'] !== $username) {
+        if (!isset($_SESSION['user']) || $_SESSION['user']['username'] !== $username) {
             http_response_code(403);
             echo "Доступ запрещен!";
             exit;
@@ -576,7 +579,7 @@ class UserDiscussionPostController extends Controller
         $postModel = new DiscussionPost();
         $post = $postModel->getPostById($id);
 
-        if (!$post || $post['user_id'] != $_SESSION['user']['id']) {
+        if (!$post || !isset($_SESSION['user']) || $post['user_id'] != $_SESSION['user']['id']) {
             http_response_code(403);
             echo "Доступ запрещен!";
             exit;

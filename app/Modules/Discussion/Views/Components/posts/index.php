@@ -171,5 +171,23 @@
         <?php endif; ?>
     <?php endforeach; ?>
 <?php else: ?>
-    <p>Пока здесь нет публикаций.</p>
+    <div class="card text-dark bg-body shadow mb-2">
+        <div class="card-header">
+            <img class="rounded-circle border" src="<?= $avatar ?>" alt="Аватар автора" width="30">
+            <a href="/<?= $language ?>/<?= $user['username'] ?>/profile" class="text-decoration-none">
+                <strong><?= htmlspecialchars($user['name'] . ' ' . $user['surname']) ?></strong>
+            </a>
+            <div class="float-end">
+                <!-- Кнопка "Создать пост" (только для авторизованных) -->
+                <?php if (isset($_SESSION['user']) && $_SESSION['user']['username'] == $user['username']): ?>
+                    <a href="/<?= $language ?>/<?= $user['username'] ?>/research/create" class="btn btn-outline-secondary btn-sm rounded-pill" title="Create new post"><i class="bi bi-plus-lg"></i></a>
+                <?php endif; ?>
+            </div>
+        </div>
+        <div class="row">
+            <div class="h-auto mx-auto text-center p-5">
+                <h3 class="text-muted"><?= __('no_critical_publications_here_yet') ?></h3>
+            </div>
+        </div>
+    </div>
 <?php endif; ?>

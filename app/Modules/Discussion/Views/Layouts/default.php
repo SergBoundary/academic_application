@@ -8,7 +8,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <link rel="stylesheet" href="/css/index.css">
-    
+
     <script>
         window.App = {
             language: "<?= $language ?>"
@@ -26,7 +26,7 @@
                     </a>
                     <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
                         <div class="navbar-nav">
-                            <a class="nav-link <?php if ($navbar == 'research'): ?>active<?php endif; ?>" href="/<?= $language ?>/research"><?= __('research') ?></a>
+                            <a class="nav-link <?php if ($navbar == 'research'): ?>active<?php endif; ?>" href="/<?= $language ?>/research"><?= __('researches') ?></a>
                             <a class="nav-link <?php if ($navbar == 'discussion'): ?>active<?php endif; ?>" href="/<?= $language ?>/discussion"><?= __('discussion') ?></a>
                             <?php if (isUserLoggedIn()): ?>
                                 <?php if (isAdminLoggedIn()): ?>
@@ -43,9 +43,9 @@
             <nav class="row" aria-label="breadcrumb">
                 <ol class="breadcrumb m-0">
                     <?php foreach ($breadcrumb['list'] as $item): ?>
-                    <li class="breadcrumb-item"><a href="/<?= $language ?><?= $item['url'] ? '/' . $item['url'] : '' ?>"><?= $item['name'] ?></a></li>
+                        <li class="breadcrumb-item"><a href="/<?= $language ?><?= $item['url'] ? '/' . $item['url'] : '' ?>"><?= $item['name'] ?></a></li>
                     <?php endforeach; ?>
-                        <li class="breadcrumb-item active" aria-current="page"><?= $breadcrumb['active'] ?></li>
+                    <li class="breadcrumb-item active" aria-current="page"><?= $breadcrumb['active'] ?></li>
                 </ol>
             </nav>
         </header>
@@ -59,6 +59,7 @@
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/autosize.js/4.0.2/autosize.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="/js/index.js"></script>
 </body>
 

@@ -39,7 +39,7 @@ class ResearchHomeController extends Controller
         foreach ($postList as $post) {
             $userId = $post['user_id'];
             if (!isset($groupedPosts[$userId])) {
-                $avatarAuthorFile = !empty($post['avatar']) ? "/avatars/" . htmlspecialchars($post['avatar']) : "/img/default-avatar.jpg";
+                $avatarAuthorFile = !empty($post['avatar']) ? "/uploads/avatars/" . htmlspecialchars($post['avatar']) : "/img/default-avatar.jpg";
                 $avatarAuthor = $avatarAuthorFile . "?v=" . time();
                 $groupedPosts[$userId] = [
                     'user_id'   => $post['user_id'],

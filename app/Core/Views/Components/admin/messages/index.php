@@ -2,7 +2,7 @@
 <?php if (!empty($messages)): ?>
     <?php foreach ($messages as $message): ?>
         <?php
-        $avatarFile = !empty($message['avatar']) ? "/avatars/" . htmlspecialchars($message['avatar']) : "/img/default-avatar.jpg";
+        $avatarFile = !empty($message['avatar']) ? "/uploads/avatars/" . htmlspecialchars($message['avatar']) : "/img/default-avatar.jpg";
         $avatarUrl = $avatarFile . "?v=" . time(); // Добавляем timestamp
         ?>
         <div class="card text-dark border mb-2 bg-body shadow">

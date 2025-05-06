@@ -171,5 +171,11 @@
         <?php endif; ?>
     <?php endforeach; ?>
 <?php else: ?>
-    <p>Пока здесь нет публикаций.</p>
+    <div class="container border mb-2 bg-body shadow">
+        <div class="row">
+            <div class="h-auto mx-auto text-center p-5">
+                <h3 class="text-muted"><?= __('no_critical_publications_here_yet') ?></h3>
+            </div>
+        </div>
+    </div>
 <?php endif; ?>
