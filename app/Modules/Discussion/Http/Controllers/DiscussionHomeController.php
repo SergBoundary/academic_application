@@ -13,12 +13,12 @@ class DiscussionHomeController extends Controller
     public function index()
     {
         $language = $this->language;
-        $title = 'discussion_posts';
-        $header = __('discussion_posts');
+        $title = 'discussion';
+        $header = __('discussion');
 
         $navbar = 'discussion';
         $breadcrumb = [
-            'active' => __('discussion_posts'),
+            'active' => __('discussion'),
             'list' => [
                 ['name' => 'AcApp', 'url' => '']
             ],];

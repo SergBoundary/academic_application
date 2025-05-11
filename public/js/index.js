@@ -29,24 +29,62 @@ document.addEventListener("DOMContentLoaded", function () {
     const input = document.getElementById('avatarInput');
     const preview = document.getElementById('avatarPreview');
 
-    input.addEventListener('change', function () {
-        const file = this.files[0];
-        if (!file) return;
+    if (input && preview) {
+        input.addEventListener('change', function () {
+            const file = this.files[0];
+            if (!file) return;
 
-        const objectUrl = URL.createObjectURL(file);
-        preview.src = objectUrl;
+            const objectUrl = URL.createObjectURL(file);
+            preview.src = objectUrl;
 
-        // Выгрузка изображения из памяти
-        preview.onload = () => URL.revokeObjectURL(objectUrl);
-    });
+            // Выгрузка изображения из памяти
+            preview.onload = () => URL.revokeObjectURL(objectUrl);
+        });
+    }
+
 });
 
 document.addEventListener("DOMContentLoaded", function () {
+    document.querySelectorAll("form.ajax-lock-form .lock-toggle")
+        .forEach(function (toggle) {
+            toggle.addEventListener("change", function () {
+                const token = document.querySelector('meta[name="csrf-token"]').content;
+                var form = this.closest("form");
+                var url = form.getAttribute("action");
+                var locked = this.checked ? 1 : 0;
 
+                fetch(url, {
+                    method: "POST",
+                    credentials: "include",
+                    headers: { 
+                        "Content-Type": "application/json",
+                        'X-CSRF-Token': token 
+                    },
+                    body: JSON.stringify({ locked: locked })
+                })
+                    .then(function (res) {
+                        if (!res.ok) throw new Error("Network error");
+                        return res.json();
+                    })
+                    .then(function (data) {
+                        // data.locked — новое значение
+                        toggle.checked = data.locked === 1;
+                        // можно, при желании, показать toast-уведомление об успехе
+                    })
+                    .catch(function (err) {
+                        console.error("Ошибка при переключении locked:", err);
+                        // при провале — откатим чекбокс
+                        toggle.checked = !locked;
+                    });
+            });
+        });
+});
+
+
+document.addEventListener("DOMContentLoaded", function () {
     // AJAX for interaction
     // Функция для обработки ответа и обновления кнопок
     function updateInteraction(responseData, action, postId) {
-        console.log('updateInteraction()', action, postId, responseData);
         // Найти все кнопки и счетчики для данного действия и поста
         // Здесь предполагается, что в data-атрибутах формы и счётчика указаны data-action и data-post-id
         var forms = document.querySelectorAll('form.ajax-interaction[data-action="' + action + '"][data-post-id="' + postId + '"]');
@@ -81,6 +119,7 @@ document.addEventListener("DOMContentLoaded", function () {
     ajaxForms.forEach(function (form) {
         form.addEventListener('submit', function (e) {
             e.preventDefault();
+            const token = document.querySelector('meta[name="csrf-token"]').content;
             var url = form.getAttribute('action');
             var method = form.getAttribute('method').toUpperCase();
             var formData = new FormData(form);
@@ -89,6 +128,10 @@ document.addEventListener("DOMContentLoaded", function () {
             // Отправляем AJAX-запрос через fetch()
             fetch(url, {
                 method: method,
+                headers: {
+                  'Content-Type': 'application/json',
+                  'X-CSRF-Token': token
+                },
                 body: formData,
                 credentials: 'include'  // Для передачи cookies, если требуется
             })
@@ -99,7 +142,6 @@ document.addEventListener("DOMContentLoaded", function () {
                     return response.json();
                 })
                 .then(function (data) {
-                    console.log("AJAX response:", data);
                     var postId = form.dataset.postId;
                     ['liked', 'disliked', 'bookmarked', 'subscribed', 'shared'].forEach(function (act) {
                         if (data.hasOwnProperty(act) && data.hasOwnProperty(act + 'Count')) {

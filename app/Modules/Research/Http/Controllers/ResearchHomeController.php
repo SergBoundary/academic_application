@@ -13,12 +13,12 @@ class ResearchHomeController extends Controller
     public function index()
     {
         $language = $this->language;
-        $title = 'research_posts';
-        $header = __('research_posts');
+        $title = 'researches';
+        $header = __('researches');
 
         $navbar = 'research';
         $breadcrumb = [
-            'active' => __('research_posts'),
+            'active' => __('researches'),
             'list' => [
                 ['name' => 'AcApp', 'url' => '']
             ],];

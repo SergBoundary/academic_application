@@ -79,6 +79,9 @@ class AuthController extends Controller
                     $_SESSION['user'] = [
                         'id' => $user['id'],
                         'username' => $user['username'],
+                        'name' => $user['name'],
+                        'surname' => $user['surname'],
+                        'avatar' => $user['avatar'],
                         'email' => $user['email'],
                         'role' => $user['role'],
                         'permissions' => $permissions

@@ -21,6 +21,7 @@ Router::add('^(?P<language>[a-z-]+)/admin/users$', ['controller' => 'AdminUser',
 Router::add('^(?P<language>[a-z-]+)/admin/users/edit/?(?P<id>[0-9]+)$', ['controller' => 'AdminUser', 'action' => 'edit', 'role' => 'Admin', 'method' => 'GET']);
 Router::add('^(?P<language>[a-z-]+)/admin/users/update$', ['controller' => 'AdminUser', 'action' => 'update', 'role' => 'Admin', 'method' => 'POST']);
 Router::add('^(?P<language>[a-z-]+)/admin/users/delete$', ['controller' => 'AdminUser', 'action' => 'delete', 'role' => 'Admin', 'method' => 'POST']);
+// Admin panel for messages from users
 Router::add('^(?P<language>[a-z-]+)/admin/messages$', ['controller' => 'AdminMessage', 'action' => 'index', 'role' => 'Admin', 'method' => 'GET']);
 
 // Admin panel for translation management
@@ -30,6 +31,36 @@ Router::add('^(?P<language>[a-z-]+)/admin/translations/store$', ['controller' =>
 Router::add('^(?P<language>[a-z-]+)/admin/translations/edit/?(?P<key>[\w\-]+)$', ['controller' => 'AdminTranslation', 'action' => 'edit', 'role' => 'Admin', 'method' => 'GET']);
 Router::add('^(?P<language>[a-z-]+)/admin/translations/update$', ['controller' => 'AdminTranslation', 'action' => 'update', 'role' => 'Admin', 'method' => 'POST']);
 Router::add('^(?P<language>[a-z-]+)/admin/translations/delete$', ['controller' => 'AdminTranslation', 'action' => 'delete', 'role' => 'Admin', 'method' => 'POST']);
+
+// TODO: Admin panel for research post management
+Router::add('^(?P<language>[a-z-]+)/admin/research$', ['controller' => 'AdminResearch', 'action' => 'index', 'role' => 'Admin', 'method' => 'GET']);
+Router::add('^(?P<language>[a-z-]+)/admin/research/(?P<id>\d+)/edit$', ['controller' => 'AdminResearch', 'action' => 'edit', 'role' => 'Admin', 'method' => 'GET']);
+Router::add('^(?P<language>[a-z-]+)/admin/research/(?P<id>\d+)/update$', ['controller' => 'AdminResearch', 'action' => 'update', 'role' => 'Admin', 'method' => 'POST']);
+Router::add('^(?P<language>[a-z-]+)/admin/research/lock/(?P<id>\d+)$', ['controller' => 'AdminResearch', 'action' => 'toggleLock', 'role' => 'Admin', 'method' => 'POST']); // Locked
+
+// TODO: Admin panel for research structura standard management
+Router::add('^(?P<language>[a-z-]+)/admin/research/standard/structure$', ['controller' => 'AdminResearchStructure', 'action' => 'index', 'role' => 'Admin', 'method' => 'GET']);
+Router::add('^(?P<language>[a-z-]+)/admin/research/standard/structure/edit$', ['controller' => 'AdminResearchStructure', 'action' => 'edit', 'role' => 'Admin', 'method' => 'GET']);
+
+// TODO: Admin panel for research format standard management
+Router::add('^(?P<language>[a-z-]+)/admin/research/standard/format$', ['controller' => 'AdminResearchFormat', 'action' => 'index', 'role' => 'Admin', 'method' => 'GET']);
+Router::add('^(?P<language>[a-z-]+)/admin/research/standard/format/edit$', ['controller' => 'AdminResearchFormat', 'action' => 'edit', 'role' => 'Admin', 'method' => 'GET']);
+
+// TODO: Admin panel for research post type management
+// Router::add('^(?P<language>[a-z-]+)/admin/research/types$', ['controller' => 'AdminResearchType', 'action' => 'index', 'role' => 'Admin', 'method' => 'GET']);
+// Router::add('^(?P<language>[a-z-]+)/admin/research/types/create$', ['controller' => 'AdminResearchType', 'action' => 'create', 'role' => 'Admin', 'method' => 'GET']);
+// Router::add('^(?P<language>[a-z-]+)/admin/research/types/store$', ['controller' => 'AdminResearchType', 'action' => 'store', 'role' => 'Admin', 'method' => 'POST']);
+// Router::add('^(?P<language>[a-z-]+)/admin/research/types/edit/?(?P<key>[\w\-]+)$', ['controller' => 'AdminResearchType', 'action' => 'edit', 'role' => 'Admin', 'method' => 'GET']);
+// Router::add('^(?P<language>[a-z-]+)/admin/research/types/update$', ['controller' => 'AdminResearchType', 'action' => 'update', 'role' => 'Admin', 'method' => 'POST']);
+// Router::add('^(?P<language>[a-z-]+)/admin/research/types/delete$', ['controller' => 'AdminResearchType', 'action' => 'delete', 'role' => 'Admin', 'method' => 'POST']);
+
+// TODO: Admin panel for research post type management
+// Router::add('^(?P<language>[a-z-]+)/admin/research/element/types$', ['controller' => 'AdminResearchElementType', 'action' => 'index', 'role' => 'Admin', 'method' => 'GET']);
+// Router::add('^(?P<language>[a-z-]+)/admin/research/element/types/create$', ['controller' => 'AdminResearchElementType', 'action' => 'create', 'role' => 'Admin', 'method' => 'GET']);
+// Router::add('^(?P<language>[a-z-]+)/admin/research/element/types/store$', ['controller' => 'AdminResearchElementType', 'action' => 'store', 'role' => 'Admin', 'method' => 'POST']);
+// Router::add('^(?P<language>[a-z-]+)/admin/research/element/types/edit/?(?P<key>[\w\-]+)$', ['controller' => 'AdminResearchElementType', 'action' => 'edit', 'role' => 'Admin', 'method' => 'GET']);
+// Router::add('^(?P<language>[a-z-]+)/admin/research/element/types/update$', ['controller' => 'AdminResearchElementType', 'action' => 'update', 'role' => 'Admin', 'method' => 'POST']);
+// Router::add('^(?P<language>[a-z-]+)/admin/research/element/types/delete$', ['controller' => 'AdminResearchElementType', 'action' => 'delete', 'role' => 'Admin', 'method' => 'POST']);
 
 // Module Research
 Router::add('^(?P<language>[a-z-]+)/research$', ['module' => 'Research', 'controller' => 'ResearchHome', 'action' => 'index', 'method' => 'GET']);
@@ -71,7 +102,6 @@ Router::add('^(?P<language>[a-z-]+)/(?P<username>[a-z0-9-]+)/discussion/(?P<id>\
 
 // Universal Interaction Controller
 Router::add('^(?P<language>[a-z-]+)/interact/(?P<type>liked|disliked|bookmarked|subscribed|shared)/(?P<level>research|discussion)/(?P<id>\d+)$', ['controller' => 'Interaction', 'action' => 'toggle', 'method' => 'POST']);
-
 
 
 // Router::add('^$', ['lang' => 'pl', 'action' => 'index', 'content' => 'index']);

@@ -32,7 +32,7 @@ class UserResearchPostController extends Controller
 
         $navbar = 'research';
         $breadcrumb = [
-            'active' => __('research'),
+            'active' => __('researches'),
             'list' => [
                 ['name' => 'AcApp', 'url' => ''],
                 ['name' => $user['name'] . ' ' . $user['surname'], 'url' => $username]
@@ -103,7 +103,7 @@ class UserResearchPostController extends Controller
             'list' => [
                 ['name' => 'AcApp', 'url' => ''],
                 ['name' => $user['name'] . ' ' . $user['surname'], 'url' => $username],
-                ['name' => __('research'), 'url' => $username.'/research']
+                ['name' => __('researches'), 'url' => $username.'/research']
             ],];
         
         $postModel = new ResearchPost();
@@ -189,7 +189,7 @@ class UserResearchPostController extends Controller
             'list' => [
                 ['name' => 'AcApp', 'url' => ''],
                 ['name' => $user['name'] . ' ' . $user['surname'], 'url' => $username],
-                ['name' => __('research'), 'url' => $username.'/research']
+                ['name' => __('researches'), 'url' => $username.'/research']
             ],];
         
         $avatarFile = !empty($user['avatar']) ? "/uploads/avatars/" . htmlspecialchars($user['avatar']) : "/img/default-avatar.jpg";
@@ -278,7 +278,7 @@ class UserResearchPostController extends Controller
             'list' => [
                 ['name' => 'AcApp', 'url' => ''],
                 ['name' => $user['name'] . ' ' . $user['surname'], 'url' => $username],
-                ['name' => __('research'), 'url' => $username.'/research']
+                ['name' => __('researches'), 'url' => $username.'/research']
             ],];
         
         $avatarFile = !empty($user['avatar']) ? "/uploads/avatars/" . htmlspecialchars($user['avatar']) : "/img/default-avatar.jpg";

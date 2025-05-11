@@ -27,7 +27,7 @@ class ResearchPost extends Model
                   ON `ta`.`id` = `tr`.`user_id`
                 INNER JOIN `research_post_categories` AS `trc`
                   ON `trc`.`id` = `tr`.`category_id`
-                WHERE `tr`.`user_id` = :user_id 
+                WHERE `tr`.`user_id` = :user_id AND `tr`.`locked` = 0
                 ORDER BY `tr`.`created_at` DESC";
         
         return $this->query($sql, ['user_id' => $userId]);
@@ -44,7 +44,7 @@ class ResearchPost extends Model
                   ON `ta`.`id` = `tr`.`user_id`
                 INNER JOIN `research_post_categories` AS `trc`
                   ON `trc`.`id` = `tr`.`category_id`
-                WHERE `tr`.`id` = :id";
+                WHERE `tr`.`id` = :id AND `tr`.`locked` = 0";
 
         $result = $this->query($sql, ['id' => $id]);
         return $result[0] ?? null;

@@ -17,6 +17,7 @@ class Research extends Model
                   ON `trc`.`id` = `tr`.`category_id`
                 INNER JOIN `users` AS `tu`
                   ON `tu`.`id` = `tr`.`user_id`
+                WHERE `tr`.`locked` = 0
                 ORDER BY `tr`.`user_id`, `tr`.`created_at` DESC";
         
         return $this->query($sql);
