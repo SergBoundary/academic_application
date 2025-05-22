@@ -29,7 +29,33 @@ class AdminUserController extends Controller
                 ['name' => __('admin_panel'), 'url' => 'admin']
             ],];
 
-        $view = new View('', '', 'admin/users/index', compact('language', 'header', 'title', 'navbar', 'breadcrumb', 'users'));
+        $menuFirst = [
+            'active' => 'admin_panel',
+            'list' => [
+                ['name' => 'researches', 'url' => $language . '/research'],
+                ['name' => 'discussions', 'url' => $language . '/discussion']
+            ],
+        ];
+
+        $mapPath = [
+            'active' => __('users'),
+            'list' => [
+                ['name' => __('start'), 'url' => ''],
+                ['name' => __('admin_panel'), 'url' => 'admin']
+            ],
+        ];
+        
+        $menuSecond = [
+            'active' => 'users',
+            'list' => [
+                ['name' => 'messages', 'url' => $language . '/admin/messages-group', 'disabled' => true],
+                ['name' => 'users', 'url' => $language . '/admin/users-group', 'disabled' => true],
+                ['name' => 'researches', 'url' => $language . '/admin/research-group', 'disabled' => true],
+                ['name' => 'devops', 'url' => $language . '/admin/devops', 'disabled' => true],
+            ],
+        ];
+
+        $view = new View('', '', 'admin/users/index', compact('language', 'header', 'title', 'menuFirst', 'menuSecond', 'mapPath', 'users'));
         $view->render();
     }
 
@@ -50,16 +76,34 @@ class AdminUserController extends Controller
         }
         $permissions = $userModel->getPermissions($id);
 
-        $navbar = 'admin';
-        $breadcrumb = [
+        $menuFirst = [
+            'active' => 'admin_panel',
+            'list' => [
+                ['name' => 'researches', 'url' => $language . '/research'],
+                ['name' => 'discussions', 'url' => $language . '/discussion']
+            ],
+        ];
+
+        $mapPath = [
             'active' => __('editing_user_data'),
             'list' => [
-                ['name' => 'AcApp', 'url' => ''],
+                ['name' => __('start'), 'url' => ''],
                 ['name' => __('admin_panel'), 'url' => 'admin'],
                 ['name' => __('users'), 'url' => 'admin/users']
-            ],];
+            ],
+        ];
+        
+        $menuSecond = [
+            'active' => 'users',
+            'list' => [
+                ['name' => 'messages', 'url' => $language . '/admin/messages-group', 'disabled' => true],
+                ['name' => 'users', 'url' => $language . '/admin/users-group', 'disabled' => true],
+                ['name' => 'researches', 'url' => $language . '/admin/research-group', 'disabled' => true],
+                ['name' => 'devops', 'url' => $language . '/admin/devops', 'disabled' => true],
+            ],
+        ];
 
-        $view = new View('', '', 'admin/users/edit', compact('language', 'header', 'title', 'navbar', 'breadcrumb', 'user', 'permissions'));
+        $view = new View('', '', 'admin/users/edit', compact('language', 'header', 'title', 'menuFirst', 'menuSecond', 'mapPath', 'user', 'permissions'));
         $view->render();
     }
 

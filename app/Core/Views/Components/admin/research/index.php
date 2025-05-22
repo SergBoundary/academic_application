@@ -2,6 +2,7 @@
     <div class="row">
         <?php if (!empty($groupedPosts)): ?>
             <div class="col">
+                <h4 class="mb-4"><?= $mapPath['active'] ?></h4>
                 <table class="table table-hover">
                     <thead>
                         <tr>

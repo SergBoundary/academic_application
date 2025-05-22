@@ -22,13 +22,28 @@ class HomeController extends Controller
         $statModel = new Statistics();
         $statAllUsers = $statModel->statAllUsers();
 
-        $navbar = '';
-        $breadcrumb = [
-            'active' => 'AcApp',
-            'list' => [],
+        $menuFirst = [
+            'active' => '',
+            'list' => [
+                ['name' => 'researches', 'url' => $language . '/research'],
+                ['name' => 'discussions', 'url' => $language . '/discussion']
+            ],
         ];
 
-        $view = new View('', '', '', compact(['language', 'header', 'title', 'navbar', 'breadcrumb', 'users', 'statAllUsers']));
+        $mapPath = [
+            'active' => __('start'),
+            'list' => [],
+        ];
+        
+        $menuSecond = [
+            'active' => 'we',
+            'list' => [
+                ['name' => 'our_world', 'url' => $language . '/', 'disabled' => true],
+                ['name' => 'we', 'url' => $language . '/we', 'disabled' => true],
+            ],
+        ];
+
+        $view = new View('', '', '', compact(['language', 'header', 'title', 'menuFirst', 'menuSecond', 'mapPath', 'users', 'statAllUsers']));
         $view->render();
     }
 }

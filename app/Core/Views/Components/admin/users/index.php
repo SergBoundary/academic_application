@@ -1,6 +1,7 @@
 <div class="container border mb-2 p-4 bg-body shadow">
     <div class="row">
         <div class="col">
+            <h4 class="mb-4"><?= $mapPath['active'] ?></h4>
             <table class="table table-sm table-hover">
                 <thead>
                     <tr>

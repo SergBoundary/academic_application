@@ -21,14 +21,32 @@ class AdminController extends Controller
             exit;
         }
 
-        $navbar = 'admin';
-        $breadcrumb = [
+        $menuFirst = [
+            'active' => 'admin_panel',
+            'list' => [
+                ['name' => 'researches', 'url' => $language . '/research'],
+                ['name' => 'discussions', 'url' => $language . '/discussion']
+            ],
+        ];
+
+        $mapPath = [
             'active' => __('admin_panel'),
             'list' => [
-                ['name' => 'AcApp', 'url' => '']
-            ],];
+                ['name' => __('start'), 'url' => '']
+            ],
+        ];
+        
+        $menuSecond = [
+            'active' => '',
+            'list' => [
+                ['name' => 'messages', 'url' => $language . '/admin/messages-group', 'disabled' => true],
+                ['name' => 'users', 'url' => $language . '/admin/users-group', 'disabled' => true],
+                ['name' => 'researches', 'url' => $language . '/admin/research-group', 'disabled' => true],
+                ['name' => 'devops', 'url' => $language . '/admin/devops', 'disabled' => true],
+            ],
+        ];
 
-        $view = new View('', '', 'admin/admin', compact(['language', 'header', 'title', 'navbar', 'breadcrumb']));
+        $view = new View('', '', 'admin/admin', compact(['language', 'header', 'title', 'menuFirst', 'menuSecond', 'mapPath']));
         $view->render();
     }
 }

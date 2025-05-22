@@ -132,18 +132,18 @@ class Interaction extends Model
     public function statCommentsList($postType)
     {
         if ($postType == 'research') {
-            $sql = "SELECT `rp`.`id`, COUNT(`dpc`.`research_post_id`) AS count
+            $sql = "SELECT `rp`.`id`, COUNT(`dpc`.`research_id`) AS count
                     FROM `research_posts` AS `rp`
-                    LEFT JOIN `discussion_posts` AS `dpc`
-                      ON `dpc`.`research_post_id` = `rp`.`id`
+                    LEFT JOIN `discussions` AS `dpc`
+                      ON `dpc`.`research_id` = `rp`.`id`
                     GROUP BY `rp`.`id`";
         } elseif ($postType == 'discussion') {
-            $sql = "SELECT `dp`.`discussion_post_id` AS id, COUNT(`dpc`.`discussion_post_id`) AS count 
-                    FROM `discussion_posts` AS `dp`
-                    LEFT JOIN `discussion_posts` AS `dpc`
+            $sql = "SELECT `dp`.`discussion_id` AS id, COUNT(`dpc`.`discussion_id`) AS count 
+                    FROM `discussions` AS `dp`
+                    LEFT JOIN `discussions` AS `dpc`
                       ON `dpc`.`id` = `dp`.`id`
-                    WHERE `dp`.`discussion_post_id` > 0 
-                    GROUP BY `dp`.`discussion_post_id`";
+                    WHERE `dp`.`discussion_id` > 0 
+                    GROUP BY `dp`.`discussion_id`";
         }
 
         $result = $this->query($sql);
@@ -159,19 +159,19 @@ class Interaction extends Model
     public function statUserCommentsList($userId, $postType)
     {
         if ($postType == 'research') {
-            $sql = "SELECT `rp`.`id`, COUNT(`dpc`.`research_post_id`) AS count
+            $sql = "SELECT `rp`.`id`, COUNT(`dpc`.`research_id`) AS count
                     FROM `research_posts` AS `rp`
-                    LEFT JOIN `discussion_posts` AS `dpc`
-                      ON `dpc`.`research_post_id` = `rp`.`id`
+                    LEFT JOIN `discussions` AS `dpc`
+                      ON `dpc`.`research_id` = `rp`.`id`
                     WHERE `dpc`.`user_id` = :user_id
                     GROUP BY `rp`.`id`";
         } elseif ($postType == 'discussion') {
-            $sql = "SELECT `dp`.`discussion_post_id` AS id, COUNT(`dpc`.`discussion_post_id`) AS count 
-                    FROM `discussion_posts` AS `dp`
-                    LEFT JOIN `discussion_posts` AS `dpc`
+            $sql = "SELECT `dp`.`discussion_id` AS id, COUNT(`dpc`.`discussion_id`) AS count 
+                    FROM `discussions` AS `dp`
+                    LEFT JOIN `discussions` AS `dpc`
                       ON `dpc`.`id` = `dp`.`id`
-                    WHERE `dpc`.`user_id` = :user_id AND `dp`.`discussion_post_id` > 0 
-                    GROUP BY `dp`.`discussion_post_id`";
+                    WHERE `dpc`.`user_id` = :user_id AND `dp`.`discussion_id` > 0 
+                    GROUP BY `dp`.`discussion_id`";
         }
 
         $result = $this->query($sql, ['user_id' => $userId]);

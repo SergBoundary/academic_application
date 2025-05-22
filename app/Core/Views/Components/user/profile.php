@@ -3,6 +3,7 @@ $avatarFile = !empty($user['avatar']) ? "/uploads/avatars/" . htmlspecialchars($
 $avatarUrl = $avatarFile . "?v=" . time(); // Добавляем timestamp
 ?>
 <div class="container border mb-2 p-4 bg-body shadow">
+    <h4 class="mb-4"><?= $mapPath['active'] ?></h4>
     <div class="row">
         <div class="col-auto">
             <div class="card">

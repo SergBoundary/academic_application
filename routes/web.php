@@ -32,19 +32,32 @@ Router::add('^(?P<language>[a-z-]+)/admin/translations/edit/?(?P<key>[\w\-]+)$',
 Router::add('^(?P<language>[a-z-]+)/admin/translations/update$', ['controller' => 'AdminTranslation', 'action' => 'update', 'role' => 'Admin', 'method' => 'POST']);
 Router::add('^(?P<language>[a-z-]+)/admin/translations/delete$', ['controller' => 'AdminTranslation', 'action' => 'delete', 'role' => 'Admin', 'method' => 'POST']);
 
-// TODO: Admin panel for research post management
+// Admin panel for research post management
 Router::add('^(?P<language>[a-z-]+)/admin/research$', ['controller' => 'AdminResearch', 'action' => 'index', 'role' => 'Admin', 'method' => 'GET']);
 Router::add('^(?P<language>[a-z-]+)/admin/research/(?P<id>\d+)/edit$', ['controller' => 'AdminResearch', 'action' => 'edit', 'role' => 'Admin', 'method' => 'GET']);
-Router::add('^(?P<language>[a-z-]+)/admin/research/(?P<id>\d+)/update$', ['controller' => 'AdminResearch', 'action' => 'update', 'role' => 'Admin', 'method' => 'POST']);
+Router::add('^(?P<language>[a-z-]+)/admin/research/update$', ['controller' => 'AdminResearch', 'action' => 'update', 'role' => 'Admin', 'method' => 'POST']);
 Router::add('^(?P<language>[a-z-]+)/admin/research/lock/(?P<id>\d+)$', ['controller' => 'AdminResearch', 'action' => 'toggleLock', 'role' => 'Admin', 'method' => 'POST']); // Locked
 
-// TODO: Admin panel for research structura standard management
-Router::add('^(?P<language>[a-z-]+)/admin/research/standard/structure$', ['controller' => 'AdminResearchStructure', 'action' => 'index', 'role' => 'Admin', 'method' => 'GET']);
-Router::add('^(?P<language>[a-z-]+)/admin/research/standard/structure/edit$', ['controller' => 'AdminResearchStructure', 'action' => 'edit', 'role' => 'Admin', 'method' => 'GET']);
+// TODO: Admin panel for research design standard management
+Router::add('^(?P<language>[a-z-]+)/admin/research/standard/design$', ['controller' => 'AdminResearchDesign', 'action' => 'index', 'role' => 'Admin', 'method' => 'GET']);
+Router::add('^(?P<language>[a-z-]+)/admin/research/standard/design/create/?(?P<form>discipline|field|area|type|element)$', ['controller' => 'AdminResearchDesign', 'action' => 'create', 'role' => 'Admin', 'method' => 'GET']);
+Router::add('^(?P<language>[a-z-]+)/admin/research/standard/design/store$', ['controller' => 'AdminResearchDesign', 'action' => 'store', 'role' => 'Admin', 'method' => 'POST']);
+Router::add('^(?P<language>[a-z-]+)/admin/research/standard/design/edit/?(?P<key>[\w\-]+)$', ['controller' => 'AdminResearchDesign', 'action' => 'edit', 'role' => 'Admin', 'method' => 'GET']);
+Router::add('^(?P<language>[a-z-]+)/admin/research/standard/design/update$', ['controller' => 'AdminResearchDesign', 'action' => 'update', 'role' => 'Admin', 'method' => 'POST']);
+Router::add('^(?P<language>[a-z-]+)/admin/research/standard/design/delete$', ['controller' => 'AdminResearchDesign', 'action' => 'delete', 'role' => 'Admin', 'method' => 'POST']);
+Router::add('^(?P<language>[a-z-]+)/admin/research/standard/design/fields/(?P<id>\d+)$', ['controller' => 'AdminResearchDesign', 'action' => 'listFields', 'role' => 'Admin', 'method' => 'POST']); // Locked
 
-// TODO: Admin panel for research format standard management
-Router::add('^(?P<language>[a-z-]+)/admin/research/standard/format$', ['controller' => 'AdminResearchFormat', 'action' => 'index', 'role' => 'Admin', 'method' => 'GET']);
-Router::add('^(?P<language>[a-z-]+)/admin/research/standard/format/edit$', ['controller' => 'AdminResearchFormat', 'action' => 'edit', 'role' => 'Admin', 'method' => 'GET']);
+// TODO: Admin panel for research implementation standard management
+Router::add('^(?P<language>[a-z-]+)/admin/research/standard/implementation$', ['controller' => 'AdminResearchImplementation', 'action' => 'index', 'role' => 'Admin', 'method' => 'GET']);
+Router::add('^(?P<language>[a-z-]+)/admin/research/standard/implementation/edit$', ['controller' => 'AdminResearchImplementation', 'action' => 'edit', 'role' => 'Admin', 'method' => 'GET']);
+Router::add('^(?P<language>[a-z-]+)/admin/research/standard/implementation/update$', ['controller' => 'AdminResearchImplementation', 'action' => 'update', 'role' => 'Admin', 'method' => 'POST']);
+Router::add('^(?P<language>[a-z-]+)/admin/research/standard/implementation/delete$', ['controller' => 'AdminResearchImplementation', 'action' => 'delete', 'role' => 'Admin', 'method' => 'POST']);
+
+// TODO: Admin panel for research publication standard management
+Router::add('^(?P<language>[a-z-]+)/admin/research/standard/publication$', ['controller' => 'AdminResearchPublication', 'action' => 'index', 'role' => 'Admin', 'method' => 'GET']);
+Router::add('^(?P<language>[a-z-]+)/admin/research/standard/publication/edit$', ['controller' => 'AdminResearchPublication', 'action' => 'edit', 'role' => 'Admin', 'method' => 'GET']);
+Router::add('^(?P<language>[a-z-]+)/admin/research/standard/publication/update$', ['controller' => 'AdminResearchPublication', 'action' => 'update', 'role' => 'Admin', 'method' => 'POST']);
+Router::add('^(?P<language>[a-z-]+)/admin/research/standard/publication/delete$', ['controller' => 'AdminResearchPublication', 'action' => 'delete', 'role' => 'Admin', 'method' => 'POST']);
 
 // TODO: Admin panel for research post type management
 // Router::add('^(?P<language>[a-z-]+)/admin/research/types$', ['controller' => 'AdminResearchType', 'action' => 'index', 'role' => 'Admin', 'method' => 'GET']);

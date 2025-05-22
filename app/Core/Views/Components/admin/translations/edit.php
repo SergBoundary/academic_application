@@ -1,5 +1,6 @@
 <div class="container border mb-2 p-4 bg-body shadow">
     <div class="row">
+        <h4 class="mb-4"><?= $mapPath['active'] ?></h4>
         <form action="/<?= $language ?>/admin/translations/update" method="POST">
             <input type="hidden" name="key" value="<?= htmlspecialchars($translation['key_name']) ?>">
             <div class="mb-3">

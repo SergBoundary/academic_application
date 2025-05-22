@@ -32,21 +32,21 @@ $query = $qs ? "?{$qs}" : '';
 <body>
     <div class="container">
         <header>
-            <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+            <nav class="navbar navbar-expand-lg navbar-dark bg-dark navbar-first ps-3">
                 <div class="container-fluid">
                     <a class="navbar-brand" href="/">
                         <img src="/img/layout/baseline_public_white_24dp.png" alt="" width="24" height="24" class="d-inline-block align-text-top">
                     </a>
-                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarFirstContent" aria-controls="navbarFirstContent" aria-expanded="false" aria-label="Toggle navigation">
                         <span class="navbar-toggler-icon"></span>
                     </button>
-                    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                            <li class="nav-item">
-                                <a class="nav-link <?php if ($navbar == 'research'): ?>active<?php endif; ?>" href="/<?= $language ?>/research"><?= __('researches') ?></a>
-                            <li class="nav-item">
-                                <a class="nav-link <?php if ($navbar == 'discussion'): ?>active<?php endif; ?>" href="/<?= $language ?>/discussion"><?= __('discussion') ?></a>
-                            </li>
+                    <div class="collapse navbar-collapse" id="navbarFirstContent">
+                        <ul class="navbar-nav me-auto">
+                            <?php foreach ($menuFirst['list'] as $itemMenuFirst): ?>
+                                <li class="nav-item">
+                                    <a class="nav-link <?php if ($itemMenuFirst['name'] == $menuFirst['active']): ?>active<?php endif; ?>" href="/<?= $itemMenuFirst['url'] ?>"><?= __($itemMenuFirst['name']) ?></a>
+                                </li>
+                            <?php endforeach; ?>
                         </ul>
                         <ul class="navbar-nav justify-content-end">
                             <?php if (isUserLoggedIn()): ?>
@@ -61,13 +61,13 @@ $query = $qs ? "?{$qs}" : '';
                                     </a>
                                     <ul class="dropdown-menu dropdown-menu-dark bg-dark border" aria-labelledby="navbarUserDropdown">
                                         <?php if (isAdminLoggedIn()): ?>
-                                            <li><a class="dropdown-item" href="/<?= $language ?>/admin"><?= __('admin_panel') ?></a></li>
+                                            <li><a class="dropdown-item <?= ($menuFirst['active'] == 'admin_panel') ? 'active' : '' ?>" href="/<?= $language ?>/admin"><?= __('admin_panel') ?></a></li>
                                             <li>
                                                 <hr class="dropdown-divider">
                                             </li>
                                         <?php endif; ?>
-                                        <li><a class="dropdown-item" href="/<?= $language ?>/<?= $_SESSION['user']['username'] ?>"><?= __('my_space') ?></a></li>
-                                        <li><a class="dropdown-item" href="/<?= $language ?>/<?= $_SESSION['user']['username'] ?>/profile"><?= __('my_profile') ?></a></li>
+                                        <li><a class="dropdown-item <?= ($menuFirst['active'] == 'my_world') ? 'active' : '' ?>" href="/<?= $language ?>/<?= $_SESSION['user']['username'] ?>"><?= __('my_world') ?></a></li>
+                                        <li><a class="dropdown-item <?= ($menuFirst['active'] == 'my_profile') ? 'active' : '' ?>" href="/<?= $language ?>/<?= $_SESSION['user']['username'] ?>/profile"><?= __('my_profile') ?></a></li>
                                         <li>
                                             <hr class="dropdown-divider">
                                         </li>
@@ -76,7 +76,7 @@ $query = $qs ? "?{$qs}" : '';
                                 </li>
                             <?php else: ?>
                                 <li class="nav-item">
-                                    <a class="nav-link <?php if ($navbar == 'authorization'): ?>active<?php endif; ?>" href="/<?= $language ?>/login"><?= __('log_in') ?></a>
+                                    <a class="nav-link <?php if ($menuFirst['active'] == 'authorization'): ?>active<?php endif; ?>" href="/<?= $language ?>/login"><?= __('log_in') ?></a>
                                 </li>
                             <?php endif; ?>
                             <li class="nav-item dropdown ms-2">
@@ -97,17 +97,60 @@ $query = $qs ? "?{$qs}" : '';
                     </div>
                 </div>
             </nav>
-            <nav class="row" aria-label="breadcrumb">
-                <ol class="breadcrumb m-0">
-                    <?php foreach ($breadcrumb['list'] as $item): ?>
-                        <li class="breadcrumb-item"><a href="/<?= $language ?><?= $item['url'] ? '/' . $item['url'] : '' ?>"><?= $item['name'] ?></a></li>
-                    <?php endforeach; ?>
-                    <li class="breadcrumb-item active" aria-current="page"><?= $breadcrumb['active'] ?></li>
-                </ol>
+            <div class="container">
+                <nav class="row" aria-label="breadcrumb">
+                    <ol class="breadcrumb m-0 ps-4">
+                        <?php foreach ($mapPath['list'] as $itemMapPath): ?>
+                            <li class="breadcrumb-item"><a href="/<?= $language ?><?= $itemMapPath['url'] ? '/' . $itemMapPath['url'] : '' ?>"><?= $itemMapPath['name'] ?></a></li>
+                        <?php endforeach; ?>
+                        <li class="breadcrumb-item active" aria-current="page"><?= $mapPath['active'] ?></li>
+                    </ol>
+                </nav>
+            </div>
+            <nav class="navbar navbar-expand-lg navbar-dark bg-dark navbar-second mb-2 ps-2">
+                <div class="container-fluid">
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSecondContent" aria-controls="navbarSecondContent" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                    <div class="collapse navbar-collapse" id="navbarSecondContent">
+                        <ul class="navbar-nav me-auto">
+                            <?php if (!empty($menuSecond['list'])): ?>
+                                <?php foreach ($menuSecond['list'] as $itemMenuSecond): ?>
+                                    <li class="nav-item">
+                                        <a class="nav-link <?php if ($itemMenuSecond['name'] == $menuSecond['active']): ?>active<?php endif; ?> <?php if ($itemMenuSecond['disabled']): ?>disabled<?php endif; ?>" href="/<?= $itemMenuSecond['url'] ?>"><?= __($itemMenuSecond['name']) ?></a>
+                                    </li>
+                                <?php endforeach; ?>
+                            <?php else: ?>
+                                <li class="nav-item">
+                                    <a class="nav-link disabled" href="">&nbsp;</a>
+                                </li>
+                            <?php endif; ?>
+                        </ul>
+                    </div>
+                </div>
             </nav>
         </header>
         <main>
-            <?= $content ?? '' ?>
+            <?php if (!empty($asideMenu)): ?>
+                <div class="container">
+                    <div class="row">
+                        <div class="container col-2 mb-2">
+                            <div class="row">
+                                <nav class="nav flex-column">
+                                    <?php foreach ($asideMenu['list'] as $itemAsideMenu): ?>
+                                        <a class="btn btn-sm btn-outline-secondary text-start mb-2 py-2 px-4 <?php if ($itemAsideMenu['name'] == $asideMenu['active']): ?>active<?php endif; ?> <?php if ($itemAsideMenu['disabled']): ?>disabled<?php endif; ?>" href="/<?= $itemAsideMenu['url'] ?>"><?= __($itemAsideMenu['name']) ?></a>
+                                    <?php endforeach; ?>
+                                </nav>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <?= $content ?? '' ?>
+                        </div>
+                    </div>
+                </div>
+            <?php else: ?>
+                <?= $content ?? '' ?>
+            <?php endif; ?>
         </main>
         <footer class="ms-2 mt-3">
             <p>© 2024. <?= __('all_rights_reserved') ?>.</p>

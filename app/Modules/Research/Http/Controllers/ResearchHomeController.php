@@ -16,12 +16,39 @@ class ResearchHomeController extends Controller
         $title = 'researches';
         $header = __('researches');
 
-        $navbar = 'research';
-        $breadcrumb = [
+        $menuFirst = [
+            'active' => 'researches',
+            'list' => [
+                ['name' => 'researches', 'url' => $language . '/research'],
+                ['name' => 'discussions', 'url' => $language . '/discussion']
+            ],
+        ];
+
+        $mapPath = [
             'active' => __('researches'),
             'list' => [
-                ['name' => 'AcApp', 'url' => '']
-            ],];
+                ['name' => __('start'), 'url' => '']
+            ],
+        ];
+        
+        $menuSecond = [
+            'active' => '',
+            'list' => [
+                ['name' => 'research_designs', 'url' => $language . '/research-designs', 'disabled' => true],
+                ['name' => 'research_publications', 'url' => $language . '/research-publications', 'disabled' => true],
+            ],
+        ];
+
+        $asideMenu = [
+            'active' => '',
+            'list' => [
+                ['name' => 'user_offers', 'url' => $language . '/' . '', 'disabled' => true],
+                ['name' => 'user_library', 'url' => $language . '/' . '', 'disabled' => true],
+                ['name' => 'user_people', 'url' => $language . '/' . '', 'disabled' => true],
+                ['name' => 'user_news', 'url' => $language . '/' . '', 'disabled' => true],
+                ['name' => 'user_statistics', 'url' => $language . '/' . '', 'disabled' => true],
+            ],
+        ];
 
         $postModel = new Research();
         $postList = $postModel->getAllPosts();
@@ -74,7 +101,7 @@ class ResearchHomeController extends Controller
             ];
         }
 
-        $view = new View('Research', '', 'index', compact('language', 'header', 'title', 'navbar', 'breadcrumb', 'groupedPosts'));
+        $view = new View('Research', '', 'index', compact('language', 'header', 'title', 'menuFirst', 'menuSecond', 'mapPath', 'asideMenu', 'groupedPosts'));
         $view->render();
     }
 }

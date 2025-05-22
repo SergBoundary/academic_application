@@ -29,6 +29,32 @@ class AdminResearchController extends Controller
             ],
         ];
 
+        $menuFirst = [
+            'active' => 'admin_panel',
+            'list' => [
+                ['name' => 'researches', 'url' => $language . '/research'],
+                ['name' => 'discussions', 'url' => $language . '/discussion']
+            ],
+        ];
+
+        $mapPath = [
+            'active' => __('authors_research_table'),
+            'list' => [
+                ['name' => __('start'), 'url' => ''],
+                ['name' => __('admin_panel'), 'url' => 'admin']
+            ],
+        ];
+        
+        $menuSecond = [
+            'active' => 'researches',
+            'list' => [
+                ['name' => 'messages', 'url' => $language . '/admin/messages-group', 'disabled' => true],
+                ['name' => 'users', 'url' => $language . '/admin/users-group', 'disabled' => true],
+                ['name' => 'researches', 'url' => $language . '/admin/research-group', 'disabled' => true],
+                ['name' => 'devops', 'url' => $language . '/admin/devops', 'disabled' => true],
+            ],
+        ];
+
         $postModel = new Research();
         $postList = $postModel->getAllPosts();
 
@@ -61,7 +87,7 @@ class AdminResearchController extends Controller
             ];
         }
 
-        $view = new View('', '', 'admin/research/index', compact('language', 'header', 'title', 'navbar', 'breadcrumb', 'groupedPosts'));
+        $view = new View('', '', 'admin/research/index', compact('language', 'header', 'title', 'menuFirst', 'menuSecond', 'mapPath', 'groupedPosts'));
         $view->render();
     }
 
@@ -91,74 +117,62 @@ class AdminResearchController extends Controller
             ],
         ];
 
+        $menuFirst = [
+            'active' => 'admin_panel',
+            'list' => [
+                ['name' => 'researches', 'url' => $language . '/research'],
+                ['name' => 'discussions', 'url' => $language . '/discussion']
+            ],
+        ];
+
+        $mapPath = [
+            'active' => __('editing'),
+            'list' => [
+                ['name' => __('start'), 'url' => ''],
+                ['name' => __('admin_panel'), 'url' => 'admin'],
+                ['name' => $user['name'] . ' ' . $user['surname'], 'url' => $user['username']],
+                ['name' => __('research'), 'url' => 'admin/research']
+            ],
+        ];
+        
+        $menuSecond = [
+            'active' => 'researches',
+            'list' => [
+                ['name' => 'messages', 'url' => $language . '/admin/messages-group', 'disabled' => true],
+                ['name' => 'users', 'url' => $language . '/admin/users-group', 'disabled' => true],
+                ['name' => 'researches', 'url' => $language . '/admin/research-group', 'disabled' => true],
+                ['name' => 'devops', 'url' => $language . '/admin/devops', 'disabled' => true],
+            ],
+        ];
+
         $avatarFile = !empty($user['avatar']) ? "/uploads/avatars/" . htmlspecialchars($user['avatar']) : "/img/default-avatar.jpg";
         $avatar = $avatarFile . "?v=" . time();
 
         $categories = $postModel->getCategories();
 
-        $view = new View('', '', 'admin/research/edit', compact('language', 'header', 'title', 'navbar', 'breadcrumb', 'user', 'avatar', 'post', 'categories'));
+        $view = new View('', '', 'admin/research/edit', compact('language', 'header', 'title', 'menuFirst', 'menuSecond', 'mapPath', 'user', 'avatar', 'post', 'categories'));
         $view->render();
-
-        //     $view = new View('Research', '', 'posts/edit', compact('language', 'header', 'title', 'navbar', 'breadcrumb', 'user', 'avatar', 'post', 'categories'));
-
-        //     $view = new View('', '', 'admin/research/edit', compact('language', 'header', 'title', 'navbar', 'breadcrumb', 'translation'));
-        //     $view->render();
-        // debug($post, 1);
     }
 
-    // // Обработка обновления перевода
-    // public function update()
-    // {
-    //     $language = $this->language;
+    public function update()
+    {
+        $language = $this->language;
 
-    //     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    //         $key = $_POST['key'] ?? '';
-    //         $data = [
-    //             'ru' => $_POST['ru'] ?? '',
-    //             'en' => $_POST['en'] ?? '',
-    //             'pl' => $_POST['pl'] ?? '',
-    //             'uk' => $_POST['uk'] ?? ''
-    //         ];
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $id = $_POST['form_post_id'] ?? '';
+            $title = $_POST['form_post_title'] ?? '';
+            $content = $_POST['form_post_content'] ?? '';
+            $category = $_POST['form_post_category'] ?? '';
 
-    //         $translationModel = new Translation();
-    //         $result = $translationModel->updateTranslation($key, $data);
+            // debug($_POST, 1);
 
-    //         // Обновление кэша Redis можно выполнить здесь:
-    //         // Для каждого языка обновляем Redis-хэш
-    //         foreach ($this->languages as $lang) {
-    //             $cacheKey = "cache_{$lang}";
-    //             // Здесь можно либо полностью сбросить кэш, либо обновить только изменённый ключ
-    //             // Например, обновляем хэш:
-    //             $redis = RedisService::getConnection();
-    //             $redis->hset($cacheKey, $key, $data[$lang]);
-    //         }
+            $researchModel = new Research();
+            $result = $researchModel->updatePost($id, $title, $content, $category);
 
-    //         header("Location: /{$language}/admin/research");
-    //         exit;
-    //     }
-    // }
-
-    // // Удаление перевода
-    // public function delete()
-    // {
-    //     $language = $this->language;
-
-    //     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    //         $key = $_POST['key'] ?? '';
-    //         $translationModel = new Translation();
-    //         $result = $translationModel->deleteTranslation($key);
-
-    //         // Очистка кэша для каждого языка
-    //         foreach ($this->languages as $lang) {
-    //             $cacheKey = "cache_{$lang}";
-    //             $redis = RedisService::getConnection();
-    //             $redis->hdel($cacheKey, [$key]);
-    //         }
-
-    //         header("Location: /{$language}/admin/research");
-    //         exit;
-    //     }
-    // }
+            header("Location: /{$language}/admin/research");
+            exit;
+        }
+    }
 
     public function toggleLock($id)
     {

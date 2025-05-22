@@ -24,15 +24,47 @@ class UserDiscussionPostController extends Controller
 
         $language = $this->language;
         $title = 'user_discussion_posts';
-        $header = __('user_discussion_posts') . ' : ' . $user['name'] . ' ' . $user['surname'];
+        $header = __($title) . ' : ' . $user['name'] . ' ' . $user['surname'];
 
-        $navbar = 'discussion';
+        $navbar = 'discussions';
         $breadcrumb = [
-            'active' => __('discussion'),
+            'active' => __('discussions'),
             'list' => [
                 ['name' => 'AcApp', 'url' => ''],
                 ['name' => $user['name'] . ' ' . $user['surname'], 'url' => $username]
             ],];
+
+        $menuFirst = [
+            'active' => 'discussions',
+            'list' => [
+                ['name' => 'researches', 'url' => $language . '/research'],
+                ['name' => 'discussions', 'url' => $language . '/discussion']
+            ],
+        ];
+
+        $mapPath = [
+            'active' => __('discussions'),
+            'list' => [
+                ['name' => __('start'), 'url' => '']
+            ],
+        ];
+        
+        $menuSecond = [
+            'active' => '',
+            'list' => [
+                ['name' => 'research_results', 'url' => $language . '/research-designs', 'disabled' => true],
+                ['name' => 'research_publications', 'url' => $language . '/research-publications', 'disabled' => true],
+            ],
+        ];
+
+        $asideMenu = [
+            'active' => '',
+            'list' => [
+                ['name' => 'user_people', 'url' => $language . '/' . '', 'disabled' => true],
+                ['name' => 'user_news', 'url' => $language . '/' . '', 'disabled' => true],
+                ['name' => 'user_statistics', 'url' => $language . '/' . '', 'disabled' => true],
+            ],
+        ];
 
         $postModel = new DiscussionPost();
         $posts = $postModel->getUserPosts($user['id']);
@@ -118,7 +150,7 @@ class UserDiscussionPostController extends Controller
         $avatarFile = !empty($user['avatar']) ? "/uploads/avatars/" . htmlspecialchars($user['avatar']) : "/img/default-avatar.jpg";
         $avatar = $avatarFile . "?v=" . time();
 
-        $view = new View('Discussion', '', 'posts/index', compact('language', 'header', 'title', 'navbar', 'breadcrumb', 'avatar', 'user', 'groupedPosts'));
+        $view = new View('Discussion', '', 'posts/index', compact('language', 'header', 'title', 'menuFirst', 'menuSecond', 'mapPath', 'asideMenu', 'avatar', 'user', 'groupedPosts'));
         $view->render();
     }
 
@@ -135,15 +167,15 @@ class UserDiscussionPostController extends Controller
 
         $language = $this->language;
         $title = 'user_discussion_post_view';
-        $header = __('user_discussion_post_view') . ' : ' . $user['name'] . ' ' . $user['surname'];
+        $header = __($title) . ' : ' . $user['name'] . ' ' . $user['surname'];
 
-        $navbar = 'discussion';
+        $navbar = 'discussions';
         $breadcrumb = [
             'active' => __('view'),
             'list' => [
                 ['name' => 'AcApp', 'url' => ''],
                 ['name' => $user['name'] . ' ' . $user['surname'], 'url' => $username],
-                ['name' => __('discussion'), 'url' => $username.'/discussion']
+                ['name' => __('discussions'), 'url' => $username.'/discussion']
             ],];
 
         $postModel = new DiscussionPost();
@@ -226,7 +258,7 @@ class UserDiscussionPostController extends Controller
             'discussion_sharedCount'        => $statDiscussionCount[$postView['discussion_id']]['shared'] ?? '0'
         ];
 
-        $view = new View('Discussion', '', 'posts/view', compact('language', 'header', 'title', 'navbar', 'breadcrumb', 'user', 'post'));
+        $view = new View('Discussion', '', 'posts/view', compact('language', 'header', 'title', 'menuFirst', 'menuSecond', 'mapPath', 'asideMenu', 'user', 'post'));
         $view->render();
     }
 
@@ -360,19 +392,19 @@ class UserDiscussionPostController extends Controller
         $title = 'user_research_post_create';
         $header = __('user_research_post_create');
 
-        $navbar = 'discussion';
+        $navbar = 'discussions';
         $breadcrumb = [
             'active' => __('creation'),
             'list' => [
                 ['name' => 'AcApp', 'url' => ''],
                 ['name' => $user['name'] . ' ' . $user['surname'], 'url' => $username],
-                ['name' => __('discussion'), 'url' => $username.'/discussion']
+                ['name' => __('discussions'), 'url' => $username.'/discussion']
             ],];
 
         $avatarFile = !empty($user['avatar']) ? "/uploads/avatars/" . htmlspecialchars($user['avatar']) : "/img/default-avatar.jpg";
         $avatar = $avatarFile . "?v=" . time();
 
-        $view = new View('Discussion', '', 'posts/create', compact('language', 'header', 'title', 'navbar', 'breadcrumb', 'user', 'avatar', 'discussionid', 'discussionTypes', 'post'));
+        $view = new View('Discussion', '', 'posts/create', compact('language', 'header', 'title', 'menuFirst', 'menuSecond', 'mapPath', 'asideMenu', 'user', 'avatar', 'discussionid', 'discussionTypes', 'post'));
         $view->render();
     }
 
@@ -533,19 +565,19 @@ class UserDiscussionPostController extends Controller
         $title = 'user_research_post_edit';
         $header = __('user_research_post_edit');
 
-        $navbar = 'discussion';
+        $navbar = 'discussions';
         $breadcrumb = [
             'active' => __('editing'),
             'list' => [
                 ['name' => 'AcApp', 'url' => ''],
                 ['name' => $user['name'] . ' ' . $user['surname'], 'url' => $username],
-                ['name' => __('discussion'), 'url' => $username.'/discussion']
+                ['name' => __('discussions'), 'url' => $username.'/discussion']
             ],];
 
         $avatarFile = !empty($user['avatar']) ? "/uploads/avatars/" . htmlspecialchars($user['avatar']) : "/img/default-avatar.jpg";
         $avatar = $avatarFile . "?v=" . time();
 
-        $view = new View('Discussion', '', 'posts/edit', compact('language', 'header', 'title', 'navbar', 'breadcrumb', 'user', 'avatar', 'discussionid', 'discussionTypes', 'post', 'postUpdate'));
+        $view = new View('Discussion', '', 'posts/edit', compact('language', 'header', 'title', 'menuFirst', 'menuSecond', 'mapPath', 'asideMenu', 'user', 'avatar', 'discussionid', 'discussionTypes', 'post', 'postUpdate'));
         $view->render();
     }
 

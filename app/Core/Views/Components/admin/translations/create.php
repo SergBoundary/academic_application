@@ -1,5 +1,6 @@
 <div class="container border mb-2 p-4 bg-body shadow">
     <div class="row">
+        <h4 class="mb-4"><?= $mapPath['active'] ?></h4>
         <form action="/<?= $language ?>/admin/translations/store" method="POST">
             <div class="mb-3">
                 <label for="key" class="form-label"><?= __('key') ?></label>

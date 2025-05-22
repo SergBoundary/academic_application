@@ -43,14 +43,27 @@ class AuthController extends Controller
             }
         }
 
-        $navbar = 'authorization';
-        $breadcrumb = [
+        $menuFirst = [
+            'active' => 'authorization',
+            'list' => [
+                ['name' => 'researches', 'url' => $language . '/research'],
+                ['name' => 'discussions', 'url' => $language . '/discussion']
+            ],
+        ];
+
+        $mapPath = [
             'active' => __('register'),
             'list' => [
-                ['name' => 'AcApp', 'url' => '']
-            ],];
+                ['name' => __('start'), 'url' => '']
+            ],
+        ];
+        
+        $menuSecond = [
+            'active' => 'register',
+            'list' => [],
+        ];
 
-        $view = new View('', '', 'register', compact('language', 'header', 'title', 'navbar', 'breadcrumb', 'error'));
+        $view = new View('', '', 'register', compact('language', 'header', 'title', 'menuFirst', 'menuSecond', 'mapPath', 'error'));
         $view->render();
     }
 
@@ -96,14 +109,27 @@ class AuthController extends Controller
             }
         }
 
-        $navbar = 'authorization';
-        $breadcrumb = [
+        $menuFirst = [
+            'active' => 'authorization',
+            'list' => [
+                ['name' => 'researches', 'url' => $language . '/research'],
+                ['name' => 'discussions', 'url' => $language . '/discussion']
+            ],
+        ];
+
+        $mapPath = [
             'active' => __('authorization'),
             'list' => [
-                ['name' => 'AcApp', 'url' => '']
-            ],];
+                ['name' => __('start'), 'url' => '']
+            ],
+        ];
+        
+        $menuSecond = [
+            'active' => 'authorization',
+            'list' => [],
+        ];
 
-        $view = new View('', '', 'login', compact('language', 'header', 'title', 'navbar', 'breadcrumb', 'error'));
+        $view = new View('', '', 'login', compact('language', 'header', 'title', 'menuFirst', 'menuSecond', 'mapPath', 'error'));
         $view->render();
     }
 
@@ -122,14 +148,27 @@ class AuthController extends Controller
         $title = 'reset_password';
         $header = __('reset_password');
 
-        $navbar = 'authorization';
-        $breadcrumb = [
+        $menuFirst = [
+            'active' => 'authorization',
+            'list' => [
+                ['name' => 'researches', 'url' => $language . '/research'],
+                ['name' => 'discussions', 'url' => $language . '/discussion']
+            ],
+        ];
+
+        $mapPath = [
             'active' => __('reset_password'),
             'list' => [
-                ['name' => 'AcApp', 'url' => '']
-            ],];
+                ['name' => __('start'), 'url' => '']
+            ],
+        ];
+        
+        $menuSecond = [
+            'active' => 'reset_password',
+            'list' => [],
+        ];
 
-        $view = new View('', '', 'password/reset', compact('language', 'header', 'navbar', 'breadcrumb', 'title'));
+        $view = new View('', '', 'password/reset', compact('language', 'header', 'menuFirst', 'menuSecond', 'mapPath', 'title'));
         $view->render();
     }
 
@@ -160,14 +199,27 @@ class AuthController extends Controller
 
         Mailer::send($email, $subject, $body);
 
-        $navbar = 'authorization';
-        $breadcrumb = [
+        $menuFirst = [
+            'active' => 'authorization',
+            'list' => [
+                ['name' => 'researches', 'url' => $language . '/research'],
+                ['name' => 'discussions', 'url' => $language . '/discussion']
+            ],
+        ];
+
+        $mapPath = [
             'active' => __('reset_password'),
             'list' => [
-                ['name' => 'AcApp', 'url' => '']
-            ],];
+                ['name' => __('start'), 'url' => '']
+            ],
+        ];
+        
+        $menuSecond = [
+            'active' => 'reset_password',
+            'list' => [],
+        ];
 
-        $view = new View('', '', 'password/send_link', compact('language', 'header', 'navbar', 'breadcrumb', 'title'));
+        $view = new View('', '', 'password/send_link', compact('language', 'header', 'menuFirst', 'menuSecond', 'mapPath', 'title'));
         $view->render();
     }
 
@@ -177,14 +229,27 @@ class AuthController extends Controller
         $title = 'new_password';
         $header = __('new_password');
 
-        $navbar = 'authorization';
-        $breadcrumb = [
+        $menuFirst = [
+            'active' => 'authorization',
+            'list' => [
+                ['name' => 'researches', 'url' => $language . '/research'],
+                ['name' => 'discussions', 'url' => $language . '/discussion']
+            ],
+        ];
+
+        $mapPath = [
             'active' => __('new_password'),
             'list' => [
-                ['name' => 'AcApp', 'url' => '']
-            ],];
+                ['name' => __('start'), 'url' => '']
+            ],
+        ];
+        
+        $menuSecond = [
+            'active' => 'new_password',
+            'list' => [],
+        ];
 
-        $view = new View('', '', 'password/new', compact('language', 'header', 'navbar', 'breadcrumb', 'title'));
+        $view = new View('', '', 'password/new', compact('language', 'header', 'menuFirst', 'menuSecond', 'mapPath', 'title'));
         $view->render();
     }
 

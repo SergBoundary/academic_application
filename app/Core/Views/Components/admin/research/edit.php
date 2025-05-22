@@ -1,27 +1,41 @@
-<div class="container border mb-2 p-4 bg-body shadow">
-    <div class="row">
-        <form action="/<?= $language ?>/admin/translations/update" method="POST">
-            <input type="hidden" name="key" value="<?= htmlspecialchars($translation['key_name']) ?>">
-            <div class="mb-3">
-                <label for="en" class="form-label">English (EN)</label>
-                <textarea class="form-control" name="en" id="en" rows="2" placeholder="<?= htmlspecialchars(__('enter_your_translation')) ?>"><?= htmlspecialchars($translation['en']) ?></textarea>
-            </div>
-            <div class="mb-3">
-                <label for="pl" class="form-label">Polski (PL)</label>
-                <textarea class="form-control" name="pl" id="pl" rows="2" placeholder="<?= htmlspecialchars(__('enter_your_translation')) ?>"><?= htmlspecialchars($translation['pl']) ?></textarea>
-            </div>
-            <div class="mb-3">
-                <label for="uk" class="form-label">Українська (UK)</label>
-                <textarea class="form-control" name="uk" id="uk" rows="2" placeholder="<?= htmlspecialchars(__('enter_your_translation')) ?>"><?= htmlspecialchars($translation['uk']) ?></textarea>
-            </div>
-            <div class="mb-3">
-                <label for="ru" class="form-label">Русский (RU)</label>
-                <textarea class="form-control" name="ru" id="ru" rows="2" placeholder="<?= htmlspecialchars(__('enter_your_translation')) ?>"><?= htmlspecialchars($translation['ru']) ?></textarea>
-            </div>
+<form method="POST" action="/<?= $language ?>/admin/research/update">
+    <input type="hidden" name="form_post_id" value="<?= $post['id'] ?>">
+    <div class="card text-dark bg-body shadow mb-2">
+        <div class="card-header">
+            <img class="rounded-circle border" src="<?= $avatar ?>" alt="Аватар автора" width="30">
+            <a href="/<?= $language ?>/<?= $user['username'] ?>/profile" class="text-decoration-none">
+                <?= htmlspecialchars($user['name'] . ' ' . $user['surname']) ?>
+            </a>
             <div class="float-end">
-                <a href="/<?= $language ?>/admin/translations" class="btn btn-outline-secondary btn-sm me-1"><?= __('cancel') ?></a>
-                <button type="submit" class="btn btn-secondary btn-sm"><?= __('save_changes') ?></button>
+                <small class="text-muted"><span id="dynamicClock"></span></small>
             </div>
-        </form>
+        </div>
+        <div class="card-body">
+            <h4 class="mb-4"><?= $mapPath['active'] ?></h4>
+            <div class="mb-3">
+                <label for="form_post_title" class="form-label"><?= __('form_post_title') ?></label>
+                <input type="text" class="form-control" name="form_post_title" id="form_post_title" value="<?= $post['title'] ?>">
+            </div>
+            <div class="mb-3 col-6">
+                <?php if (!empty($categories)): ?>
+                    <label for="form_post_category" class="form-label"><?= __('form_post_category') ?></label>
+                    <select class="form-select" name="form_post_category" id="form_post_category">
+                        <?php foreach ($categories as $category): ?>
+                            <option value="<?= $category['id'] ?>" <?= $category['id'] == $post['category_id'] ? 'selected' : '' ?>><?= $category['category'] ?></option>
+                        <?php endforeach; ?>
+                    </select>
+                <?php endif; ?>
+            </div>
+            <div class="mb-3">
+                <label for="form_post_content" class="form-label"><?= __('form_post_content') ?></label>
+                <textarea class="form-control" name="form_post_content" id="form_post_content" rows="5"><?= htmlspecialchars($post['content']) ?></textarea>
+            </div>
+        </div>
+        <div class="card-footer bg-transparent">
+            <div class="float-end">
+                <a href="/<?= $language ?>/admin/research" class="btn btn-outline-secondary btn-sm ms-3"><?= __('cancel') ?></a>
+                <button type="submit" class="btn btn-secondary btn-sm"><?= __('save') ?></button>
+            </div>
+        </div>
     </div>
-</div>
+</form>

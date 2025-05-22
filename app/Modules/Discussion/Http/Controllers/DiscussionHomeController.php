@@ -13,15 +13,40 @@ class DiscussionHomeController extends Controller
     public function index()
     {
         $language = $this->language;
-        $title = 'discussion';
-        $header = __('discussion');
+        $title = 'discussions';
+        $header = __($title);
 
-        $navbar = 'discussion';
-        $breadcrumb = [
-            'active' => __('discussion'),
+        $menuFirst = [
+            'active' => 'discussions',
             'list' => [
-                ['name' => 'AcApp', 'url' => '']
-            ],];
+                ['name' => 'researches', 'url' => $language . '/research'],
+                ['name' => 'discussions', 'url' => $language . '/discussion']
+            ],
+        ];
+
+        $mapPath = [
+            'active' => __('discussions'),
+            'list' => [
+                ['name' => __('start'), 'url' => '']
+            ],
+        ];
+        
+        $menuSecond = [
+            'active' => '',
+            'list' => [
+                ['name' => 'research_results', 'url' => $language . '/research-designs', 'disabled' => true],
+                ['name' => 'research_publications', 'url' => $language . '/research-publications', 'disabled' => true],
+            ],
+        ];
+
+        $asideMenu = [
+            'active' => '',
+            'list' => [
+                ['name' => 'user_people', 'url' => $language . '/' . '', 'disabled' => true],
+                ['name' => 'user_news', 'url' => $language . '/' . '', 'disabled' => true],
+                ['name' => 'user_statistics', 'url' => $language . '/' . '', 'disabled' => true],
+            ],
+        ];
 
         $postModel = new Discussion();
         $posts = $postModel->getAllPosts();
@@ -104,7 +129,7 @@ class DiscussionHomeController extends Controller
             ];
         }
 
-        $view = new View('Discussion', '', 'index', compact('language', 'header', 'title', 'navbar', 'breadcrumb', 'groupedPosts'));
+        $view = new View('Discussion', '', 'index', compact('language', 'header', 'title', 'menuFirst', 'menuSecond', 'mapPath', 'asideMenu', 'groupedPosts'));
         $view->render();
     }
 }

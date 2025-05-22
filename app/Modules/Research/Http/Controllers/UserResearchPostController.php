@@ -30,13 +30,40 @@ class UserResearchPostController extends Controller
         $title = 'user_research_posts';
         $header = __('user_research_posts') . ' : ' . $user['name'] . ' ' . $user['surname'];
 
-        $navbar = 'research';
-        $breadcrumb = [
+        $menuFirst = [
+            'active' => 'researches',
+            'list' => [
+                ['name' => 'researches', 'url' => $language . '/research'],
+                ['name' => 'discussions', 'url' => $language . '/discussion']
+            ],
+        ];
+
+        $mapPath = [
             'active' => __('researches'),
             'list' => [
-                ['name' => 'AcApp', 'url' => ''],
+                ['name' => __('start'), 'url' => ''],
                 ['name' => $user['name'] . ' ' . $user['surname'], 'url' => $username]
-            ],];
+            ],
+        ];
+        
+        $menuSecond = [
+            'active' => '',
+            'list' => [
+                ['name' => 'research_designs', 'url' => $language . '/research-designs', 'disabled' => true],
+                ['name' => 'research_publications', 'url' => $language . '/research-publications', 'disabled' => true],
+            ],
+        ];
+
+        $asideMenu = [
+            'active' => '',
+            'list' => [
+                ['name' => 'user_offers', 'url' => $language . '/' . '', 'disabled' => true],
+                ['name' => 'user_library', 'url' => $language . '/' . '', 'disabled' => true],
+                ['name' => 'user_people', 'url' => $language . '/' . '', 'disabled' => true],
+                ['name' => 'user_news', 'url' => $language . '/' . '', 'disabled' => true],
+                ['name' => 'user_statistics', 'url' => $language . '/' . '', 'disabled' => true],
+            ],
+        ];
         
         $postModel = new ResearchPost();
         $postList = $postModel->getUserPosts($user['id']);
@@ -78,7 +105,7 @@ class UserResearchPostController extends Controller
             ];
         }
 
-        $view = new View('Research', '', 'posts/index', compact('language', 'header', 'title', 'navbar', 'breadcrumb', 'avatar', 'user', 'posts'));
+        $view = new View('Research', '', 'posts/index', compact('language', 'header', 'title', 'menuFirst', 'menuSecond', 'mapPath', 'asideMenu', 'avatar', 'user', 'posts'));
         $view->render();
     }
 
@@ -97,14 +124,41 @@ class UserResearchPostController extends Controller
         $title = 'user_research_post_view';
         $header = __('user_research_post_view') . ' : ' . $user['name'] . ' ' . $user['surname'];
 
-        $navbar = 'research';
-        $breadcrumb = [
+        $menuFirst = [
+            'active' => 'researches',
+            'list' => [
+                ['name' => 'researches', 'url' => $language . '/research'],
+                ['name' => 'discussions', 'url' => $language . '/discussion']
+            ],
+        ];
+
+        $mapPath = [
             'active' => __('view'),
             'list' => [
-                ['name' => 'AcApp', 'url' => ''],
+                ['name' => __('start'), 'url' => ''],
                 ['name' => $user['name'] . ' ' . $user['surname'], 'url' => $username],
                 ['name' => __('researches'), 'url' => $username.'/research']
-            ],];
+            ],
+        ];
+        
+        $menuSecond = [
+            'active' => '',
+            'list' => [
+                ['name' => 'research_designs', 'url' => $language . '/research-designs', 'disabled' => true],
+                ['name' => 'research_publications', 'url' => $language . '/research-publications', 'disabled' => true],
+            ],
+        ];
+
+        $asideMenu = [
+            'active' => '',
+            'list' => [
+                ['name' => 'user_offers', 'url' => $language . '/' . '', 'disabled' => true],
+                ['name' => 'user_library', 'url' => $language . '/' . '', 'disabled' => true],
+                ['name' => 'user_people', 'url' => $language . '/' . '', 'disabled' => true],
+                ['name' => 'user_news', 'url' => $language . '/' . '', 'disabled' => true],
+                ['name' => 'user_statistics', 'url' => $language . '/' . '', 'disabled' => true],
+            ],
+        ];
         
         $postModel = new ResearchPost();
         $postView = $postModel->getPostById($id);
@@ -155,9 +209,8 @@ class UserResearchPostController extends Controller
             'shared'          => $statAction[$postView['id']]['shared'] ?? '0',
             'sharedCount'     => $statCount[$postView['id']]['shared'] ?? '0'
         ];
-        // debug($post, 1);
         
-        $view = new View('Research', '', 'posts/view', compact('language', 'header', 'title', 'navbar', 'breadcrumb', 'user', 'avatar', 'titlePost', 'post'));
+        $view = new View('Research', '', 'posts/view', compact('language', 'header', 'title', 'menuFirst', 'menuSecond', 'mapPath', 'asideMenu', 'user', 'avatar', 'titlePost', 'post'));
         $view->render();
     }
 
@@ -183,14 +236,41 @@ class UserResearchPostController extends Controller
         $title = 'user_research_post_create';
         $header = __('user_research_post_create');
 
-        $navbar = 'research';
-        $breadcrumb = [
+        $menuFirst = [
+            'active' => 'researches',
+            'list' => [
+                ['name' => 'researches', 'url' => $language . '/research'],
+                ['name' => 'discussions', 'url' => $language . '/discussion']
+            ],
+        ];
+
+        $mapPath = [
             'active' => __('creation'),
             'list' => [
-                ['name' => 'AcApp', 'url' => ''],
+                ['name' => __('start'), 'url' => ''],
                 ['name' => $user['name'] . ' ' . $user['surname'], 'url' => $username],
                 ['name' => __('researches'), 'url' => $username.'/research']
-            ],];
+            ],
+        ];
+        
+        $menuSecond = [
+            'active' => '',
+            'list' => [
+                ['name' => 'research_designs', 'url' => $language . '/research-designs', 'disabled' => true],
+                ['name' => 'research_publications', 'url' => $language . '/research-publications', 'disabled' => true],
+            ],
+        ];
+
+        $asideMenu = [
+            'active' => '',
+            'list' => [
+                ['name' => 'user_offers', 'url' => $language . '/' . '', 'disabled' => true],
+                ['name' => 'user_library', 'url' => $language . '/' . '', 'disabled' => true],
+                ['name' => 'user_people', 'url' => $language . '/' . '', 'disabled' => true],
+                ['name' => 'user_news', 'url' => $language . '/' . '', 'disabled' => true],
+                ['name' => 'user_statistics', 'url' => $language . '/' . '', 'disabled' => true],
+            ],
+        ];
         
         $avatarFile = !empty($user['avatar']) ? "/uploads/avatars/" . htmlspecialchars($user['avatar']) : "/img/default-avatar.jpg";
         $avatar = $avatarFile . "?v=" . time();
@@ -201,7 +281,7 @@ class UserResearchPostController extends Controller
         $languageModel = new Language();
         $languages = $languageModel->getLanguages();
         
-        $view = new View('Research', '', 'posts/create', compact('language', 'header', 'title', 'navbar', 'breadcrumb', 'user', 'avatar', 'categories', 'languages'));
+        $view = new View('Research', '', 'posts/create', compact('language', 'header', 'title', 'menuFirst', 'menuSecond', 'mapPath', 'asideMenu', 'user', 'avatar', 'categories', 'languages'));
         $view->render();
     }
 
@@ -272,21 +352,48 @@ class UserResearchPostController extends Controller
         $title = 'user_research_post_edit';
         $header = __('user_research_post_edit');
 
-        $navbar = 'research';
-        $breadcrumb = [
+        $menuFirst = [
+            'active' => 'researches',
+            'list' => [
+                ['name' => 'researches', 'url' => $language . '/research'],
+                ['name' => 'discussions', 'url' => $language . '/discussion']
+            ],
+        ];
+
+        $mapPath = [
             'active' => __('editing'),
             'list' => [
-                ['name' => 'AcApp', 'url' => ''],
+                ['name' => __('start'), 'url' => ''],
                 ['name' => $user['name'] . ' ' . $user['surname'], 'url' => $username],
                 ['name' => __('researches'), 'url' => $username.'/research']
-            ],];
+            ],
+        ];
+        
+        $menuSecond = [
+            'active' => '',
+            'list' => [
+                ['name' => 'research_designs', 'url' => $language . '/research-designs', 'disabled' => true],
+                ['name' => 'research_publications', 'url' => $language . '/research-publications', 'disabled' => true],
+            ],
+        ];
+
+        $asideMenu = [
+            'active' => '',
+            'list' => [
+                ['name' => 'user_offers', 'url' => $language . '/' . '', 'disabled' => true],
+                ['name' => 'user_library', 'url' => $language . '/' . '', 'disabled' => true],
+                ['name' => 'user_people', 'url' => $language . '/' . '', 'disabled' => true],
+                ['name' => 'user_news', 'url' => $language . '/' . '', 'disabled' => true],
+                ['name' => 'user_statistics', 'url' => $language . '/' . '', 'disabled' => true],
+            ],
+        ];
         
         $avatarFile = !empty($user['avatar']) ? "/uploads/avatars/" . htmlspecialchars($user['avatar']) : "/img/default-avatar.jpg";
         $avatar = $avatarFile . "?v=" . time();
 
         $categories = $postModel->getCategories();
         
-        $view = new View('Research', '', 'posts/edit', compact('language', 'header', 'title', 'navbar', 'breadcrumb', 'user', 'avatar', 'post', 'categories'));
+        $view = new View('Research', '', 'posts/edit', compact('language', 'header', 'title', 'menuFirst', 'menuSecond', 'mapPath', 'asideMenu', 'user', 'avatar', 'post', 'categories'));
         $view->render();
     }
 

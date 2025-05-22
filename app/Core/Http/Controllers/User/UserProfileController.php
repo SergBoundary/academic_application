@@ -14,6 +14,7 @@ class UserProfileController extends Controller
     public function index($username)
     {
         $language = $this->language;
+        // debug('User Profile', 1);
 
         $userModel = new User();
         $user = $userModel->getUserByUsername($username);
@@ -31,15 +32,49 @@ class UserProfileController extends Controller
         $title = 'user_profile';
         $header = __('user_profile') . ' : ' . $user['name'] . ' ' . $user['surname'];
 
-        $navbar = '';
-        $breadcrumb = [
+        $menuFirstActive = (isset($_SESSION['user']) && $_SESSION['user']['id'] == $user['id']) ? 'my_profile' : '';
+
+        $menuFirst = [
+            'active' => $menuFirstActive,
+            'list' => [
+                ['name' => 'researches', 'url' => $language . '/research'],
+                ['name' => 'discussions', 'url' => $language . '/discussion']
+            ],
+        ];
+
+        $mapPath = [
             'active' => __('user_profile'),
             'list' => [
-                ['name' => 'AcApp', 'url' => ''],
+                ['name' => __('start'), 'url' => ''],
                 ['name' => $user['name'] . ' ' . $user['surname'], 'url' => $username]
-            ],];
+            ],
+        ];
+        
+        $menuSecond = [
+            'active' => 'me',
+            'list' => [
+                ['name' => 'my_world', 'url' => $language . '/admin/messages-group', 'disabled' => true],
+                ['name' => 'research_designs', 'url' => $language . '/' . $user['username'] . '/research-designs', 'disabled' => true],
+                ['name' => 'research_publications', 'url' => $language . '/' . $user['username'] . '/research-publications', 'disabled' => true],
+                ['name' => 'me', 'url' => $language . '/' . $user['username'], 'disabled' => true],
+            ],
+        ];
 
-        $view = new View('', '', 'user/profile', compact('language', 'header', 'title', 'navbar', 'breadcrumb', 'user', 'statUserResearchPost', 'statUserDiscussionPost'));
+        $asideMenu = [
+            'active' => 'user_profile',
+            'list' => [
+                ['name' => 'user_visiting_card', 'url' => $language . '/' . $user['username'] . '', 'disabled' => true],
+                ['name' => 'user_profile', 'url' => $language . '/' . $user['username'] . '/profile', 'disabled' => false],
+                ['name' => 'user_life_stories', 'url' => $language . '/' . $user['username'] . '', 'disabled' => true],
+                ['name' => 'user_experience', 'url' => $language . '/' . $user['username'] . '', 'disabled' => true],
+                ['name' => 'user_career', 'url' => $language . '/' . $user['username'] . '', 'disabled' => true],
+                ['name' => 'user_skills', 'url' => $language . '/' . $user['username'] . '', 'disabled' => true],
+                ['name' => 'user_plans', 'url' => $language . '/' . $user['username'] . '', 'disabled' => true],
+                ['name' => 'user_statistics', 'url' => $language . '/' . $user['username'] . '', 'disabled' => true],
+            ],
+        ];
+
+        $view = new View('', '', 'user/profile', compact('language', 'header', 'title', 'menuFirst', 'menuSecond', 'mapPath', 'asideMenu', 'user', 'statUserResearchPost', 'statUserDiscussionPost'));
         $view->render();
     }
 
@@ -69,16 +104,50 @@ class UserProfileController extends Controller
         $title = 'editing_profile';
         $header = __('editing_profile') . ' : ' . $user['name'] . ' ' . $user['surname'];
 
-        $navbar = '';
-        $breadcrumb = [
+        $menuFirstActive = (isset($_SESSION['user']) && $_SESSION['user']['id'] == $user['id']) ? 'my_profile' : '';
+
+        $menuFirst = [
+            'active' => $menuFirstActive,
+            'list' => [
+                ['name' => 'researches', 'url' => $language . '/research'],
+                ['name' => 'discussions', 'url' => $language . '/discussion']
+            ],
+        ];
+
+        $mapPath = [
             'active' => __('editing_profile'),
             'list' => [
-                ['name' => 'AcApp', 'url' => ''],
+                ['name' => __('start'), 'url' => ''],
                 ['name' => $user['name'] . ' ' . $user['surname'], 'url' => $username],
                 ['name' => __('user_profile'), 'url' => $username.'/profile']
-            ],];
+            ],
+        ];
+        
+        $menuSecond = [
+            'active' => 'me',
+            'list' => [
+                ['name' => 'my_world', 'url' => $language . '/admin/messages-group', 'disabled' => true],
+                ['name' => 'research_designs', 'url' => $language . '/' . $user['username'] . '/research-designs', 'disabled' => true],
+                ['name' => 'research_publications', 'url' => $language . '/' . $user['username'] . '/research-publications', 'disabled' => true],
+                ['name' => 'me', 'url' => $language . '/' . $user['username'], 'disabled' => true],
+            ],
+        ];
 
-        $view = new View('', '', 'user/edit-profile', compact('language', 'header', 'title', 'navbar', 'breadcrumb', 'user'));
+        $asideMenu = [
+            'active' => 'user_profile',
+            'list' => [
+                ['name' => 'user_visiting_card', 'url' => $language . '/' . $user['username'] . '', 'disabled' => false],
+                ['name' => 'user_profile', 'url' => $language . '/' . $user['username'] . '/profile', 'disabled' => false],
+                ['name' => 'user_life_stories', 'url' => $language . '/' . $user['username'] . '', 'disabled' => true],
+                ['name' => 'user_experience', 'url' => $language . '/' . $user['username'] . '', 'disabled' => true],
+                ['name' => 'user_career', 'url' => $language . '/' . $user['username'] . '', 'disabled' => true],
+                ['name' => 'user_skills', 'url' => $language . '/' . $user['username'] . '', 'disabled' => true],
+                ['name' => 'user_plans', 'url' => $language . '/' . $user['username'] . '', 'disabled' => true],
+                ['name' => 'user_statistics', 'url' => $language . '/' . $user['username'] . '', 'disabled' => true],
+            ],
+        ];
+
+        $view = new View('', '', 'user/edit-profile', compact('language', 'header', 'title', 'menuFirst', 'menuSecond', 'mapPath', 'asideMenu', 'user'));
         $view->render();
     }
 

@@ -25,15 +25,33 @@ class AdminTranslationController extends Controller
         $translationModel = new Translation();
         $translations = $translationModel->getAll();
 
-        $navbar = 'admin';
-        $breadcrumb = [
+        $menuFirst = [
+            'active' => 'admin_panel',
+            'list' => [
+                ['name' => 'researches', 'url' => $language . '/research'],
+                ['name' => 'discussions', 'url' => $language . '/discussion']
+            ],
+        ];
+
+        $mapPath = [
             'active' => __('translation_table'),
             'list' => [
-                ['name' => 'AcApp', 'url' => ''],
+                ['name' => __('start'), 'url' => ''],
                 ['name' => __('admin_panel'), 'url' => 'admin']
-            ],];
+            ],
+        ];
+        
+        $menuSecond = [
+            'active' => 'devops',
+            'list' => [
+                ['name' => 'messages', 'url' => $language . '/admin/messages-group', 'disabled' => true],
+                ['name' => 'users', 'url' => $language . '/admin/users-group', 'disabled' => true],
+                ['name' => 'researches', 'url' => $language . '/admin/research-group', 'disabled' => true],
+                ['name' => 'devops', 'url' => $language . '/admin/devops', 'disabled' => true],
+            ],
+        ];
 
-        $view = new View('', '', 'admin/translations/index', compact('language', 'header', 'title', 'navbar', 'breadcrumb', 'translations'));
+        $view = new View('', '', 'admin/translations/index', compact('language', 'header', 'title', 'menuFirst', 'menuSecond', 'mapPath', 'translations'));
         $view->render();
     }
 
@@ -46,16 +64,34 @@ class AdminTranslationController extends Controller
         $title = 'translation_create';
         $header = __('translation_create');
 
-        $navbar = 'admin';
-        $breadcrumb = [
+        $menuFirst = [
+            'active' => 'admin_panel',
+            'list' => [
+                ['name' => 'researches', 'url' => $language . '/research'],
+                ['name' => 'discussions', 'url' => $language . '/discussion']
+            ],
+        ];
+
+        $mapPath = [
             'active' => __('translation_create'),
             'list' => [
-                ['name' => 'AcApp', 'url' => ''],
+                ['name' => __('start'), 'url' => ''],
                 ['name' => __('admin_panel'), 'url' => 'admin'],
                 ['name' => __('translation_table'), 'url' => 'admin/translations']
-            ],];
+            ],
+        ];
+        
+        $menuSecond = [
+            'active' => 'devops',
+            'list' => [
+                ['name' => 'messages', 'url' => $language . '/admin/messages-group', 'disabled' => true],
+                ['name' => 'users', 'url' => $language . '/admin/users-group', 'disabled' => true],
+                ['name' => 'researches', 'url' => $language . '/admin/research-group', 'disabled' => true],
+                ['name' => 'devops', 'url' => $language . '/admin/devops', 'disabled' => true],
+            ],
+        ];
 
-        $view = new View('', '', 'admin/translations/create', compact('language', 'header', 'title', 'navbar', 'breadcrumb'));
+        $view = new View('', '', 'admin/translations/create', compact('language', 'header', 'title', 'menuFirst', 'menuSecond', 'mapPath'));
         $view->render();
     }
 
@@ -103,16 +139,34 @@ class AdminTranslationController extends Controller
             exit;
         }
 
-        $navbar = 'admin';
-        $breadcrumb = [
+        $menuFirst = [
+            'active' => 'admin_panel',
+            'list' => [
+                ['name' => 'researches', 'url' => $language . '/research'],
+                ['name' => 'discussions', 'url' => $language . '/discussion']
+            ],
+        ];
+
+        $mapPath = [
             'active' => __('translation_edit'),
             'list' => [
-                ['name' => 'AcApp', 'url' => ''],
+                ['name' => __('start'), 'url' => ''],
                 ['name' => __('admin_panel'), 'url' => 'admin'],
                 ['name' => __('translation_table'), 'url' => 'admin/translations']
-            ],];
+            ],
+        ];
+        
+        $menuSecond = [
+            'active' => 'devops',
+            'list' => [
+                ['name' => 'messages', 'url' => $language . '/admin/messages-group', 'disabled' => true],
+                ['name' => 'users', 'url' => $language . '/admin/users-group', 'disabled' => true],
+                ['name' => 'researches', 'url' => $language . '/admin/research-group', 'disabled' => true],
+                ['name' => 'devops', 'url' => $language . '/admin/devops', 'disabled' => true],
+            ],
+        ];
 
-        $view = new View('', '', 'admin/translations/edit', compact('language', 'header', 'title', 'navbar', 'breadcrumb', 'translation'));
+        $view = new View('', '', 'admin/translations/edit', compact('language', 'header', 'title', 'menuFirst', 'menuSecond', 'mapPath', 'translation'));
         $view->render();
     }
 

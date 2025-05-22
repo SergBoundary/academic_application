@@ -49,14 +49,14 @@ class Statistics extends Model
     public function statUserDiscussionPost($userId)
     {
         $sql = "SELECT COUNT(`id`) AS `posted` 
-                FROM `discussion_posts` 
+                FROM `discussions` 
                 WHERE `user_id` = :user_id";
 
         $postsCount = $this->query($sql, ['user_id' => $userId]);
 
         $sql = "SELECT SUM(`pi`.`liked`) AS `liked`, SUM(`pi`.`disliked`) AS `disliked`, SUM(`pi`.`bookmarked`) AS `bookmarked`, SUM(`pi`.`subscribed`) AS `subscribed`, SUM(`pi`.`shared`) AS `shared` 
                 FROM `post_interactions` AS `pi`
-                LEFT JOIN `discussion_posts` AS `dp`
+                LEFT JOIN `discussions` AS `dp`
                   ON `dp`.`id` = `pi`.`post_id`
                 WHERE `dp`.`user_id` = :user_id AND `pi`.`post_type` = 'discussion'";
 

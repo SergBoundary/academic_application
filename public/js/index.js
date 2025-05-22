@@ -81,6 +81,7 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 
+
 document.addEventListener("DOMContentLoaded", function () {
     // AJAX for interaction
     // Функция для обработки ответа и обновления кнопок

@@ -3,6 +3,7 @@ $avatarFile = !empty($user['avatar']) ? "/uploads/avatars/" . htmlspecialchars($
 $avatarUrl = $avatarFile . "?v=" . time(); // Добавляем timestamp
 ?>
 <div class="container border mb-2 p-4 bg-body shadow">
+    <h4 class="mb-4"><?= $mapPath['active'] ?></h4>
     <form action="/<?= $language ?>/admin/users/update" method="POST" enctype="multipart/form-data">
         <input type="hidden" name="id" value="<?= $user['id']; ?>">
         <div class="row">

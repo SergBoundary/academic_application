@@ -1,6 +1,9 @@
 <div class="container border mb-2 p-4 bg-body shadow">
     <div class="row">
         <div class="col">
+            <div class="float-start">
+                <h4 class="mb-4"><?= $mapPath['active'] ?></h4>
+            </div>
             <div class="float-end">
                 <a href="/<?= $language ?>/admin/translations/create" class="btn btn-outline-secondary btn-sm rounded-pill" title="<?= __('add_translation') ?>"><i class="bi bi-plus-lg"></i> <?= __('add_translation') ?></a>
             </div>
