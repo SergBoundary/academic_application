@@ -26,8 +26,8 @@ class UserProfileController extends Controller
         }
 
         $statModel = new Statistics();
-        $statUserResearchPost = $statModel->statUserResearchPost($user['id']);
-        $statUserDiscussionPost = $statModel->statUserDiscussionPost($user['id']);
+        $statUserResearchPost = $statModel->statUserResearch($user['id']);
+        $statUserDiscussionPost = $statModel->statUserDiscussion($user['id']);
 
         $title = 'user_profile';
         $header = __('user_profile') . ' : ' . $user['name'] . ' ' . $user['surname'];

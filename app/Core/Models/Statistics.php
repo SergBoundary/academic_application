@@ -12,24 +12,24 @@ class Statistics extends Model
 
         $stat = [];
         foreach ($users as $user) {
-            $stat[$user['id']]['research'] = $this->statUserResearchPost($user['id']);
-            $stat[$user['id']]['discussion'] = $this->statUserDiscussionPost($user['id']);
+            $stat[$user['id']]['research'] = $this->statUserResearch($user['id']);
+            $stat[$user['id']]['discussion'] = $this->statUserDiscussion($user['id']);
         }
 
         return $stat;
     }
 
-    public function statUserResearchPost($userId)
+    public function statUserResearch($userId)
     {
         $sql = "SELECT COUNT(`id`) AS `posted` 
-                FROM `research_posts` 
+                FROM `researches` 
                 WHERE `user_id` = :user_id";
 
         $postsCount = $this->query($sql, ['user_id' => $userId]);
 
         $sql = "SELECT SUM(`pi`.`liked`) AS `liked`, SUM(`pi`.`disliked`) AS `disliked`, SUM(`pi`.`bookmarked`) AS `bookmarked`, SUM(`pi`.`subscribed`) AS `subscribed`, SUM(`pi`.`shared`) AS `shared` 
                 FROM `post_interactions` AS `pi`
-                LEFT JOIN `research_posts` AS `rp`
+                LEFT JOIN `researches` AS `rp`
                   ON `rp`.`id` = `pi`.`post_id`
                 WHERE `rp`.`user_id` = :user_id AND `pi`.`post_type` = 'research'";
 
@@ -46,7 +46,7 @@ class Statistics extends Model
         return $stat;
     }
 
-    public function statUserDiscussionPost($userId)
+    public function statUserDiscussion($userId)
     {
         $sql = "SELECT COUNT(`id`) AS `posted` 
                 FROM `discussions` 
