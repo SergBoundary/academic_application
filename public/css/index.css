@@ -10,6 +10,10 @@
     font-size: 1.2rem;
 }
 
+footer {
+    border-radius: 5px;
+}
+
 .container {
     border-radius: 5px;
 }

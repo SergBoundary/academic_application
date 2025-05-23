@@ -9,7 +9,7 @@ use App\Core\Models\Interaction;
 use App\Core\Models\User;
 use App\Core\Views\View;
 
-class UserDiscussionPostController extends Controller
+class UserDiscussionController extends Controller
 {
     public function index($username)
     {
@@ -26,14 +26,6 @@ class UserDiscussionPostController extends Controller
         $title = 'user_discussion_posts';
         $header = __($title) . ' : ' . $user['name'] . ' ' . $user['surname'];
 
-        $navbar = 'discussions';
-        $breadcrumb = [
-            'active' => __('discussions'),
-            'list' => [
-                ['name' => 'AcApp', 'url' => ''],
-                ['name' => $user['name'] . ' ' . $user['surname'], 'url' => $username]
-            ],];
-
         $menuFirst = [
             'active' => 'discussions',
             'list' => [
@@ -45,10 +37,11 @@ class UserDiscussionPostController extends Controller
         $mapPath = [
             'active' => __('discussions'),
             'list' => [
-                ['name' => __('start'), 'url' => '']
+                ['name' => __('start'), 'url' => ''],
+                ['name' => $user['name'] . ' ' . $user['surname'], 'url' => $username]
             ],
         ];
-        
+
         $menuSecond = [
             'active' => '',
             'list' => [
@@ -146,7 +139,7 @@ class UserDiscussionPostController extends Controller
                 'discussion_sharedCount'        => $statDiscussionCount[$post['discussion_id']]['shared'] ?? '0'
             ];
         }
-        
+
         $avatarFile = !empty($user['avatar']) ? "/uploads/avatars/" . htmlspecialchars($user['avatar']) : "/img/default-avatar.jpg";
         $avatar = $avatarFile . "?v=" . time();
 
@@ -169,23 +162,55 @@ class UserDiscussionPostController extends Controller
         $title = 'user_discussion_post_view';
         $header = __($title) . ' : ' . $user['name'] . ' ' . $user['surname'];
 
-        $navbar = 'discussions';
-        $breadcrumb = [
+        $menuFirst = [
+            'active' => 'discussions',
+            'list' => [
+                ['name' => 'researches', 'url' => $language . '/research'],
+                ['name' => 'discussions', 'url' => $language . '/discussion']
+            ],
+        ];
+
+        $mapPath = [
             'active' => __('view'),
             'list' => [
-                ['name' => 'AcApp', 'url' => ''],
+                ['name' => __('start'), 'url' => ''],
                 ['name' => $user['name'] . ' ' . $user['surname'], 'url' => $username],
-                ['name' => __('discussions'), 'url' => $username.'/discussion']
-            ],];
+                ['name' => __('discussions'), 'url' => $username . '/discussion']
+            ],
+        ];
 
-        $postModel = new DiscussionPost();
-        $postView = $postModel->getPostById($id);
+        $menuSecond = [
+            'active' => '',
+            'list' => [
+                ['name' => 'research_results', 'url' => $language . '/research-designs', 'disabled' => true],
+                ['name' => 'research_publications', 'url' => $language . '/research-publications', 'disabled' => true],
+            ],
+        ];
+
+        $asideMenu = [
+            'active' => '',
+            'list' => [
+                ['name' => 'user_people', 'url' => $language . '/' . '', 'disabled' => true],
+                ['name' => 'user_news', 'url' => $language . '/' . '', 'disabled' => true],
+                ['name' => 'user_statistics', 'url' => $language . '/' . '', 'disabled' => true],
+            ],
+        ];
+
+        $discussionModel = new DiscussionPost();
+        $postView = $discussionModel->getPostById($id);
 
         if (!$postView) {
             http_response_code(404);
             echo "Публикация не найдена!";
             exit;
         }
+
+        $researchPostModel = new ResearchPost();
+        $researchPost = $researchPostModel->getPostById($postView['research_post_id']);
+
+        $discussionid = $postView['discussion_post_id'];
+        $discussionTypes = $discussionModel->getTypes();
+        $discussionPost = $discussionModel->getPostById($discussionid);
 
         $interactionModel = new Interaction();
         $statResearchCount = $interactionModel->statPostsList('research');
@@ -199,51 +224,8 @@ class UserDiscussionPostController extends Controller
             $сommentResearchAction = $interactionModel->statUserCommentsList($userId, 'research');
             $сommentDiscussionAction = $interactionModel->statUserCommentsList($userId, 'discussion');
         }
-
-        $avatarAuthorFile = !empty($postView['author_avatar']) ? "/uploads/avatars/" . htmlspecialchars($postView['author_avatar']) : "/img/default-avatar.jpg";
-        $avatarAuthor = $avatarAuthorFile . "?v=" . time();
-        $avatarOpponentFile = !empty($postView['opponent_avatar']) ? "/uploads/avatars/" . htmlspecialchars($postView['opponent_avatar']) : "/img/default-avatar.jpg";
-        $avatarOpponent = $avatarOpponentFile . "?v=" . time();
-        $post = [
-            // Добавляем предмет обсуждения
-            'research_id'              => $postView['research_id'],
-            'author_title'             => $postView['author_title'],
-            'author_username'          => $postView['author_username'],
-            'author_name'              => $postView['author_name'],
-            'author_surname'           => $postView['author_surname'],
-            'author_content'           => $postView['author_content'],
-            'category_id'              => $postView['category_id'],
-            'category_name'            => $postView['category_name'],
-            'author_avatar'            => $avatarAuthor,
-            'author_created_at'        => $postView['author_created_at'],
-            'author_updated_at'        => $postView['author_updated_at'],
-            'research_liked'           => $statResearchAction[$postView['research_id']]['liked'] ?? '0',
-            'research_likedCount'      => $statResearchCount[$postView['research_id']]['liked'] ?? '0',
-            'research_comment'         => $сommentResearchAction[$postView['research_id']] ?? '0',
-            'research_commentCount'    => $сommentResearchCount[$postView['research_id']] ?? '0',
-            'research_disliked'        => $statResearchAction[$postView['research_id']]['disliked'] ?? '0',
-            'research_dislikedCount'   => $statResearchCount[$postView['research_id']]['disliked'] ?? '0',
-            'research_bookmarked'      => $statResearchAction[$postView['research_id']]['bookmarked'] ?? '0',
-            'research_bookmarkedCount' => $statResearchCount[$postView['research_id']]['bookmarked'] ?? '0',
-            'research_subscribed'      => $statResearchAction[$postView['research_id']]['subscribed'] ?? '0',
-            'research_subscribedCount' => $statResearchCount[$postView['research_id']]['subscribed'] ?? '0',
-            'research_shared'          => $statResearchAction[$postView['research_id']]['shared'] ?? '0',
-            'research_sharedCount'     => $statResearchCount[$postView['research_id']]['shared'] ?? '0',
-            // Добавляем само обсуждение
-            'discussion_id'                 => $postView['discussion_id'],
-            'opponent_id'                   => $postView['opponent_id'],
-            'opponent_username'             => $postView['opponent_username'],
-            'opponent_name'                 => $postView['opponent_name'],
-            'opponent_surname'              => $postView['opponent_surname'],
-            'opponent_avatar'               => $avatarOpponent,
-            'discussion_post_id'            => $postView['discussion_post_id'],
-            'discussion_type_id'            => $postView['discussion_type_id'],
-            'discussion_type_name'          => $postView['discussion_type_name'],
-            'discussion_level_up_type_id'   => $postView['discussion_level_up_type_id'],
-            'discussion_level_up_type_name' => $postView['discussion_level_up_type_id'] ? $postView['discussion_level_up_type_name'] : 'text',
-            'discussion_content'            => $postView['discussion_content'],
-            'discussion_created_at'         => $postView['discussion_created_at'],
-            'discussion_updated_at'         => $postView['discussion_updated_at'],
+        
+        $postInteraction = [
             'discussion_liked'              => $statDiscussionAction[$postView['discussion_id']]['liked'] ?? '0',
             'discussion_likedCount'         => $statDiscussionCount[$postView['discussion_id']]['liked'] ?? '0',
             'discussion_comment'            => $сommentDiscussionAction[$postView['discussion_id']] ?? '0',
@@ -258,7 +240,102 @@ class UserDiscussionPostController extends Controller
             'discussion_sharedCount'        => $statDiscussionCount[$postView['discussion_id']]['shared'] ?? '0'
         ];
 
-        $view = new View('Discussion', '', 'posts/view', compact('language', 'header', 'title', 'menuFirst', 'menuSecond', 'mapPath', 'asideMenu', 'user', 'post'));
+        $postView = array_merge($postView, $postInteraction);
+
+        if ($discussionid == 0) {
+            $avatarAuthorFile = !empty($researchPost['avatar']) ? "/uploads/avatars/" . htmlspecialchars($researchPost['avatar']) : "/img/default-avatar.jpg";
+            $avatarAuthor = $avatarAuthorFile . "?v=" . time();
+            $post = [
+                // Добавляем предмет обсуждения
+                'research_id'              => $researchPost['id'],
+                'author_title'             => $researchPost['title'],
+                'author_username'          => $researchPost['username'],
+                'author_name'              => $researchPost['name'],
+                'author_surname'           => $researchPost['surname'],
+                'author_content'           => $researchPost['content'],
+                'category_id'              => $researchPost['category_id'],
+                'category_name'            => $researchPost['category_name'],
+                'author_avatar'            => $avatarAuthor,
+                'author_created_at'        => $researchPost['created_at'],
+                'author_updated_at'        => $researchPost['updated_at'],
+                'research_liked'           => $statResearchAction[$researchPost['id']]['liked'] ?? '0',
+                'research_likedCount'      => $statResearchCount[$researchPost['id']]['liked'] ?? '0',
+                'research_comment'         => $сommentResearchAction[$researchPost['id']] ?? '0',
+                'research_commentCount'    => $сommentResearchCount[$researchPost['id']] ?? '0',
+                'research_disliked'        => $statResearchAction[$researchPost['id']]['disliked'] ?? '0',
+                'research_dislikedCount'   => $statResearchCount[$researchPost['id']]['disliked'] ?? '0',
+                'research_bookmarked'      => $statResearchAction[$researchPost['id']]['bookmarked'] ?? '0',
+                'research_bookmarkedCount' => $statResearchCount[$researchPost['id']]['bookmarked'] ?? '0',
+                'research_subscribed'      => $statResearchAction[$researchPost['id']]['subscribed'] ?? '0',
+                'research_subscribedCount' => $statResearchCount[$researchPost['id']]['subscribed'] ?? '0',
+                'research_shared'          => $statResearchAction[$researchPost['id']]['shared'] ?? '0',
+                'research_sharedCount'     => $statResearchCount[$researchPost['id']]['shared'] ?? '0',
+                'discussion_id'            => $discussionid
+            ];
+        } else {
+            $avatarAuthorFile = !empty($discussionPost['author_avatar']) ? "/uploads/avatars/" . htmlspecialchars($discussionPost['author_avatar']) : "/img/default-avatar.jpg";
+            $avatarAuthor = $avatarAuthorFile . "?v=" . time();
+            $avatarOpponentFile = !empty($discussionPost['opponent_avatar']) ? "/uploads/avatars/" . htmlspecialchars($discussionPost['opponent_avatar']) : "/img/default-avatar.jpg";
+            $avatarOpponent = $avatarOpponentFile . "?v=" . time();
+            $post = [
+                // Добавляем предмет обсуждения
+                'research_id'              => $discussionPost['research_id'],
+                'author_title'             => $discussionPost['author_title'],
+                'author_username'          => $discussionPost['author_username'],
+                'author_name'              => $discussionPost['author_name'],
+                'author_surname'           => $discussionPost['author_surname'],
+                'author_content'           => $discussionPost['author_content'],
+                'category_id'              => $discussionPost['category_id'],
+                'category_name'            => $discussionPost['category_name'],
+                'author_avatar'            => $avatarAuthor,
+                'author_created_at'        => $discussionPost['author_created_at'],
+                'author_updated_at'        => $discussionPost['author_updated_at'],
+                'research_liked'           => $statResearchAction[$discussionPost['research_id']]['liked'] ?? '0',
+                'research_likedCount'      => $statResearchCount[$discussionPost['research_id']]['liked'] ?? '0',
+                'research_comment'         => $сommentResearchAction[$discussionPost['research_id']] ?? '0',
+                'research_commentCount'    => $сommentResearchCount[$discussionPost['research_id']] ?? '0',
+                'research_disliked'        => $statResearchAction[$discussionPost['research_id']]['disliked'] ?? '0',
+                'research_dislikedCount'   => $statResearchCount[$discussionPost['research_id']]['disliked'] ?? '0',
+                'research_bookmarked'      => $statResearchAction[$discussionPost['research_id']]['bookmarked'] ?? '0',
+                'research_bookmarkedCount' => $statResearchCount[$discussionPost['research_id']]['bookmarked'] ?? '0',
+                'research_subscribed'      => $statResearchAction[$discussionPost['research_id']]['subscribed'] ?? '0',
+                'research_subscribedCount' => $statResearchCount[$discussionPost['research_id']]['subscribed'] ?? '0',
+                'research_shared'          => $statResearchAction[$discussionPost['research_id']]['shared'] ?? '0',
+                'research_sharedCount'     => $statResearchCount[$discussionPost['research_id']]['shared'] ?? '0',
+                // Добавляем само обсуждение
+                'discussion_id'                 => $discussionPost['discussion_id'],
+                'opponent_id'                   => $discussionPost['opponent_id'],
+                'opponent_username'             => $discussionPost['opponent_username'],
+                'opponent_name'                 => $discussionPost['opponent_name'],
+                'opponent_surname'              => $discussionPost['opponent_surname'],
+                'opponent_avatar'               => $avatarOpponent,
+                'discussion_post_id'            => $discussionPost['discussion_post_id'],
+                'discussion_type_id'            => $discussionPost['discussion_type_id'],
+                'discussion_type_name'          => $discussionPost['discussion_type_name'],
+                'discussion_level_up_type_id'   => $discussionPost['discussion_level_up_type_id'],
+                'discussion_level_up_type_name' => $discussionPost['discussion_level_up_type_id'] ? $discussionPost['discussion_level_up_type_name'] : 'text',
+                'discussion_content'            => $discussionPost['discussion_content'],
+                'discussion_created_at'         => $discussionPost['discussion_created_at'],
+                'discussion_updated_at'         => $discussionPost['discussion_updated_at'],
+                'discussion_liked'              => $statDiscussionAction[$discussionPost['discussion_id']]['liked'] ?? '0',
+                'discussion_likedCount'         => $statDiscussionCount[$discussionPost['discussion_id']]['liked'] ?? '0',
+                'discussion_comment'            => $сommentDiscussionAction[$discussionPost['discussion_id']] ?? '0',
+                'discussion_commentCount'       => $сommentDiscussionCount[$discussionPost['discussion_id']] ?? '0',
+                'discussion_disliked'           => $statDiscussionAction[$discussionPost['discussion_id']]['disliked'] ?? '0',
+                'discussion_dislikedCount'      => $statDiscussionCount[$discussionPost['discussion_id']]['disliked'] ?? '0',
+                'discussion_bookmarked'         => $statDiscussionAction[$discussionPost['discussion_id']]['bookmarked'] ?? '0',
+                'discussion_bookmarkedCount'    => $statDiscussionCount[$discussionPost['discussion_id']]['bookmarked'] ?? '0',
+                'discussion_subscribed'         => $statDiscussionAction[$discussionPost['discussion_id']]['subscribed'] ?? '0',
+                'discussion_subscribedCount'    => $statDiscussionCount[$discussionPost['discussion_id']]['subscribed'] ?? '0',
+                'discussion_shared'             => $statDiscussionAction[$discussionPost['discussion_id']]['shared'] ?? '0',
+                'discussion_sharedCount'        => $statDiscussionCount[$discussionPost['discussion_id']]['shared'] ?? '0'
+            ];
+        }
+
+        $avatarFile = !empty($user['avatar']) ? "/uploads/avatars/" . htmlspecialchars($user['avatar']) : "/img/default-avatar.jpg";
+        $avatar = $avatarFile . "?v=" . time();
+
+        $view = new View('Discussion', '', 'posts/view', compact('language', 'header', 'title', 'menuFirst', 'menuSecond', 'mapPath', 'asideMenu', 'user', 'avatar', 'discussionid', 'discussionTypes', 'post', 'postView'));
         $view->render();
     }
 
@@ -392,14 +469,39 @@ class UserDiscussionPostController extends Controller
         $title = 'user_research_post_create';
         $header = __('user_research_post_create');
 
-        $navbar = 'discussions';
-        $breadcrumb = [
+        $menuFirst = [
+            'active' => 'discussions',
+            'list' => [
+                ['name' => 'researches', 'url' => $language . '/research'],
+                ['name' => 'discussions', 'url' => $language . '/discussion']
+            ],
+        ];
+
+        $mapPath = [
             'active' => __('creation'),
             'list' => [
-                ['name' => 'AcApp', 'url' => ''],
+                ['name' => __('start'), 'url' => ''],
                 ['name' => $user['name'] . ' ' . $user['surname'], 'url' => $username],
-                ['name' => __('discussions'), 'url' => $username.'/discussion']
-            ],];
+                ['name' => __('discussions'), 'url' => $username . '/discussion']
+            ],
+        ];
+
+        $menuSecond = [
+            'active' => '',
+            'list' => [
+                ['name' => 'research_results', 'url' => $language . '/research-designs', 'disabled' => true],
+                ['name' => 'research_publications', 'url' => $language . '/research-publications', 'disabled' => true],
+            ],
+        ];
+
+        $asideMenu = [
+            'active' => '',
+            'list' => [
+                ['name' => 'user_people', 'url' => $language . '/' . '', 'disabled' => true],
+                ['name' => 'user_news', 'url' => $language . '/' . '', 'disabled' => true],
+                ['name' => 'user_statistics', 'url' => $language . '/' . '', 'disabled' => true],
+            ],
+        ];
 
         $avatarFile = !empty($user['avatar']) ? "/uploads/avatars/" . htmlspecialchars($user['avatar']) : "/img/default-avatar.jpg";
         $avatar = $avatarFile . "?v=" . time();
@@ -565,14 +667,39 @@ class UserDiscussionPostController extends Controller
         $title = 'user_research_post_edit';
         $header = __('user_research_post_edit');
 
-        $navbar = 'discussions';
-        $breadcrumb = [
+        $menuFirst = [
+            'active' => 'discussions',
+            'list' => [
+                ['name' => 'researches', 'url' => $language . '/research'],
+                ['name' => 'discussions', 'url' => $language . '/discussion']
+            ],
+        ];
+
+        $mapPath = [
             'active' => __('editing'),
             'list' => [
-                ['name' => 'AcApp', 'url' => ''],
+                ['name' => __('start'), 'url' => ''],
                 ['name' => $user['name'] . ' ' . $user['surname'], 'url' => $username],
-                ['name' => __('discussions'), 'url' => $username.'/discussion']
-            ],];
+                ['name' => __('discussions'), 'url' => $username . '/discussion']
+            ],
+        ];
+
+        $menuSecond = [
+            'active' => '',
+            'list' => [
+                ['name' => 'research_results', 'url' => $language . '/research-designs', 'disabled' => true],
+                ['name' => 'research_publications', 'url' => $language . '/research-publications', 'disabled' => true],
+            ],
+        ];
+
+        $asideMenu = [
+            'active' => '',
+            'list' => [
+                ['name' => 'user_people', 'url' => $language . '/' . '', 'disabled' => true],
+                ['name' => 'user_news', 'url' => $language . '/' . '', 'disabled' => true],
+                ['name' => 'user_statistics', 'url' => $language . '/' . '', 'disabled' => true],
+            ],
+        ];
 
         $avatarFile = !empty($user['avatar']) ? "/uploads/avatars/" . htmlspecialchars($user['avatar']) : "/img/default-avatar.jpg";
         $avatar = $avatarFile . "?v=" . time();

@@ -46,7 +46,16 @@ class AdminMessageController extends AdminController
             ],
         ];
 
-        $view = new View('', '', 'admin/messages/index', compact('language', 'header', 'title', 'menuFirst', 'menuSecond', 'mapPath', 'messages'));
+        $asideMenu = [
+            'active' => 'messages_from_users',
+            'list' => [
+                ['name' => 'messages_from_users', 'url' => $language . '/' . '', 'disabled' => false],
+                ['name' => 'user_news', 'url' => $language . '/' . '', 'disabled' => true],
+                ['name' => 'user_statistics', 'url' => $language . '/' . '', 'disabled' => true],
+            ],
+        ];
+
+        $view = new View('', '', 'admin/messages/index', compact('language', 'header', 'title', 'menuFirst', 'menuSecond', 'mapPath', 'asideMenu', 'messages'));
         $view->render();
     }
 }

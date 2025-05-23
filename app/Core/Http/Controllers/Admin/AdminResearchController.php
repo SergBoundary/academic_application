@@ -55,6 +55,8 @@ class AdminResearchController extends Controller
             ],
         ];
 
+        $asideMenu = [];
+
         $postModel = new Research();
         $postList = $postModel->getAllPosts();
 
@@ -87,7 +89,7 @@ class AdminResearchController extends Controller
             ];
         }
 
-        $view = new View('', '', 'admin/research/index', compact('language', 'header', 'title', 'menuFirst', 'menuSecond', 'mapPath', 'groupedPosts'));
+        $view = new View('', '', 'admin/research/index', compact('language', 'header', 'title', 'menuFirst', 'menuSecond', 'mapPath', 'asideMenu', 'groupedPosts'));
         $view->render();
     }
 
@@ -99,10 +101,13 @@ class AdminResearchController extends Controller
         $language = $this->language;
 
         $postModel = new Research();
-        $post = $postModel->getPostById($id);
+        $post = $postModel->getAdminPostById($id);
+        // debug($id, 0);
+        // debug($post, 1);
 
         $userModel = new User();
         $user = $userModel->getById($post['user_id']);
+        // debug($user, 1);
 
         $title = 'user_research_post_edit';
         $header = __('user_research_post_edit');
@@ -145,12 +150,14 @@ class AdminResearchController extends Controller
             ],
         ];
 
+        $asideMenu = [];
+
         $avatarFile = !empty($user['avatar']) ? "/uploads/avatars/" . htmlspecialchars($user['avatar']) : "/img/default-avatar.jpg";
         $avatar = $avatarFile . "?v=" . time();
 
         $categories = $postModel->getCategories();
 
-        $view = new View('', '', 'admin/research/edit', compact('language', 'header', 'title', 'menuFirst', 'menuSecond', 'mapPath', 'user', 'avatar', 'post', 'categories'));
+        $view = new View('', '', 'admin/research/edit', compact('language', 'header', 'title', 'menuFirst', 'menuSecond', 'mapPath', 'asideMenu', 'user', 'avatar', 'post', 'categories'));
         $view->render();
     }
 

@@ -105,13 +105,13 @@ Router::add('^(?P<language>[a-z-]+)/(?P<username>[a-z0-9-]+)/research/(?P<id>\d+
 Router::add('^(?P<language>[a-z-]+)/(?P<username>[a-z0-9-]+)/research/(?P<id>\d+)/update$', ['module' => 'Research', 'controller' => 'UserResearchPost', 'action' => 'update', 'method' => 'POST']);
 Router::add('^(?P<language>[a-z-]+)/(?P<username>[a-z0-9-]+)/research/(?P<id>\d+)/delete$', ['module' => 'Research', 'controller' => 'UserResearchPost', 'action' => 'delete', 'method' => 'POST']);
 // User Discussion posts for edit and delete
-Router::add('^(?P<language>[a-z-]+)/(?P<username>[a-z0-9-]+)/discussion$', ['module' => 'Discussion', 'controller' => 'UserDiscussionPost', 'action' => 'index', 'method' => 'GET']);
-Router::add('^(?P<language>[a-z-]+)/(?P<username>[a-z0-9-]+)/discussion/(?P<researchid>\d+)/(?P<discussionid>\d+)/create$', ['module' => 'Discussion', 'controller' => 'UserDiscussionPost', 'action' => 'create', 'method' => 'GET']);
-Router::add('^(?P<language>[a-z-]+)/(?P<username>[a-z0-9-]+)/discussion/store$', ['module' => 'Discussion', 'controller' => 'UserDiscussionPost', 'action' => 'store', 'method' => 'POST']);
-Router::add('^(?P<language>[a-z-]+)/(?P<username>[a-z0-9-]+)/discussion/(?P<id>\d+)$', ['module' => 'Discussion', 'controller' => 'UserDiscussionPost', 'action' => 'view', 'method' => 'GET']);
-Router::add('^(?P<language>[a-z-]+)/(?P<username>[a-z0-9-]+)/discussion/(?P<id>\d+)/edit$', ['module' => 'Discussion', 'controller' => 'UserDiscussionPost', 'action' => 'edit', 'method' => 'GET']);
-Router::add('^(?P<language>[a-z-]+)/(?P<username>[a-z0-9-]+)/discussion/(?P<id>\d+)/update$', ['module' => 'Discussion', 'controller' => 'UserDiscussionPost', 'action' => 'update', 'method' => 'POST']);
-Router::add('^(?P<language>[a-z-]+)/(?P<username>[a-z0-9-]+)/discussion/(?P<id>\d+)/delete$', ['module' => 'Discussion', 'controller' => 'UserDiscussionPost', 'action' => 'delete', 'method' => 'POST']);
+Router::add('^(?P<language>[a-z-]+)/(?P<username>[a-z0-9-]+)/discussion$', ['module' => 'Discussion', 'controller' => 'UserDiscussion', 'action' => 'index', 'method' => 'GET']);
+Router::add('^(?P<language>[a-z-]+)/(?P<username>[a-z0-9-]+)/discussion/(?P<researchid>\d+)/(?P<discussionid>\d+)/create$', ['module' => 'Discussion', 'controller' => 'UserDiscussion', 'action' => 'create', 'method' => 'GET']);
+Router::add('^(?P<language>[a-z-]+)/(?P<username>[a-z0-9-]+)/discussion/store$', ['module' => 'Discussion', 'controller' => 'UserDiscussion', 'action' => 'store', 'method' => 'POST']);
+Router::add('^(?P<language>[a-z-]+)/(?P<username>[a-z0-9-]+)/discussion/(?P<id>\d+)$', ['module' => 'Discussion', 'controller' => 'UserDiscussion', 'action' => 'view', 'method' => 'GET']);
+Router::add('^(?P<language>[a-z-]+)/(?P<username>[a-z0-9-]+)/discussion/(?P<id>\d+)/edit$', ['module' => 'Discussion', 'controller' => 'UserDiscussion', 'action' => 'edit', 'method' => 'GET']);
+Router::add('^(?P<language>[a-z-]+)/(?P<username>[a-z0-9-]+)/discussion/(?P<id>\d+)/update$', ['module' => 'Discussion', 'controller' => 'UserDiscussion', 'action' => 'update', 'method' => 'POST']);
+Router::add('^(?P<language>[a-z-]+)/(?P<username>[a-z0-9-]+)/discussion/(?P<id>\d+)/delete$', ['module' => 'Discussion', 'controller' => 'UserDiscussion', 'action' => 'delete', 'method' => 'POST']);
 
 // Universal Interaction Controller
 Router::add('^(?P<language>[a-z-]+)/interact/(?P<type>liked|disliked|bookmarked|subscribed|shared)/(?P<level>research|discussion)/(?P<id>\d+)$', ['controller' => 'Interaction', 'action' => 'toggle', 'method' => 'POST']);

@@ -4,7 +4,7 @@
         <h6>User group</h6>
         <div class="btn-group-vertical mb-2" role="group" aria-label="User group">
             <a class="btn btn-outline-secondary text-start" href="/<?= $language ?>/admin/users">+ <?= __('users') ?></a>
-            <a class="btn btn-outline-secondary text-start" href="/<?= $language ?>/admin/messages">+ <?= __('messages_from_users') ?></a>
+            <a class="btn btn-outline-secondary text-start" href="/<?= $language ?>/admin/messages">+ <?= __('messages') ?></a>
             <a class="btn btn-outline-secondary text-start disabled" href=""><?= __('user_statistics') ?></a>
         </div>
         <h6>Research group</h6>

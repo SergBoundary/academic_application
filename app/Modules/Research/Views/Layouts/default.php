@@ -153,8 +153,8 @@ $query = $qs ? "?{$qs}" : '';
                 <?= $content ?? '' ?>
             <?php endif; ?>
         </main>
-        <footer class="ms-2 mt-3">
-            <p>© 2024. <?= __('all_rights_reserved') ?>.</p>
+        <footer class="bg-dark text-white py-2 px-3 mt-4">
+            <span>© 2024. <?= __('all_rights_reserved') ?>.</span>
         </footer>
     </div>
 

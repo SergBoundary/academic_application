@@ -4,7 +4,7 @@ namespace App\Core\Models;
 
 use App\Core\Models\Model;
 
-class Research extends Model
+class ResearchFormat extends Model
 {
     public function getCategories()
     {
@@ -44,23 +44,6 @@ class Research extends Model
                 INNER JOIN `research_post_categories` AS `trc`
                   ON `trc`.`id` = `tr`.`category_id`
                 WHERE `tr`.`id` = :id AND `tr`.`locked` = 0";
-
-        $result = $this->query($sql, ['id' => $id]);
-        return $result[0] ?? null;
-    }
-
-    public function getAdminPostById($id)
-    {
-        $sql = "SELECT 
-                    `tr`.`id`, `tr`.`user_id`, `tr`.`title`, `tr`.`category_id`, `tr`.`content`, `tr`.`file_path`, `tr`.`created_at`, `tr`.`updated_at`,
-                    `ta`.`username`, `ta`.`name`, `ta`.`surname`, `ta`.`avatar`,
-                    `trc`.`{$this->language}` AS `category_name`
-                FROM `research_posts` AS `tr` 
-                INNER JOIN `users` AS `ta`
-                  ON `ta`.`id` = `tr`.`user_id`
-                INNER JOIN `research_post_categories` AS `trc`
-                  ON `trc`.`id` = `tr`.`category_id`
-                WHERE `tr`.`id` = :id";
 
         $result = $this->query($sql, ['id' => $id]);
         return $result[0] ?? null;
