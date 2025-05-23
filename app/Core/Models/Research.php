@@ -22,7 +22,7 @@ class Research extends Model
                   `tr`.`id`, `tr`.`user_id`, `tr`.`type_id`, `tr`.`title`, `tr`.`content`, `tr`.`category_id`, `tr`.`locked`, `tr`.`created_at`, `tr`.`updated_at`,
                   `tu`.`username`, `tu`.`name`, `tu`.`surname`, `tu`.`avatar`,
                   `trc`.`{$this->language}` AS `category_name`
-                FROM `research_posts` AS `tr`
+                FROM `researches` AS `tr`
                 INNER JOIN `research_post_categories` AS `trc`
                   ON `trc`.`id` = `tr`.`category_id`
                 INNER JOIN `users` AS `tu`
@@ -38,7 +38,7 @@ class Research extends Model
                     `tr`.`id`, `tr`.`user_id`, `tr`.`title`, `tr`.`category_id`, `tr`.`content`, `tr`.`file_path`, `tr`.`created_at`, `tr`.`updated_at`,
                     `ta`.`username`, `ta`.`name`, `ta`.`surname`, `ta`.`avatar`,
                     `trc`.`{$this->language}` AS `category_name`
-                FROM `research_posts` AS `tr` 
+                FROM `researches` AS `tr` 
                 INNER JOIN `users` AS `ta`
                   ON `ta`.`id` = `tr`.`user_id`
                 INNER JOIN `research_post_categories` AS `trc`
@@ -55,7 +55,7 @@ class Research extends Model
                     `tr`.`id`, `tr`.`user_id`, `tr`.`title`, `tr`.`category_id`, `tr`.`content`, `tr`.`file_path`, `tr`.`created_at`, `tr`.`updated_at`,
                     `ta`.`username`, `ta`.`name`, `ta`.`surname`, `ta`.`avatar`,
                     `trc`.`{$this->language}` AS `category_name`
-                FROM `research_posts` AS `tr` 
+                FROM `researches` AS `tr` 
                 INNER JOIN `users` AS `ta`
                   ON `ta`.`id` = `tr`.`user_id`
                 INNER JOIN `research_post_categories` AS `trc`
@@ -68,7 +68,7 @@ class Research extends Model
 
     public function updatePost($id, $title, $content, $category)
     {
-        $sql = "UPDATE `research_posts` 
+        $sql = "UPDATE `researches` 
                 SET `title` = :title, `content` = :content, `category_id` = :category_id 
                 WHERE id = :id";
 
@@ -83,7 +83,7 @@ class Research extends Model
     public function updateLock(int $id, int $locked): bool
     {
         return $this->execute(
-            "UPDATE research_posts SET locked = :locked WHERE id = :id",
+            "UPDATE researches SET locked = :locked WHERE id = :id",
             ['locked' => $locked, 'id' => $id]
         );
     }

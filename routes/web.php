@@ -76,11 +76,11 @@ Router::add('^(?P<language>[a-z-]+)/admin/research/standard/publication/delete$'
 // Router::add('^(?P<language>[a-z-]+)/admin/research/element/types/delete$', ['controller' => 'AdminResearchElementType', 'action' => 'delete', 'role' => 'Admin', 'method' => 'POST']);
 
 // Module Research
-Router::add('^(?P<language>[a-z-]+)/research$', ['module' => 'Research', 'controller' => 'ResearchHome', 'action' => 'index', 'method' => 'GET']);
-Router::add('^(?P<language>[a-z-]+)/research/(?P<id>\d+)$', ['module' => 'Research', 'controller' => 'ResearchHome', 'action' => 'view', 'method' => 'GET']);
+Router::add('^(?P<language>[a-z-]+)/research$', ['module' => 'Research', 'controller' => 'Research', 'action' => 'index', 'method' => 'GET']);
+Router::add('^(?P<language>[a-z-]+)/research/(?P<id>\d+)$', ['module' => 'Research', 'controller' => 'Research', 'action' => 'view', 'method' => 'GET']);
 // Module Discussion
-Router::add('^(?P<language>[a-z-]+)/discussion$', ['module' => 'Discussion', 'controller' => 'DiscussionHome', 'action' => 'index', 'method' => 'GET']);
-Router::add('^(?P<language>[a-z-]+)/discussion/(?P<id>\d+)$', ['module' => 'Discussion', 'controller' => 'DiscussionHome', 'action' => 'view', 'method' => 'GET']);
+Router::add('^(?P<language>[a-z-]+)/discussion$', ['module' => 'Discussion', 'controller' => 'Discussion', 'action' => 'index', 'method' => 'GET']);
+Router::add('^(?P<language>[a-z-]+)/discussion/(?P<id>\d+)$', ['module' => 'Discussion', 'controller' => 'Discussion', 'action' => 'view', 'method' => 'GET']);
 
 // API для аутентификации
 Router::add('^(?P<language>[a-z-]+)/api/v1/login$', ['module' => 'Api\\V1', 'controller' => 'Auth', 'action' => 'login', 'method' => 'POST']);

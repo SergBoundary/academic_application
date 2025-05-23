@@ -19,7 +19,7 @@ class Discussion extends Model
                   `td`.`content` AS `discussion_content`, `td`.`created_at` AS `discussion_created_at`, `td`.`updated_at` AS `discussion_updated_at`,
                   `trc`.`{$this->language}` AS `category_name`
                 FROM `discussions` AS `td`
-                INNER JOIN `research_posts` AS `tr`
+                INNER JOIN `researches` AS `tr`
                   ON `tr`.`id` = `td`.`research_id`
                 INNER JOIN `research_post_categories` AS `trc`
                   ON `trc`.`id` = `tr`.`category_id`

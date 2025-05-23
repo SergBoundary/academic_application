@@ -8,7 +8,7 @@ use App\Core\Models\Interaction;
 use App\Core\Models\User;
 use App\Core\Middleware\MiddlewareService;
 
-class ResearchHomeController extends Controller
+class ResearchController extends Controller
 {
     public function index()
     {

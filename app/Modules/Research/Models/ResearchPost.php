@@ -22,7 +22,7 @@ class ResearchPost extends Model
                     `tr`.`id`, `tr`.`user_id`, `tr`.`title`, `tr`.`category_id`, `tr`.`content`, `tr`.`file_path`, `tr`.`created_at`, `tr`.`updated_at`,
                     `ta`.`username`, `ta`.`name`, `ta`.`surname`, `ta`.`avatar`,
                     `trc`.`{$this->language}` AS `category_name`
-                FROM `research_posts` AS `tr` 
+                FROM `researches` AS `tr` 
                 INNER JOIN `users` AS `ta`
                   ON `ta`.`id` = `tr`.`user_id`
                 INNER JOIN `research_post_categories` AS `trc`
@@ -39,7 +39,7 @@ class ResearchPost extends Model
                     `tr`.`id`, `tr`.`user_id`, `tr`.`title`, `tr`.`category_id`, `tr`.`content`, `tr`.`file_path`, `tr`.`created_at`, `tr`.`updated_at`,
                     `ta`.`username`, `ta`.`name`, `ta`.`surname`, `ta`.`avatar`,
                     `trc`.`{$this->language}` AS `category_name`
-                FROM `research_posts` AS `tr` 
+                FROM `researches` AS `tr` 
                 INNER JOIN `users` AS `ta`
                   ON `ta`.`id` = `tr`.`user_id`
                 INNER JOIN `research_post_categories` AS `trc`
@@ -52,7 +52,7 @@ class ResearchPost extends Model
 
     public function createPost($userId, $language, $category, $title, $authors, $keywords, $description, $abstract, $objective, $methods, $results, $conclusions)
     {
-        $sql = "INSERT INTO `research_posts` (`user_id`, `language_id`, `category_id`, `title`, `authors`, `keywords`, `description`, `abstract`, `objective`, `methods`, `results`, `conclusions`) 
+        $sql = "INSERT INTO `researches` (`user_id`, `language_id`, `category_id`, `title`, `authors`, `keywords`, `description`, `abstract`, `objective`, `methods`, `results`, `conclusions`) 
                 VALUES (:user_id, :language_id, :category_id, :title, :authors, :keywords, :description, :abstract, :objective, :methods, :results, :conclusions)";
 
         $result = $this->execute($sql, [
@@ -80,7 +80,7 @@ class ResearchPost extends Model
 
     public function updatePost($id, $title, $content, $category)
     {
-        $sql = "UPDATE `research_posts` 
+        $sql = "UPDATE `researches` 
                 SET `title` = :title, `content` = :content, `category_id` = :category_id 
                 WHERE id = :id";
 
@@ -94,6 +94,6 @@ class ResearchPost extends Model
 
     public function deletePost($id)
     {
-        return $this->execute("DELETE FROM `research_posts` WHERE `id` = :id", ['id' => $id]);
+        return $this->execute("DELETE FROM `researches` WHERE `id` = :id", ['id' => $id]);
     }
 }

@@ -133,7 +133,7 @@ class Interaction extends Model
     {
         if ($postType == 'research') {
             $sql = "SELECT `rp`.`id`, COUNT(`dpc`.`research_id`) AS count
-                    FROM `research_posts` AS `rp`
+                    FROM `researches` AS `rp`
                     LEFT JOIN `discussions` AS `dpc`
                       ON `dpc`.`research_id` = `rp`.`id`
                     GROUP BY `rp`.`id`";
@@ -160,7 +160,7 @@ class Interaction extends Model
     {
         if ($postType == 'research') {
             $sql = "SELECT `rp`.`id`, COUNT(`dpc`.`research_id`) AS count
-                    FROM `research_posts` AS `rp`
+                    FROM `researches` AS `rp`
                     LEFT JOIN `discussions` AS `dpc`
                       ON `dpc`.`research_id` = `rp`.`id`
                     WHERE `dpc`.`user_id` = :user_id
